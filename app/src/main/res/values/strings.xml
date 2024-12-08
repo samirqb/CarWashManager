@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Car Wash Manager</string>
+    <string name="txt_titulo_apertura_de_caja">"Apertura Caja"</string>
+    <string name="txt_titulo_buscar_cliente">"Buscar cliente"</string>
+    <string name="txt_label_numero_de_apertura">"Apertura numero: %1$d: "</string>
+    <string name="txt_label_fecha">"Fecha: "</string>
+    <string name="txt_label_hora">"Hora: "</string>
+    <string name="txt_label_total_apertura">"Total apertura: "</string>
+    <string name="txt_label_aceptar">Aceptar</string>
+    <string name="txt_label_rechazar">Rechazar</string>
+    <string name="txt_label_base_apertura">"Apertura: "</string>
+    <string name="txt_label_acumulado_ventas">"Ventas: "</string>
+    <string name="txt_headline_estadocaja">Estado de caja</string>
+    <string name="txt_headline_servicios_activos">Servicios activos</string>
+    <string name="txt_label_ingresar_id_cliente">Ingrese la identificacion del cliente</string>
+    <string name="txt_label_buscar">Buscar</string>
+    <string name="txt_label_cancelar">Cancelar</string>
+    <string name="txt_titulo_categoria">Categoria</string>
+    <string name="txt_label_seleccione_categoria">Seleccione la categoria del vehiculo</string>
+    <string name="txt_titulo_nomina_dia">Nomina del dia</string>
+    <string name="txt_body_administrar_servicios">Administrar servicios</string>
+    <string name="txt_headline_inicio">Inicio</string>
+    <string name="txt_label_app_subtitulo_estatus_cerrado">Cerrado</string>
+    <string name="txt_label_app_subtitulo_estatus_abierto">Abierto</string>
+    <string name="txt_label_atras">Atras</string>
+    <string name="txt_label_siguiente">Siguiente</string>
+    <string name="txt_label_salir">Salir</string>
+    <string name="txt_titulo_agregar_moneda">Agregar moneda</string>
+    <string name="txt_label_agregar">Agregar</string>
+    <string name="txt_body_elige_una_unidad_monetaria">Elige una unidad monetaria</string>
+    <string name="txt_body_elige_un_tipo">Elige un tipo</string>
+    <string name="txt_body_menu_monedas">Monedas</string>
+    <string name="txt_body_menu_servicios">Servicios</string>
+    <string name="txt_body_menu_empleados">Empleados</string>
+    <string name="txt_body_menu_categorias_vehiculos">Categorias</string>
+    <string name="txt_body_menu_clientes">Clientes</string>
+</resources>

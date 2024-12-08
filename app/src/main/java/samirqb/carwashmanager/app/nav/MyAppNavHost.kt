@@ -1,0 +1,178 @@
+package samirqb.carwashmanager.app.nav
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
+import androidx.navigation.compose.rememberNavController
+import kotlinx.serialization.Serializable
+import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
+import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
+import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
+import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
+import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
+import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
+import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
+import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
+import samirqb.carwashmanager.app.ui.screens.InicioScreen
+
+/**   S C R E E N S   */
+@Serializable
+object InicioScreenRoute
+//data class InicioScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarMonedaScreenRoute
+//data class AdministradorMonedaScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarServiciosScreenRoute
+//data class AdministrrServiciosScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarEmpleadosScreenRoute
+//data class AdministrarEmpleadosScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarClientesScreenRoute
+//data class AdministrarClientesScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarCategoriasScreenRoute
+//data class AdministrarCategoriasScreenRoute(val name: String? = null)
+
+
+/**   D I A L O G S   */
+@Serializable
+object AperturaCajaCantPorDenominacionDialogRoute
+//data class AperturaCajaCantPorDenominacionDialogRoute( val x: XXX )
+
+@Serializable
+object AgregarMonedaDialogRoute
+//data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
+
+@Serializable
+object AperturaCajaConfirmacionDialogRoute
+//data class AperturaCajaConfirmacionDialogRoute( val x: XXX )
+
+
+@Composable
+fun MyAppNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = InicioScreenRoute,
+    ) {
+
+        composable<InicioScreenRoute> {
+            InicioScreen(
+                onNavigateToAperturaCajaCantidadesPorDenominacionDialog = {
+                    navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
+                },
+
+                onNavigateToAdministrarMonedaScreen = {
+                    navController.navigate( route = AdministrarMonedaScreenRoute )
+                },
+
+                onNavigateToAdministrarServiciosScreen = {
+                    navController.navigate( route = AdministrarServiciosScreenRoute )
+                },
+
+                onNavigateToAdministrarEmpleadosScreen = {
+                    navController.navigate( route = AdministrarEmpleadosScreenRoute )
+                },
+
+                onNavigateToAdministrarCategoriasScreen = {
+                    navController.navigate( route = AdministrarCategoriasScreenRoute )
+                },
+
+                onNavigateToAdministrarClientesScreen = {
+                    navController.navigate( route = AdministrarClientesScreenRoute )
+                },
+            )
+        }
+
+        composable<AdministrarMonedaScreenRoute>{
+            AdministrarMonedaScreen(
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_moneda = {
+                    navController.navigate(route = AgregarMonedaDialogRoute) },
+            )
+        }
+
+        composable<AdministrarServiciosScreenRoute>{
+            AdministrarServiciosScreen(
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_servicio = {
+                    //navController.navigate(route = AgregarServicioDialogRoute)
+                }
+            )
+        }
+
+        composable<AdministrarEmpleadosScreenRoute>{
+            AdministrarEmpleadosScreen(
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_empleado = {
+                    //navController.navigate(route = AgregarServicioDialogRoute)
+                }
+            )
+        }
+
+        composable<AdministrarClientesScreenRoute>{
+            AdministrarClientesScreen(
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_cliente = {
+                    //navController.navigate(route = AgregarServicioDialogRoute)
+                }
+            )
+        }
+
+        composable<AdministrarCategoriasScreenRoute>{
+            AdministrarCategoriasScreen(
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_categoria = {
+                    //navController.navigate(route = AgregarServicioDialogRoute)
+                }
+            )
+        }
+
+        /**   D I A L O S   **/
+        dialog<AperturaCajaCantPorDenominacionDialogRoute> {
+            AperturaCajaCantidadesPorDenominacionDialog(
+                onNavigateToAperturaCajaConfirmacionDialog = {
+                    navController.navigateUp( )
+                    navController.navigate( route = AperturaCajaConfirmacionDialogRoute )
+                },
+                onDismissFromAperturaCajaCantidadesPorDenominacionDialog = {
+                    navController.navigateUp( )
+                }
+            )
+        }
+
+        dialog<AperturaCajaConfirmacionDialogRoute> {
+            AperturaCajaConfirmacionDialog(
+
+                onNavigateToInicioScreen = {
+                    navController.navigateUp( )
+                    //navController.navigate( route = AperturaCajaConfirmacionRoute )
+                },
+
+                onDismissFromAperturaCajaConfirmacionDialog = {
+                    navController.navigateUp( )
+                    navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
+                }
+            )
+        }
+
+        dialog<AgregarMonedaDialogRoute> {
+            AgregarMonedaDialog(
+                onDismissFromAgregarMonedaDialog = { navController.navigateUp( ) }
+            )
+        }
+    }
+}
