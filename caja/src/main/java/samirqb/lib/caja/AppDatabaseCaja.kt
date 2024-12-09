@@ -68,7 +68,7 @@ abstract class AppDatabaseCaja : RoomDatabase() {
 
                         var uMDao = database.iUnidadMonetariaDao()
 
-                        uMDao.deleteAll()
+                        uMDao.borrarTodo()
 
                         var mUMEntity = UnidadMonetariaEntity(codigo_iso_4217_pk = "XXX", nombre_y_origen = "OTRA MONEDA", fecha_hora_creacion = datetime.toString() )
                         uMDao.insertar(mUMEntity)

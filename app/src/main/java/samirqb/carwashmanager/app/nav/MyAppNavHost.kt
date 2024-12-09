@@ -2,6 +2,7 @@ package samirqb.carwashmanager.app.nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,6 +18,8 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
+import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
+
 
 /**   S C R E E N S   */
 @Serializable
@@ -62,12 +65,16 @@ object AperturaCajaConfirmacionDialogRoute
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    /**   V I E W   M O D E L S   **/
+    mUnidadMonetariaViewModel: UnidadMonetariaViewModel =
+        viewModel(factory = UnidadMonetariaViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = InicioScreenRoute,
     ) {
+
 
         composable<InicioScreenRoute> {
             InicioScreen(
@@ -171,7 +178,8 @@ fun MyAppNavHost(
 
         dialog<AgregarMonedaDialogRoute> {
             AgregarMonedaDialog(
-                onDismissFromAgregarMonedaDialog = { navController.navigateUp( ) }
+                onDismissFromAgregarMonedaDialog = { navController.navigateUp( ) },
+                mUMVM = mUnidadMonetariaViewModel,
             )
         }
     }

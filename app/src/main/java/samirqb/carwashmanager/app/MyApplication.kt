@@ -10,6 +10,11 @@ class MyApplication: Application() {
 
     val applicationScope = CoroutineScope(SupervisorJob())
 
-    val database_caja by lazy { AppDatabaseCaja.getDatabase(this, applicationScope) }
-    val repository_unidad_monetaria by lazy { UnidadMonetariaRepository(database_caja.iUnidadMonetariaDao()) }
+    val mAppDatabaseCaja by lazy { AppDatabaseCaja.getDatabase(this, applicationScope) }
+
+    val mUnidadMonetariaRepository by lazy { UnidadMonetariaRepository(mAppDatabaseCaja.iUnidadMonetariaDao()) }
+
+    companion object {
+        val APPLICATION_KEY = "mApplicationKey" // Unique key for application access
+    }
 }

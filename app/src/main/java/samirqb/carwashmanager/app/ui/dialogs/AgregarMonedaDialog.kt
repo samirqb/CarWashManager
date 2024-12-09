@@ -9,6 +9,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
@@ -24,11 +26,18 @@ import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
+import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
 @Composable
 fun AgregarMonedaDialog(
+    mUMVM: UnidadMonetariaViewModel = viewModel(),
     onDismissFromAgregarMonedaDialog:()->Unit,
 ){
+    mUMVM.leerTodo()
+
+    val uiState by mUMVM.uiState.collectAsState()
+
+    val lUM = uiState.lista_unidades_monetarias
 
     tDialogScaffoldM2(
         header_icon_id = R.drawable.rounded_attach_money_24,
@@ -83,11 +92,11 @@ fun AgregarMonedaDialog(
                                 onDismissRequest = {},
                                 modifier = Modifier.size(width = 266.dp, height = Dp.Unspecified)
                             ){
-                                lista_categorias.forEachIndexed{ index, categoria ->
+                                lUM.forEachIndexed{ index, item ->
                                     DropdownMenuItem(
-                                        text = { xTextBody(text = "${index} - ${categoria}") },
+                                        text = { xTextBody(text = "${index} - ${item.codigo_iso_4217_pk} - ${item.nombre_y_origen}") },
                                         onClick = {
-                                            txt = categoria
+                                            txt = "${item.codigo_iso_4217_pk} - ${item.nombre_y_origen}"
                                             expander = false
                                         }
                                     )

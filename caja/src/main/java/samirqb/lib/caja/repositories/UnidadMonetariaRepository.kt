@@ -25,7 +25,7 @@ class UnidadMonetariaRepository(private val dao: IUnidadMonetariaDao): IBaseRepo
     }
 
     override fun leerTodo(): Flow<List<UnidadMonetariaEntity>> {
-        TODO("Not yet implemented")
+        return dao.leerTodo()
     }
 
     override suspend fun borrar( mTEntity: UnidadMonetariaEntity) {
