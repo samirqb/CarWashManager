@@ -18,6 +18,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
+import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
 
@@ -68,6 +69,8 @@ fun MyAppNavHost(
     /**   V I E W   M O D E L S   **/
     mUnidadMonetariaViewModel: UnidadMonetariaViewModel =
         viewModel(factory = UnidadMonetariaViewModel.Factory),
+    mTipoMonedaViewModel: TipoMonedaViewModel =
+        viewModel(factory = TipoMonedaViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -180,6 +183,7 @@ fun MyAppNavHost(
             AgregarMonedaDialog(
                 onDismissFromAgregarMonedaDialog = { navController.navigateUp( ) },
                 mUMVM = mUnidadMonetariaViewModel,
+                mTMVM = mTipoMonedaViewModel,
             )
         }
     }

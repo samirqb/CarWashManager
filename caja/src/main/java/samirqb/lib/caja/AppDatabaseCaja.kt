@@ -9,20 +9,24 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import samirqb.lib.caja.daos.ITipoMonedaDao
 import samirqb.lib.caja.daos.IUnidadMonetariaDao
 import samirqb.lib.caja.entidades.DenominacionMonedaEntity
+import samirqb.lib.caja.entidades.TipoMonedaEntity
 import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 import java.time.LocalDateTime.now
 
 @Database(
     entities = [
         UnidadMonetariaEntity::class,
+        TipoMonedaEntity::class,
         DenominacionMonedaEntity::class,
     ], version = 1, exportSchema = false
 )
 abstract class AppDatabaseCaja : RoomDatabase() {
 
     abstract fun iUnidadMonetariaDao(): IUnidadMonetariaDao
+    abstract fun iTipoMonedaDao(): ITipoMonedaDao
 
     /*
     val db = Room.databaseBuilder(
@@ -67,8 +71,10 @@ abstract class AppDatabaseCaja : RoomDatabase() {
                         val datetime = now()
 
                         var uMDao = database.iUnidadMonetariaDao()
+                        var tMDao = database.iTipoMonedaDao()
 
                         uMDao.borrarTodo()
+                        tMDao.borrarTodo()
 
                         var mUMEntity = UnidadMonetariaEntity(codigo_iso_4217_pk = "XXX", nombre_y_origen = "OTRA MONEDA", fecha_hora_creacion = datetime.toString() )
                         uMDao.insertar(mUMEntity)
@@ -116,6 +122,13 @@ abstract class AppDatabaseCaja : RoomDatabase() {
                         uMDao.insertar(mUMEntity)
                         mUMEntity = UnidadMonetariaEntity(codigo_iso_4217_pk = "BRL", nombre_y_origen = "BRAZILIAN REAL", fecha_hora_creacion = datetime.toString() )
                         uMDao.insertar(mUMEntity)
+
+                        var mTMEntity = TipoMonedaEntity(tipo_pk = "BILLETE",  fecha_hora_creacion = datetime.toString() )
+                        tMDao.insertar(mTMEntity)
+                        mTMEntity = TipoMonedaEntity(tipo_pk = "MONEDA",  fecha_hora_creacion = datetime.toString() )
+                        tMDao.insertar(mTMEntity)
+                        mTMEntity = TipoMonedaEntity(tipo_pk = "DIGITAL",  fecha_hora_creacion = datetime.toString() )
+                        tMDao.insertar(mTMEntity)
                     }
                 }
             }

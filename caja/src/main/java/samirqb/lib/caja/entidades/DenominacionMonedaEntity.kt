@@ -11,6 +11,6 @@ import androidx.room.PrimaryKey
 data class DenominacionMonedaEntity(
     @PrimaryKey(autoGenerate = true)
     val id_denominacion_pk: Int,
-    val denominacion: Float,
+    val denominacion_pk: Float,
     val fecha_hora_creacion: String,
 )

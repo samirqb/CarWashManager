@@ -13,23 +13,22 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
-import samirqb.carwashmanager.app.viewmodels.uistates.UnidadMonetariaUiState
-import samirqb.lib.caja.entidades.UnidadMonetariaEntity
-import samirqb.lib.caja.repositories.UnidadMonetariaRepository
+import samirqb.carwashmanager.app.viewmodels.uistates.TipoMonedaUiState
+import samirqb.lib.caja.entidades.TipoMonedaEntity
+import samirqb.lib.caja.repositories.TipoMonedaRepository
 
-
-class UnidadMonetariaViewModel(
-    val reposotorio: UnidadMonetariaRepository
+class TipoMonedaViewModel(
+    val reposotorio: TipoMonedaRepository
 ): ViewModel() {
 
     // UI state
-    private val _uiState = MutableStateFlow(UnidadMonetariaUiState())
-    val uiState: StateFlow<UnidadMonetariaUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(TipoMonedaUiState())
+    val uiState: StateFlow<TipoMonedaUiState> = _uiState.asStateFlow()
 
-    fun actualizarUnidadMonetariaEntity(mUnidadMonetariaEntity: UnidadMonetariaEntity){
+    fun actualizarTipoMonedaEntity(mTipoMonedaEntity: TipoMonedaEntity){
         _uiState.update{
             it.copy(
-                mUnidadMonetariaEntity = mUnidadMonetariaEntity
+                mTipoMonedaEntity = mTipoMonedaEntity
             )
         }
     }
@@ -41,11 +40,11 @@ class UnidadMonetariaViewModel(
             // se lee el repositorio
             reposotorio.leerTodo().collect{ it ->
 
-                val lista_unidades_monetarias_entity = it
+                val todoslosTiposMoneda = it
 
                 // actualizamos el estado que lee la UI
                 _uiState.update {
-                    it.copy(lista_unidades_monetarias = lista_unidades_monetarias_entity)
+                    it.copy(todoslosTiposMoneda = todoslosTiposMoneda)
                 }
             }
         }
@@ -57,8 +56,8 @@ class UnidadMonetariaViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val savedStateHandle = createSavedStateHandle()
-                val myRepository = (this[APPLICATION_KEY] as MyApplication).mUnidadMonetariaRepository
-                UnidadMonetariaViewModel(
+                val myRepository = (this[APPLICATION_KEY] as MyApplication).mTipoMonedaRepository
+                TipoMonedaViewModel(
                     reposotorio = myRepository,
                 )
             }

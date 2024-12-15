@@ -2,10 +2,11 @@ package samirqb.lib.caja.interfaces
 
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Update
 
 interface IBaseDao<TEntity>{
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertar( mTEntity: TEntity)
 
     @Update

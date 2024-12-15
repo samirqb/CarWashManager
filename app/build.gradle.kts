@@ -83,6 +83,7 @@ dependencies {
 
 
     implementation(project(":caja"))
+    implementation(project(":helpers"))
     //implementation(project(":uicomponentes"))
     //releaseImplementation(project(":uicomponentes"))
     //debugImplementation(project(":uicomponentes"))

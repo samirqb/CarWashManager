@@ -28,11 +28,15 @@ class UnidadMonetariaRepository(private val dao: IUnidadMonetariaDao): IBaseRepo
         return dao.leerTodo()
     }
 
+    override suspend fun actualizar( mTEntity: UnidadMonetariaEntity) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun borrar( mTEntity: UnidadMonetariaEntity) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun actualizar( mTEntity: UnidadMonetariaEntity) {
+    override suspend fun borrarTodo() {
         TODO("Not yet implemented")
     }
 }

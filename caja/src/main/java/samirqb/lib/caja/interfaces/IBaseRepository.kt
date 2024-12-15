@@ -16,6 +16,6 @@ interface IBaseRepository<TEntity>{
 
     suspend fun borrar( mTEntity: TEntity)
 
-
+    suspend fun borrarTodo()
 
 }

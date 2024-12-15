@@ -1,10 +1,12 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +18,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,21 +30,40 @@ import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
+import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
+import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
+import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
+import samirqb.lib.helpers.FormatearTexto
+import samirqb.lib.helpers.ValidarEntradasRegex
 
 @Composable
 fun AgregarMonedaDialog(
     mUMVM: UnidadMonetariaViewModel = viewModel(),
-    onDismissFromAgregarMonedaDialog:()->Unit,
-){
+    mTMVM: TipoMonedaViewModel = viewModel(),
+    onDismissFromAgregarMonedaDialog: () -> Unit,
+
+) {
+
+    val mValidarEntradasRegex = ValidarEntradasRegex()
+
+
     mUMVM.leerTodo()
+    mTMVM.leerTodo()
 
-    val uiState by mUMVM.uiState.collectAsState()
+    val uiState_UMVM by mUMVM.uiState.collectAsState()
+    val uiState_TMVM by mTMVM.uiState.collectAsState()
 
-    val lUM = uiState.lista_unidades_monetarias
+    val lUM = uiState_UMVM.lista_unidades_monetarias
+    val lTM = uiState_TMVM.todoslosTiposMoneda
+
+    var unidad_monetaria_seleccionada by rememberSaveable { mutableStateOf("") }
+    var denominacion_value by rememberSaveable { mutableStateOf("") }
+    var tipo_moneda_seleccionado by rememberSaveable { mutableStateOf("") }
+
 
     tDialogScaffoldM2(
         header_icon_id = R.drawable.rounded_attach_money_24,
@@ -54,14 +80,13 @@ fun AgregarMonedaDialog(
                     verticalArrangement = Arrangement.spacedBy(space = 13.dp),
                     content1 = {
 
-                        var txt by rememberSaveable { mutableStateOf("") }
+                        var unidad_monetaria by rememberSaveable { mutableStateOf("") }
 
                         var expander by rememberSaveable { mutableStateOf(false) }
 
-                        var lista_categorias = listOf("COP","USD")
 
                         sSurface {
-                            if(txt.isBlank() or txt.isEmpty()){
+                            if (unidad_monetaria.isBlank() or unidad_monetaria.isEmpty()) {
                                 tHTextAndIcon(
                                     full_surface_modifier = Modifier
                                         .fillMaxWidth()
@@ -72,8 +97,8 @@ fun AgregarMonedaDialog(
                                     //image_vector_ini_id = R.drawable.round_monetization_on_24,
                                     image_vector_fin_id = R.drawable.rounded_arrow_drop_down_24,
                                     txt_body = R.string.txt_body_elige_una_unidad_monetaria,
-                                    )
-                            }else{
+                                )
+                            } else {
                                 tHTextAndIcon(
                                     full_surface_modifier = Modifier
                                         .fillMaxWidth()
@@ -83,7 +108,7 @@ fun AgregarMonedaDialog(
                                         },
                                     //image_vector_ini_id = R.drawable.round_monetization_on_24,
                                     image_vector_fin_id = R.drawable.rounded_arrow_drop_down_24,
-                                    txt_body = txt,
+                                    txt_body = unidad_monetaria,
                                 )
                             }
 
@@ -91,12 +116,14 @@ fun AgregarMonedaDialog(
                                 expanded = expander,
                                 onDismissRequest = {},
                                 modifier = Modifier.size(width = 266.dp, height = Dp.Unspecified)
-                            ){
-                                lUM.forEachIndexed{ index, item ->
+                            ) {
+                                lUM.forEachIndexed { index, item ->
                                     DropdownMenuItem(
                                         text = { xTextBody(text = "${index} - ${item.codigo_iso_4217_pk} - ${item.nombre_y_origen}") },
                                         onClick = {
-                                            txt = "${item.codigo_iso_4217_pk} - ${item.nombre_y_origen}"
+                                            unidad_monetaria_seleccionada = item.codigo_iso_4217_pk
+                                            unidad_monetaria =
+                                                "${item.codigo_iso_4217_pk} - ${item.nombre_y_origen}"
                                             expander = false
                                         }
                                     )
@@ -106,27 +133,37 @@ fun AgregarMonedaDialog(
                         }
 
                     },
+
                     content2 = {
                         sSurface() {
                             var value by rememberSaveable { mutableStateOf("") }
-                            sOutlinedTextField(
+                            //denominacion_value
+                            xOutlinedTextField(
                                 value = value,
-                                onValueChange = { value = it },
-                                modifier = Modifier.fillMaxWidth()
+                                onValueChange = {
+
+                                    if(mValidarEntradasRegex.validarNumeros(it)) {
+                                        value = it
+                                        denominacion_value = it
+                                    } else {
+                                        value = ""
+                                        denominacion_value = ""
+                                    }
+
+                                },
+                                visualTransformation = SeparadorDeMiles()
                             )
                         }
                     },
 
                     content3 = {
 
-                        var txt by rememberSaveable { mutableStateOf("") }
 
+                        //var tipo_moneda_seleccionado by rememberSaveable { mutableStateOf("") }
                         var expander by rememberSaveable { mutableStateOf(false) }
 
-                        var lista_categorias = listOf("BILLETE","MONEDA","VIRTUAL")
-
                         sSurface {
-                            if(txt.isBlank() or txt.isEmpty()){
+                            if (tipo_moneda_seleccionado.isBlank() or tipo_moneda_seleccionado.isEmpty()) {
                                 tHTextAndIcon(
                                     full_surface_modifier = Modifier
                                         .fillMaxWidth()
@@ -146,7 +183,7 @@ fun AgregarMonedaDialog(
                                             detectTapGestures { expander = true }
                                         },
                                     image_vector_fin_id = R.drawable.rounded_arrow_drop_down_24,
-                                    txt_body = txt,
+                                    txt_body = tipo_moneda_seleccionado,
                                 )
                             }
 
@@ -154,16 +191,17 @@ fun AgregarMonedaDialog(
                                 expanded = expander,
                                 onDismissRequest = {},
                                 modifier = Modifier.size(width = 266.dp, height = Dp.Unspecified)
-                            ){
-                                lista_categorias.forEachIndexed{ index, categoria ->
+                            ) {
+                                lTM.forEachIndexed { index, item ->
+
+                                    //item.
                                     DropdownMenuItem(
-                                        text = { xTextBody(text = "${index} - ${categoria}") },
+                                        text = { xTextBody(text = "${index} - ${item.tipo_pk}") },
                                         onClick = {
-                                            txt = categoria
+                                            tipo_moneda_seleccionado = item.tipo_pk
                                             expander = false
                                         }
                                     )
-
                                 }
                             }
                         }
@@ -177,7 +215,9 @@ fun AgregarMonedaDialog(
             onDismissFromAgregarMonedaDialog()
         },
         boton_txt_2 = R.string.txt_label_agregar,
-        on_click_boton_2 = {},
+        on_click_boton_2 = {
+
+        },
         modifier_content1 = Modifier
             .fillMaxWidth()
             .size(150.dp),
