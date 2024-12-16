@@ -9,9 +9,12 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import samirqb.lib.caja.daos.IDenominacionMonedaDao
+import samirqb.lib.caja.daos.IMonedaDao
 import samirqb.lib.caja.daos.ITipoMonedaDao
 import samirqb.lib.caja.daos.IUnidadMonetariaDao
 import samirqb.lib.caja.entidades.DenominacionMonedaEntity
+import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.caja.entidades.TipoMonedaEntity
 import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 import java.time.LocalDateTime.now
@@ -21,12 +24,15 @@ import java.time.LocalDateTime.now
         UnidadMonetariaEntity::class,
         TipoMonedaEntity::class,
         DenominacionMonedaEntity::class,
+        MonedaEntity::class,
     ], version = 1, exportSchema = false
 )
 abstract class AppDatabaseCaja : RoomDatabase() {
 
     abstract fun iUnidadMonetariaDao(): IUnidadMonetariaDao
     abstract fun iTipoMonedaDao(): ITipoMonedaDao
+    abstract fun iDenominacionMonedaDao(): IDenominacionMonedaDao
+    abstract fun iMoneda(): IMonedaDao
 
     /*
     val db = Room.databaseBuilder(

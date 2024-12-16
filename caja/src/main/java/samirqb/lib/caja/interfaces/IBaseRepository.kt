@@ -8,6 +8,8 @@ interface IBaseRepository<TEntity>{
 
     fun leerPorId( id: Int): Flow<TEntity>
 
+    fun leerPorId( id: Float): Flow<TEntity>
+
     fun leerPorId( id: String): Flow<TEntity>
 
     fun leerTodo(): Flow<List<TEntity>>

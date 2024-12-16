@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_monedas",
-    indices = [Index(value = ["id_moneda_pk","codigo_iso_4217_fk","id_denominacion_fk","tipo_fk",])],
+    indices = [Index(value = ["id_moneda_pk","codigo_iso_4217_fk","denominacion_fk","tipo_fk",])],
     foreignKeys = [
         ForeignKey(
             entity = UnidadMonetariaEntity::class,
@@ -19,8 +19,8 @@ import androidx.room.PrimaryKey
         ),
         ForeignKey(
             entity = DenominacionMonedaEntity::class,
-            parentColumns = ["id_denominacion_pk"],
-            childColumns = ["id_denominacion_fk"],
+            parentColumns = ["denominacion_pk"],
+            childColumns = ["denominacion_fk"],
             onDelete = CASCADE,
             onUpdate = CASCADE,
         ),
@@ -35,9 +35,9 @@ import androidx.room.PrimaryKey
 )
 data class MonedaEntity(
     @PrimaryKey(autoGenerate = true)
-    val id_moneda_pk:Int,
+    val id_moneda_pk: Int = 0,
     val codigo_iso_4217_fk:String,
-    val id_denominacion_fk:Int,
+    val denominacion_fk:Float,
     val tipo_fk:String,
     val fecha_hora_creacion:String,
 )

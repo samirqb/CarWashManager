@@ -15,6 +15,10 @@ class TipoMonedaRepository(private val  dao: ITipoMonedaDao):IBaseRepository<Tip
         TODO("Not yet implemented")
     }
 
+    override fun leerPorId(id: Float): Flow<TipoMonedaEntity> {
+        TODO("Not yet implemented")
+    }
+
     override fun leerPorId(id: String): Flow<TipoMonedaEntity> {
         TODO("Not yet implemented")
     }

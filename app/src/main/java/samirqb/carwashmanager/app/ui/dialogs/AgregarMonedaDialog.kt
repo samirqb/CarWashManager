@@ -1,12 +1,12 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
-import android.icu.text.DecimalFormat
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -18,47 +18,53 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
-import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
+import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
+import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
-import samirqb.lib.helpers.FormatearTexto
+import samirqb.lib.caja.entidades.DenominacionMonedaEntity
+import samirqb.lib.caja.entidades.MonedaEntity
+import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.helpers.ValidarEntradasRegex
 
+//@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AgregarMonedaDialog(
     mUMVM: UnidadMonetariaViewModel = viewModel(),
     mTMVM: TipoMonedaViewModel = viewModel(),
+    mMVM: MonedaViewModel = viewModel(),
+    mDMVM: DenominacionMonedaViewModel = viewModel(),
     onDismissFromAgregarMonedaDialog: () -> Unit,
 
-) {
+    ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
-
     mUMVM.leerTodo()
     mTMVM.leerTodo()
+    mMVM.leerTodo()
+    mDMVM.leerTodo()
 
     val uiState_UMVM by mUMVM.uiState.collectAsState()
     val uiState_TMVM by mTMVM.uiState.collectAsState()
+    val uiState_DMVM by mDMVM.uiState.collectAsState()
+    val uiState_MVM by mMVM.uiState.collectAsState()
 
     val lUM = uiState_UMVM.lista_unidades_monetarias
     val lTM = uiState_TMVM.todoslosTiposMoneda
+    val lDM = uiState_DMVM.todasLasDenominacionesMoneda
+    val lM = uiState_MVM.todasLasMonedas
 
     var unidad_monetaria_seleccionada by rememberSaveable { mutableStateOf("") }
     var denominacion_value by rememberSaveable { mutableStateOf("") }
@@ -217,6 +223,24 @@ fun AgregarMonedaDialog(
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
 
+            val fecha_y_hora = FechaYHora()
+
+            mDMVM.agregarDenominacion(
+
+                mTEntity = DenominacionMonedaEntity(
+                    denominacion_pk = denominacion_value.toFloat(),
+                    fecha_hora_creacion = fecha_y_hora.now()
+                )
+            )
+
+            mMVM.agregarMoneda(
+                mTEntity = MonedaEntity(
+                    codigo_iso_4217_fk = unidad_monetaria_seleccionada,
+                    denominacion_fk = denominacion_value.toFloat(),
+                    tipo_fk = tipo_moneda_seleccionado,
+                    fecha_hora_creacion = fecha_y_hora.now(),
+                )
+            )
         },
         modifier_content1 = Modifier
             .fillMaxWidth()

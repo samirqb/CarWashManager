@@ -18,6 +18,8 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
+import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
+import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
@@ -66,11 +68,16 @@ object AperturaCajaConfirmacionDialogRoute
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+
     /**   V I E W   M O D E L S   **/
     mUnidadMonetariaViewModel: UnidadMonetariaViewModel =
         viewModel(factory = UnidadMonetariaViewModel.Factory),
     mTipoMonedaViewModel: TipoMonedaViewModel =
         viewModel(factory = TipoMonedaViewModel.Factory),
+    mMonedaViewModel: MonedaViewModel =
+        viewModel(factory = MonedaViewModel.Factory),
+    mDenominacionMonedaViewModel: DenominacionMonedaViewModel =
+        viewModel(factory = DenominacionMonedaViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -112,6 +119,7 @@ fun MyAppNavHost(
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_moneda = {
                     navController.navigate(route = AgregarMonedaDialogRoute) },
+                mMVM = mMonedaViewModel
             )
         }
 
@@ -184,6 +192,8 @@ fun MyAppNavHost(
                 onDismissFromAgregarMonedaDialog = { navController.navigateUp( ) },
                 mUMVM = mUnidadMonetariaViewModel,
                 mTMVM = mTipoMonedaViewModel,
+                mMVM = mMonedaViewModel,
+                mDMVM = mDenominacionMonedaViewModel,
             )
         }
     }

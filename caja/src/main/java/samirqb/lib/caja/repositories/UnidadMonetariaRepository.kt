@@ -20,6 +20,10 @@ class UnidadMonetariaRepository(private val dao: IUnidadMonetariaDao): IBaseRepo
         TODO("Not yet implemented")
     }
 
+    override fun leerPorId(id: Float): Flow<UnidadMonetariaEntity> {
+        TODO("Not yet implemented")
+    }
+
     override fun leerPorId( id: String): Flow<UnidadMonetariaEntity> {
         TODO("Not yet implemented")
     }
