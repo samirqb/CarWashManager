@@ -4,8 +4,12 @@ class ValidarEntradasRegex {
 
     private val mMyRegex = MyRegex()
 
-    fun validarNumeros(string:String):Boolean{
-        return mMyRegex.valoresNumericosValidos.matches(string)
+    fun validarNumerosDecimales(string:String):Boolean{
+        return mMyRegex.valoresNumericosDecimalesValidos.matches(string)
+    }
+
+    fun validarNumerosEnteros(string:String):Boolean{
+        return mMyRegex.valoresNumericosEnterosValidos.matches(string)
     }
 
 

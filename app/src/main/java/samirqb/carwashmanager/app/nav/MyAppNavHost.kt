@@ -168,7 +168,8 @@ fun MyAppNavHost(
                 },
                 onDismissFromAperturaCajaCantidadesPorDenominacionDialog = {
                     navController.navigateUp( )
-                }
+                },
+                mMonedaViewModel = mMonedaViewModel,
             )
         }
 

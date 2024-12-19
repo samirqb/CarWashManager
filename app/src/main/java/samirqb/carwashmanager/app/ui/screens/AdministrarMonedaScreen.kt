@@ -34,6 +34,7 @@ fun AdministrarMonedaScreen(
         },
         content1 = {
             sLazyColumn {
+
                 itemsIndexed(lM){index, item ->
 
                     var icono_actual:Int = 0

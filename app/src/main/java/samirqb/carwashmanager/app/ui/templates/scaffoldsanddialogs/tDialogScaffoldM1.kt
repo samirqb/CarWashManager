@@ -22,6 +22,7 @@ fun tDialogScaffoldM1(
     on_click_boton_1: () -> Unit,
     boton_txt_2:Int,
     on_click_boton_2: () -> Unit,
+    enabled_btn2:Boolean = true,
     //onDismissRequestDialog: () -> Unit,
     modifier_content1: Modifier = Modifier,
     modifier_content2: Modifier = Modifier,
@@ -64,6 +65,7 @@ fun tDialogScaffoldM1(
                                 },
                                 txt_btn_2 = boton_txt_2,
                                 on_click_boton_2 = on_click_boton_2,
+                                enabled_btn2 = enabled_btn2,
                             )
                         },
                     )

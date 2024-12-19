@@ -1,7 +1,5 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +23,7 @@ import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
-import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField
+import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_NUM
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
@@ -144,11 +142,11 @@ fun AgregarMonedaDialog(
                         sSurface() {
                             var value by rememberSaveable { mutableStateOf("") }
                             //denominacion_value
-                            xOutlinedTextField(
+                            xOutlinedTextField_NUM(
                                 value = value,
                                 onValueChange = {
 
-                                    if(mValidarEntradasRegex.validarNumeros(it)) {
+                                    if(mValidarEntradasRegex.validarNumerosDecimales(it)) {
                                         value = it
                                         denominacion_value = it
                                     } else {

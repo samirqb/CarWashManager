@@ -7,10 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
-import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
 
 @Composable
-fun xOutlinedTextField(
+fun xOutlinedTextField_NUM(
     value:String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
