@@ -18,6 +18,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
+import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
@@ -78,6 +79,8 @@ fun MyAppNavHost(
         viewModel(factory = MonedaViewModel.Factory),
     mDenominacionMonedaViewModel: DenominacionMonedaViewModel =
         viewModel(factory = DenominacionMonedaViewModel.Factory),
+    mCajaViewModel: CajaViewModel =
+        viewModel(factory = CajaViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -169,6 +172,7 @@ fun MyAppNavHost(
                 onDismissFromAperturaCajaCantidadesPorDenominacionDialog = {
                     navController.navigateUp( )
                 },
+                mCajaViewModel = mCajaViewModel,
                 mMonedaViewModel = mMonedaViewModel,
             )
         }
@@ -182,9 +186,11 @@ fun MyAppNavHost(
                 },
 
                 onDismissFromAperturaCajaConfirmacionDialog = {
+                    //navController.navigateUp( )
+                    //navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
                     navController.navigateUp( )
-                    navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
-                }
+                },
+                mCajaViewModel = mCajaViewModel
             )
         }
 

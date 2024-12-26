@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.viewmodels
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -16,6 +18,7 @@ import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.MonedaUiState
 import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.caja.repositories.MonedaRepository
+import samirqb.lib.helpers.FechaYHora
 
 class MonedaViewModel(
     val repositorio: MonedaRepository
@@ -28,6 +31,19 @@ class MonedaViewModel(
         _uiState.update{
             it.copy(
                 mMonedaEntity = mMonedaEntity
+            )
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun actualizarFechaYHora() {
+
+        var mFechaYHora = FechaYHora()
+        mFechaYHora.now()
+
+        _uiState.update {
+            it.copy(
+                fecha_hora_creacion = mFechaYHora.toString(),
             )
         }
     }

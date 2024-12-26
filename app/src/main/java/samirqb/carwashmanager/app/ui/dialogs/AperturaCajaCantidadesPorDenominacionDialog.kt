@@ -14,6 +14,7 @@ import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.widgets.AgregarCantPorDenominacionWidget
 import samirqb.carwashmanager.app.ui.components.custom.widgets.TotalDineroAperturaCierreCajaWidget
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM1
+import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 
@@ -21,12 +22,15 @@ import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 fun AperturaCajaCantidadesPorDenominacionDialog(
     onNavigateToAperturaCajaConfirmacionDialog: () -> Unit,
     onDismissFromAperturaCajaCantidadesPorDenominacionDialog: () -> Unit,
+    mCajaViewModel: CajaViewModel = viewModel(),
     mMonedaViewModel: MonedaViewModel = viewModel(),
 ) {
 
     val uiState_MVM by mMonedaViewModel.uiState.collectAsState()
+    val uiState_CVM by mCajaViewModel.uiState.collectAsState()
 
     mMonedaViewModel.leerTodo()
+    mCajaViewModel.actualizarFechaYHora()
 
     val lM = uiState_MVM.todasLasMonedas
 
@@ -40,7 +44,7 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
         header_icon_id = R.drawable.rounded_point_of_sale_24,
         header_text_titulo_id = R.string.txt_titulo_apertura_de_caja,
         header_text_subtitulo_id = R.string.txt_label_numero_de_apertura,
-        header_text_consecutivo = 1101,
+        header_text_consecutivo = uiState_CVM.id_apertura_caja,
         content_dialg_body = {
 
             sSurface(
@@ -52,7 +56,7 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
                 VLayout2P(
                     content1 = {
                         TotalDineroAperturaCierreCajaWidget(
-                            txt_body_suma_total_denominaciones = "87000",
+                            txt_body_suma_total_denominaciones = uiState_CVM.suma_total_todas_las_monedas.floatValue.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .size(90.dp),
@@ -67,9 +71,10 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
                                 .size(342.dp)
                             //.weight(2f)
                             ,
-                            lista_monedas = lM
+                            lista_monedas = lM,
                             //value = value,
                             //onValueChange = {value = it}
+                            mCajaViewModel = mCajaViewModel,
                         )
                     },
                 )
@@ -79,6 +84,7 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
         boton_txt_1 = R.string.txt_label_salir,
 
         on_click_boton_1 = {
+            mCajaViewModel.vaciarUiStatus()
             onDismissFromAperturaCajaCantidadesPorDenominacionDialog()
         },
 

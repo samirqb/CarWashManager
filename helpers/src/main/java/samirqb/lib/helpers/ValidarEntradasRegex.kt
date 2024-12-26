@@ -12,6 +12,4 @@ class ValidarEntradasRegex {
         return mMyRegex.valoresNumericosEnterosValidos.matches(string)
     }
 
-
-
 }

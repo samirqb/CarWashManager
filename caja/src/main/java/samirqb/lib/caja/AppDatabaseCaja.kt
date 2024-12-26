@@ -18,6 +18,7 @@ import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.caja.entidades.TipoMonedaEntity
 import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 import java.time.LocalDateTime.now
+import java.time.format.DateTimeFormatter
 
 @Database(
     entities = [
@@ -74,7 +75,7 @@ abstract class AppDatabaseCaja : RoomDatabase() {
                 INSTANCE?.let { database ->
                     scope.launch {
 
-                        val datetime = now()
+                        val datetime = now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
                         var uMDao = database.iUnidadMonetariaDao()
                         var tMDao = database.iTipoMonedaDao()

@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,10 +35,10 @@ import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 import samirqb.lib.caja.entidades.DenominacionMonedaEntity
 import samirqb.lib.caja.entidades.MonedaEntity
-import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.helpers.ValidarEntradasRegex
 
 //@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AgregarMonedaDialog(
     mUMVM: UnidadMonetariaViewModel = viewModel(),
@@ -52,6 +54,7 @@ fun AgregarMonedaDialog(
     mUMVM.leerTodo()
     mTMVM.leerTodo()
     mMVM.leerTodo()
+    mMVM.actualizarFechaYHora()
     mDMVM.leerTodo()
 
     val uiState_UMVM by mUMVM.uiState.collectAsState()
@@ -221,13 +224,11 @@ fun AgregarMonedaDialog(
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
 
-            val fecha_y_hora = FechaYHora()
-
             mDMVM.agregarDenominacion(
 
                 mTEntity = DenominacionMonedaEntity(
                     denominacion_pk = denominacion_value.toFloat(),
-                    fecha_hora_creacion = fecha_y_hora.now()
+                    fecha_hora_creacion = uiState_MVM.fecha_hora_creacion
                 )
             )
 
@@ -236,7 +237,7 @@ fun AgregarMonedaDialog(
                     codigo_iso_4217_fk = unidad_monetaria_seleccionada,
                     denominacion_fk = denominacion_value.toFloat(),
                     tipo_fk = tipo_moneda_seleccionado,
-                    fecha_hora_creacion = fecha_y_hora.now(),
+                    fecha_hora_creacion = uiState_MVM.fecha_hora_creacion,
                 )
             )
         },

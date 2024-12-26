@@ -3,6 +3,8 @@ package samirqb.carwashmanager.app.viewmodels.uistates
 import samirqb.lib.caja.entidades.MonedaEntity
 
 data class MonedaUiState(
+    val fecha_hora_creacion:String = "",
+
     val mMonedaEntity: MonedaEntity = MonedaEntity(
         id_moneda_pk = 0,
         codigo_iso_4217_fk = "",
