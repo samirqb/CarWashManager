@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "tab_aperturas_caja",
     indices = [Index(value = ["id_apertura_caja_pk"])],
 )
-data class AperturaCaja(
+data class AperturaCajaEntity(
     @PrimaryKey(autoGenerate = true)
     val id_apertura_caja_pk:Int,
     val total_dinero_apertura:Float,

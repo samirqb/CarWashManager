@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.nav
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -65,6 +67,7 @@ object AperturaCajaConfirmacionDialogRoute
 //data class AperturaCajaConfirmacionDialogRoute( val x: XXX )
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
@@ -114,6 +117,8 @@ fun MyAppNavHost(
                 onNavigateToAdministrarClientesScreen = {
                     navController.navigate( route = AdministrarClientesScreenRoute )
                 },
+
+                mCajaViewModel = mCajaViewModel
             )
         }
 

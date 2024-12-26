@@ -15,5 +15,5 @@ data class CajaUiState (
     //val suma_total_todas_las_monedas:MutableState<Float> = mutableStateOf(0f),
     //val suma_total_todas_las_monedas:Float = 0f,
     val suma_total_todas_las_monedas: MutableFloatState = mutableFloatStateOf(0f),
-    val lista_detalles_ac_caja_dtos:MutableList<DetalleACCajaDto> = mutableListOf(),
+    val lista_detalles_ac_caja_dtos: MutableList<DetalleACCajaDto> = mutableListOf(),
 )

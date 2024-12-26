@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["id_registro_detalle","id_apertura_caja_fk","id_moneda_fk",])],
     foreignKeys = [
         ForeignKey(
-            entity = AperturaCaja::class,
+            entity = AperturaCajaEntity::class,
             parentColumns = ["id_apertura_caja_pk"],
             childColumns = ["id_apertura_caja_fk"],
             onUpdate = CASCADE,

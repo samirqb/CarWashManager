@@ -11,7 +11,7 @@ import androidx.room.Index
     primaryKeys = ["id_cierre_caja_pk"],
     foreignKeys = [
         ForeignKey(
-            entity = AperturaCaja::class,
+            entity = AperturaCajaEntity::class,
             parentColumns = ["id_apertura_caja_pk"],
             childColumns = ["id_apertura_caja_fk"],
             onUpdate = CASCADE,

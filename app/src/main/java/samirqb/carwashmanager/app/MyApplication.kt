@@ -4,6 +4,7 @@ import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import samirqb.lib.caja.AppDatabaseCaja
+import samirqb.lib.caja.repositories.AperturaCajaRepository
 import samirqb.lib.caja.repositories.DenominacionMonedaRepository
 import samirqb.lib.caja.repositories.MonedaRepository
 import samirqb.lib.caja.repositories.TipoMonedaRepository
@@ -20,6 +21,7 @@ class MyApplication: Application() {
     val mTipoMonedaRepository by lazy { TipoMonedaRepository(mAppDatabaseCaja.iTipoMonedaDao()) }
     val mDenominacionMonedaRepository by lazy { DenominacionMonedaRepository(mAppDatabaseCaja.iDenominacionMonedaDao()) }
     val mMonedaRepository by lazy { MonedaRepository(mAppDatabaseCaja.iMoneda()) }
+    val mAperturaCajaRepository by lazy { AperturaCajaRepository(mAppDatabaseCaja.iAperturaCaja()) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

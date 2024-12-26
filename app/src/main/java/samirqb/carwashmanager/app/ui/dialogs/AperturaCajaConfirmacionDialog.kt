@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,7 +22,9 @@ import samirqb.carwashmanager.app.ui.components.custom.widgets.TotalDineroApertu
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM1
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.lib.caja.entidades.AperturaCajaEntity
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AperturaCajaConfirmacionDialog(
     onNavigateToInicioScreen: () -> Unit,
@@ -43,8 +49,7 @@ fun AperturaCajaConfirmacionDialog(
             sSurface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .size(180.dp)
-                ,
+                    .size(180.dp),
                 color = MaterialTheme.colorScheme.secondaryContainer
             ) {
                 VLayout2P(
@@ -53,7 +58,10 @@ fun AperturaCajaConfirmacionDialog(
                     content1 = {
 
                         FechaYHoraWidget(
-                            modifier = Modifier.fillMaxWidth().size(90.dp).padding(7.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .size(90.dp)
+                                .padding(7.dp),
                             txt_body_fecha = uiState_CVM.fecha,
                             txt_body_hora = uiState_CVM.hora,
                         )
@@ -64,8 +72,7 @@ fun AperturaCajaConfirmacionDialog(
                             txt_body_suma_total_denominaciones = uiState_CVM.suma_total_todas_las_monedas.floatValue.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .size(90.dp)
-                            ,
+                                .size(90.dp),
                         )
                     },
                 )
@@ -82,6 +89,18 @@ fun AperturaCajaConfirmacionDialog(
         boton_txt_2 = R.string.txt_label_aceptar,
 
         on_click_boton_2 = {
+
+            mCajaViewModel.actualizarFechaYHora()
+
+            mCajaViewModel.apertura(
+
+                mAperturaCajaEntity = AperturaCajaEntity(
+                    id_apertura_caja_pk = 0,
+                    fecha_hora_creacion = uiState_CVM.fecha_y_hora,
+                    total_dinero_apertura = uiState_CVM.suma_total_todas_las_monedas.floatValue,
+                    apertura_activa = true,
+                )
+            )
             mCajaViewModel.vaciarUiStatus()
             onNavigateToInicioScreen()
         },
