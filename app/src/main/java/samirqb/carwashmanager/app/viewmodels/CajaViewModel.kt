@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -83,7 +82,7 @@ class CajaViewModel(
 
         _uiState.update {
             it.copy(
-                fecha_y_hora = mFechaYHora.toString(),
+                fecha_y_hora = mFechaYHora.getDateTime(),
                 fecha = mFechaYHora.getDate(),
                 hora = mFechaYHora.getTime(),
             )

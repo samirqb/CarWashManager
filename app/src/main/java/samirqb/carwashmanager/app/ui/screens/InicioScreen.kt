@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -23,7 +25,10 @@ import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyColumn
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
+import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
+import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextHeadLine
+import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.ui.templates.modalbottomsheets.tModalBottomSheet
 import samirqb.carwashmanager.app.ui.components.custom.widgets.EstadoCajaWidget
@@ -112,7 +117,9 @@ fun InicioScreen(
 
 
                 sLazyColumn(
-                    modifier = Modifier.fillMaxSize().weight(1f),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(space = 1.dp)
                 ) {
 
@@ -135,7 +142,22 @@ fun InicioScreen(
                     }
                     else {
                         itemsIndexed(uiState_AoerturaCajaVM.lista_aperturas_caja){ index, item ->
-                            xTextHeadLine(text = item.total_dinero_apertura.toString())
+                            sSurface(
+                                modifier = Modifier.fillMaxWidth().size(87.dp)
+                            ) {
+                                VLayout3P(
+                                    content1 = {
+                                        xTextLabel(text = "Apertura numero: ${item.id_apertura_caja_pk}")
+                                    },
+                                    content2 = {
+                                        xTextBody(text = "${item.fecha_hora_creacion}")
+                                    },
+                                    content3 = {
+                                        xTextHeadLine(text = "$${item.total_dinero_apertura}")
+                                    },
+                                )
+                            }
+                            HorizontalDivider()
                         }
                     }
                 }
