@@ -19,7 +19,7 @@ import androidx.room.Index
         )
     ]
 )
-data class CierreCaja(
+data class CierreCajaEntity(
     val id_cierre_caja_pk:Int,
     val id_apertura_caja_fk:Int,
     val total_dinero_cierre:Float,

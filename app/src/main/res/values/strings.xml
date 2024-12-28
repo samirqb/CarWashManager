@@ -2,7 +2,7 @@
     <string name="app_name">Car Wash Manager</string>
     <string name="txt_titulo_apertura_de_caja">"Apertura Caja"</string>
     <string name="txt_titulo_buscar_cliente">"Buscar cliente"</string>
-    <string name="txt_label_numero_de_apertura">"Apertura numero: %1$d: "</string>
+    <string name="txt_label_codigo_ac_caja">"Codigo: %1$d"</string>
     <string name="txt_label_fecha">"Fecha: "</string>
     <string name="txt_label_hora">"Hora: "</string>
     <string name="txt_label_total_apertura">"Total apertura: "</string>
@@ -35,4 +35,5 @@
     <string name="txt_body_menu_categorias_vehiculos">Categorias</string>
     <string name="txt_body_menu_clientes">Clientes</string>
     <string name="informacion_no_disponible">Informacion no disponible</string>
+    <string name="txt_titulo_cierre_de_caja">Cierre de caja</string>
 </resources>

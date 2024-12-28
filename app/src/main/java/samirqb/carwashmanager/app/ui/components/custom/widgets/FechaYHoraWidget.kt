@@ -3,6 +3,8 @@ package samirqb.carwashmanager.app.ui.components.custom.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,8 +26,7 @@ fun FechaYHoraWidget(
     modifier: Modifier = Modifier,
 ) {
     HLayout2P(
-        modifier = modifier,
-        //horizontalArrangement = Arrangement.Absolute.SpaceAround,
+        modifier = Modifier.fillMaxWidth().size(69.dp),
         horizontalArrangement = Arrangement.spacedBy(7.dp),
         /** fecha */
         content1 = {
@@ -34,7 +35,7 @@ fun FechaYHoraWidget(
                     .weight(1f)
                     .fillMaxSize(),
                 shape = RoundedCornerShape(13),
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.surfaceContainer,
             ) {
                 VLayout2P(
 

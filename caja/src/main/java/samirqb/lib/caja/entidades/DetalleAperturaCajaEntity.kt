@@ -25,12 +25,12 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE),
     ]
 )
-data class DetalleAperturaCaja(
+data class DetalleAperturaCajaEntity(
     @PrimaryKey(autoGenerate = true)
     val id_registro_detalle:Int,
     val id_apertura_caja_fk:Int,
     val id_moneda_fk:Int,
     val cantidad_unidades_de_la_deniminacion:Int,
-    val monto_total_de_la_denominacion:Int,
-    val fecha_hora_creacion:Int,
+    val monto_total_de_la_denominacion:Float,
+    val fecha_hora_creacion:String,
 )

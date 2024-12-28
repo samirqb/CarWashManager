@@ -56,8 +56,6 @@ fun BaseAperturaYAcumuladoVentasWidget(
         },
 
         /** hora */
-
-        /** hora */
         content2 = {
             sSurface(
                 modifier = Modifier.weight(1f).fillMaxSize(),

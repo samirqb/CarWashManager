@@ -24,6 +24,10 @@ class AperturaCajaRepository(
         return mIAperturaCajaDao.leerPorId(id)
     }
 
+    fun leerAperturaCajaMasReciente(): Flow<AperturaCajaEntity?>{
+        return mIAperturaCajaDao.leerAperturaCajaMasReciente()
+    }
+
     override fun leerTodo(): Flow<List<AperturaCajaEntity>> {
         return mIAperturaCajaDao.leerTodo()
     }

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 
 interface IBaseDao<TEntity>{
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertar( mTEntity: TEntity)
 

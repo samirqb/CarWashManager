@@ -38,12 +38,14 @@ import samirqb.lib.helpers.ValidarEntradasRegex
 @Composable
 fun AgregarCantPorDenominacionWidget(
     lista_monedas: List<MonedaEntity>,
+    es_apertura: Boolean,
     //onValueChange: (String) -> Unit,
     mCajaViewModel: CajaViewModel = viewModel(),
     modifier: Modifier = Modifier.fillMaxWidth(),
 ) {
 
     val uiState_CVM by mCajaViewModel.uiState.collectAsState()
+    val uiState_ACVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
 
     var lista_subtotales_por_denominacion: MutableList<Float> = mutableListOf()
 
@@ -117,7 +119,7 @@ fun AgregarCantPorDenominacionWidget(
                 for (moneda in lista_monedas.indices){
 
                     var mDetalleACCajaDto = DetalleACCajaDto(
-                        id_ac_caja = uiState_CVM.id_apertura_caja,
+                        id_ac_caja = uiState_ACVM.id_apertura_actual,
                         id_moneda = lista_monedas[moneda].id_moneda_pk,
                         cant_unidades_de_la_denominacion = 0,
                         monto_total_de_la_denominacion = 0f,
@@ -241,7 +243,8 @@ fun AgregarCantPorDenominacionWidget(
                                             lista_subtotales_por_denominacion[index] = total_por_moneda
 
                                             mCajaViewModel.actualizarSumaToalACCaje(
-                                                lista_subtotales_por_denominacion
+                                                es_apertura = es_apertura,
+                                                lista = lista_subtotales_por_denominacion,
                                             )
 
                                             mCajaViewModel.actualizarListaDetallesACCaja(
@@ -266,7 +269,8 @@ fun AgregarCantPorDenominacionWidget(
                                             lista_subtotales_por_denominacion[index] = total_por_moneda
 
                                             mCajaViewModel.actualizarSumaToalACCaje(
-                                                lista_subtotales_por_denominacion
+                                                es_apertura = es_apertura,
+                                                lista = lista_subtotales_por_denominacion
                                             )
                                         }
                                     },

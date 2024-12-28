@@ -3,7 +3,6 @@ package samirqb.carwashmanager.app.ui.components.custom.widgets
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ fun EstadoCajaWidget(
     modifier: Modifier = Modifier,
 ) {
     VLayout3P(
+        modifier = modifier,
         content1 = {
             Spacer( modifier = Modifier.size(21.dp) )
 

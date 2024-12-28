@@ -14,6 +14,8 @@ import kotlinx.serialization.Serializable
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
+import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
+import samirqb.carwashmanager.app.ui.dialogs.CierreCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
@@ -59,12 +61,21 @@ object AperturaCajaCantPorDenominacionDialogRoute
 //data class AperturaCajaCantPorDenominacionDialogRoute( val x: XXX )
 
 @Serializable
+object AperturaCajaConfirmacionDialogRoute
+//data class AperturaCajaConfirmacionDialogRoute( val x: XXX )
+
+@Serializable
+object CierreCajaCantPorDenominacionDialogRoute
+//data class CierreCajaCantPorDenominacionDialogRoute( val x: XXX )
+
+@Serializable
+object CierreCajaConfirmacionDialogRoute
+//data class CierreCajaConfirmacionDialogRoute( val x: XXX )
+
+@Serializable
 object AgregarMonedaDialogRoute
 //data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
 
-@Serializable
-object AperturaCajaConfirmacionDialogRoute
-//data class AperturaCajaConfirmacionDialogRoute( val x: XXX )
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -90,7 +101,6 @@ fun MyAppNavHost(
         navController = navController,
         startDestination = InicioScreenRoute,
     ) {
-
 
         composable<InicioScreenRoute> {
             InicioScreen(
@@ -182,6 +192,7 @@ fun MyAppNavHost(
             )
         }
 
+
         dialog<AperturaCajaConfirmacionDialogRoute> {
             AperturaCajaConfirmacionDialog(
 
@@ -193,6 +204,38 @@ fun MyAppNavHost(
                 onDismissFromAperturaCajaConfirmacionDialog = {
                     //navController.navigateUp( )
                     //navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
+                    navController.navigateUp( )
+                },
+                mCajaViewModel = mCajaViewModel
+            )
+        }
+
+        dialog<CierreCajaCantPorDenominacionDialogRoute> {
+            CierreCajaCantidadesPorDenominacionDialog(
+
+                onNavigateToCerrarCajaConfirmacionDialog = {
+                    navController.navigateUp( )
+                    navController.navigate( route = CierreCajaCantPorDenominacionDialogRoute )
+                },
+                onDismissFromCerrarCajaCantidadesPorDenominacionDialog = {
+                    navController.navigateUp( )
+                },
+                mCajaViewModel = mCajaViewModel,
+                mMonedaViewModel = mMonedaViewModel,
+            )
+        }
+
+        dialog<CierreCajaConfirmacionDialogRoute> {
+            CierreCajaConfirmacionDialog(
+
+                onNavigateToInicioScreen = {
+                    navController.navigateUp( )
+                    //navController.navigate( route = CierreCajaConfirmacionRoute )
+                },
+
+                onDismissFromCierreCajaConfirmacionDialog = {
+                    //navController.navigateUp( )
+                    //navController.navigate( route = CierreCajaCantPorDenominacionDialogRoute )
                     navController.navigateUp( )
                 },
                 mCajaViewModel = mCajaViewModel
