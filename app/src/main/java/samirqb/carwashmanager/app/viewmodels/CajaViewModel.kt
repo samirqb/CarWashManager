@@ -54,6 +54,8 @@ class CajaViewModel(
     init {
         obtenerUltimaAperturaCaja()
         obtenerUltimoCierreCaja()
+        getIdAperturaActual()
+        getIdCierreActual()
     }
 
     fun obtenerUltimaAperturaCaja() {
