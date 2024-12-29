@@ -30,14 +30,13 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
 ) {
 
     val uiState_MVM by mMonedaViewModel.uiState.collectAsState()
-    val uiState_CVM by mCajaViewModel.uiState.collectAsState()
+    //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
     val uiState_ACVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
 
-
-    mMonedaViewModel.leerTodo()
-    mCajaViewModel.obtenerUltimaAperturaCaja()
-    mCajaViewModel.getIdAperturaActual()
     mCajaViewModel.actualizarFechaYHora()
+    mMonedaViewModel.leerTodo()
+    mCajaViewModel.getIdAperturaActual()
+    //mCajaViewModel.obtenerUltimaAperturaCaja()
 
     val lM = uiState_MVM.todasLasMonedas
 
@@ -63,7 +62,7 @@ fun AperturaCajaCantidadesPorDenominacionDialog(
                 VLayout2P(
                     content1 = {
                         TotalDineroAperturaCierreCajaWidget(
-                            txt_body_suma_total_denominaciones = uiState_CVM.suma_total_todas_las_monedas.floatValue.toString(),
+                            txt_body_suma_total_denominaciones = uiState_ACVM.suma_total_todas_las_monedas.floatValue.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .size(90.dp),

@@ -4,11 +4,12 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_cierres_caja",
     indices = [Index(value = ["id_cierre_caja_pk"])],
-    primaryKeys = ["id_cierre_caja_pk"],
+    //primaryKeys = ["id_cierre_caja_pk"],
     foreignKeys = [
         ForeignKey(
             entity = AperturaCajaEntity::class,
@@ -20,6 +21,7 @@ import androidx.room.Index
     ]
 )
 data class CierreCajaEntity(
+    @PrimaryKey(autoGenerate = true)
     val id_cierre_caja_pk:Int,
     val id_apertura_caja_fk:Int,
     val total_dinero_cierre:Float,

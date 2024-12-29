@@ -1,6 +1,8 @@
 package samirqb.lib.caja.repositories
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
+import samirqb.lib.caja.customexception.MyCustomException
 import samirqb.lib.caja.daos.IDetalleAperturaCajaDao
 import samirqb.lib.caja.entidades.DetalleAperturaCajaEntity
 import samirqb.lib.caja.interfaces.IBaseRepository
@@ -14,7 +16,12 @@ class DetalleAperturaCajaRepository(
     }
 
     suspend fun insertarVarios(mArrayTEntity: Array<DetalleAperturaCajaEntity>){
-        mDao.insertarVarios(*mArrayTEntity)
+        try {
+            mDao.insertarVarios(*mArrayTEntity)
+        }catch (e: Exception){
+            Log.e("_XTAG",e.stackTraceToString())
+            throw MyCustomException("Error al insertarVarios DetalleAperturaCajaEntity", e)
+        }
     }
 
     override fun leerPorId(id: Int): Flow<DetalleAperturaCajaEntity> {

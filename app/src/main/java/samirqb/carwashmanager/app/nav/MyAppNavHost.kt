@@ -108,6 +108,10 @@ fun MyAppNavHost(
                     navController.navigate( route = AperturaCajaCantPorDenominacionDialogRoute )
                 },
 
+                onNavigateToCierreCajaCantidadesPorDenominacionDialog = {
+                    navController.navigate( route = CierreCajaCantPorDenominacionDialogRoute )
+                },
+
                 onNavigateToAdministrarMonedaScreen = {
                     navController.navigate( route = AdministrarMonedaScreenRoute )
                 },
@@ -215,7 +219,7 @@ fun MyAppNavHost(
 
                 onNavigateToCerrarCajaConfirmacionDialog = {
                     navController.navigateUp( )
-                    navController.navigate( route = CierreCajaCantPorDenominacionDialogRoute )
+                    navController.navigate( route = CierreCajaConfirmacionDialogRoute )
                 },
                 onDismissFromCerrarCajaCantidadesPorDenominacionDialog = {
                     navController.navigateUp( )

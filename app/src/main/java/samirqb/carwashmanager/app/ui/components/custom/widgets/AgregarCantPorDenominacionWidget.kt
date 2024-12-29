@@ -26,8 +26,6 @@ import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.old.viewcontents.CantidadPorDenominacionViewContent
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_NUM
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
-import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextDisplay
-import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
@@ -233,7 +231,7 @@ fun AgregarCantPorDenominacionWidget(
 
                                             lista_detalles_ac_caja_dto[index] =
                                                 DetalleACCajaDto(
-                                                    id_ac_caja = uiState_CVM.id_apertura_caja,
+                                                    id_ac_caja = uiState_ACVM.id_apertura_actual,
                                                     id_moneda = moneda.id_moneda_pk,
                                                     cant_unidades_de_la_denominacion = it.toInt(),
                                                     monto_total_de_la_denominacion = total_por_moneda,
@@ -242,13 +240,14 @@ fun AgregarCantPorDenominacionWidget(
 
                                             lista_subtotales_por_denominacion[index] = total_por_moneda
 
-                                            mCajaViewModel.actualizarSumaToalACCaje(
+                                            mCajaViewModel.actualizarSumaTotalACCaje(
                                                 es_apertura = es_apertura,
                                                 lista = lista_subtotales_por_denominacion,
                                             )
 
                                             mCajaViewModel.actualizarListaDetallesACCaja(
-                                                lista_detalles_ac_caja_dto
+                                                es_apertura = es_apertura,
+                                                lista_detalles_ac_caja = lista_detalles_ac_caja_dto
                                             )
 
                                         } else {
@@ -259,7 +258,7 @@ fun AgregarCantPorDenominacionWidget(
 
                                             lista_detalles_ac_caja_dto[index] =
                                                 DetalleACCajaDto(
-                                                    id_ac_caja = uiState_CVM.id_apertura_caja,
+                                                    id_ac_caja = uiState_ACVM.id_apertura_actual,
                                                     id_moneda = moneda.id_moneda_pk,
                                                     cant_unidades_de_la_denominacion = 0,
                                                     monto_total_de_la_denominacion = total_por_moneda,
@@ -268,7 +267,7 @@ fun AgregarCantPorDenominacionWidget(
 
                                             lista_subtotales_por_denominacion[index] = total_por_moneda
 
-                                            mCajaViewModel.actualizarSumaToalACCaje(
+                                            mCajaViewModel.actualizarSumaTotalACCaje(
                                                 es_apertura = es_apertura,
                                                 lista = lista_subtotales_por_denominacion
                                             )

@@ -1,6 +1,7 @@
 package samirqb.lib.caja.repositories
 
 import kotlinx.coroutines.flow.Flow
+import samirqb.lib.caja.customexception.MyCustomException
 import samirqb.lib.caja.daos.IMonedaDao
 import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.caja.interfaces.IBaseRepository
@@ -8,36 +9,69 @@ import samirqb.lib.caja.interfaces.IBaseRepository
 class MonedaRepository(
     val mMonedaDao: IMonedaDao
 ):IBaseRepository<MonedaEntity> {
+
     override suspend fun insertar(mTEntity: MonedaEntity) {
-        mMonedaDao.insertar(mTEntity)
+        try {
+            mMonedaDao.insertar(mTEntity)
+        } catch (e: Exception){
+            throw MyCustomException("Error al insertar MonedaEntity", e)
+        }
     }
 
     override fun leerPorId(id: Int): Flow<MonedaEntity> {
-        return mMonedaDao.leerPorId(id)
+        return try {
+            mMonedaDao.leerPorId(id)
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerPorId MonedaEntity", e)
+        }
     }
 
     override fun leerPorId(id: Float): Flow<MonedaEntity> {
-        return mMonedaDao.leerPorId(id)
+        return try {
+            mMonedaDao.leerPorId(id)
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerPorId MonedaEntity", e)
+        }
     }
 
     override fun leerPorId(id: String): Flow<MonedaEntity> {
-        return mMonedaDao.leerPorId(id)
+        return try {
+            mMonedaDao.leerPorId(id)
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerPorId MonedaEntity", e)
+        }
     }
 
     override fun leerTodo(): Flow<List<MonedaEntity>> {
-        return mMonedaDao.leerTodo()
+        return try {
+            mMonedaDao.leerTodo()
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerTodo MonedaEntity", e)
+        }
     }
 
     override suspend fun borrarTodo() {
-        mMonedaDao.borrarTodo()
+        try {
+            mMonedaDao.borrarTodo()
+        } catch (e: Exception){
+            throw MyCustomException("Error al borrarTodo MonedaEntity", e)
+        }
     }
 
     override suspend fun borrar(mTEntity: MonedaEntity) {
-        mMonedaDao.borrar(mTEntity)
+        try {
+            mMonedaDao.borrar(mTEntity)
+        } catch (e: Exception){
+            throw MyCustomException("Error al borrar MonedaEntity", e)
+        }
     }
 
     override suspend fun actualizar(mTEntity: MonedaEntity) {
-        mMonedaDao.actualizar(mTEntity)
+        try {
+            mMonedaDao.actualizar(mTEntity)
+        } catch (e: Exception){
+            throw MyCustomException("Error al actualizar MonedaEntity", e)
+        }
     }
 
 }

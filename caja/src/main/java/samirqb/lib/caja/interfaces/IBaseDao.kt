@@ -15,5 +15,4 @@ interface IBaseDao<TEntity>{
 
     @Delete
     suspend fun borrar( mTEntity: TEntity)
-
 }

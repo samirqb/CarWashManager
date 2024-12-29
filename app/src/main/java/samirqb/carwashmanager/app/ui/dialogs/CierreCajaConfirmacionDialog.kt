@@ -1,6 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ fun CierreCajaConfirmacionDialog(
 ) {
 
     val uiState_CVM by mCajaViewModel.uiState.collectAsState()
+    val uiState_ACVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
     val uiState_CCVM by mCajaViewModel.uiState_CierreCaja.collectAsState()
 
     tDialogScaffoldM1(
@@ -42,7 +44,7 @@ fun CierreCajaConfirmacionDialog(
             .fillMaxWidth()
             .size(50.dp),
         header_icon_id = R.drawable.rounded_point_of_sale_24,
-        header_text_titulo_id = R.string.txt_titulo_apertura_de_caja,
+        header_text_titulo_id = R.string.txt_titulo_cierre_de_caja,
         header_text_subtitulo_id = R.string.txt_label_codigo_ac_caja,
         header_text_consecutivo = uiState_CCVM.id_cierre_actual,
         content_dialg_body = {
@@ -69,7 +71,7 @@ fun CierreCajaConfirmacionDialog(
 
                     content2 = {
                         TotalDineroAperturaCierreCajaWidget(
-                            txt_body_suma_total_denominaciones = uiState_CVM.suma_total_todas_las_monedas.floatValue.toString(),
+                            txt_body_suma_total_denominaciones = uiState_CCVM.suma_total_todas_las_monedas.floatValue.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .size(90.dp),
@@ -92,9 +94,9 @@ fun CierreCajaConfirmacionDialog(
 
             mCajaViewModel.actualizarFechaYHora()
 
-            var lista_detalles_cierre  = mutableListOf<DetalleCierreCajaEntity>()
+            var lista_detalles_cierre = mutableListOf<DetalleCierreCajaEntity>()
 
-            uiState_CVM.lista_detalles_ac_caja_dtos.forEachIndexed {  index, it ->
+            uiState_CCVM.lista_detalles_ac_caja_dtos.forEachIndexed { index, it ->
 
                 var mDetalleCierreCajaEntity = DetalleCierreCajaEntity(
                     id_registro_detalle_pk = 0,
@@ -109,16 +111,17 @@ fun CierreCajaConfirmacionDialog(
 
             }
 
-            if(mCajaViewModel.cierre(
+            if (mCajaViewModel.cierre(
                     mCierreCajaEntity = CierreCajaEntity(
                         id_cierre_caja_pk = 0,
-                        id_apertura_caja_fk = 0,
-                        total_dinero_cierre = uiState_CVM.suma_total_todas_las_monedas.floatValue,
+                        id_apertura_caja_fk = uiState_ACVM.id_apertura_actual,
+                        total_dinero_cierre = uiState_CCVM.suma_total_todas_las_monedas.floatValue,
                         fecha_hora_creacion = uiState_CVM.fecha_y_hora,
                     ),
                     mDetalleCierreCajaEntity = lista_detalles_cierre.toTypedArray()
-                )){
-                mCajaViewModel.obtenerUltimaAperturaCaja()
+                )
+            ) {
+                mCajaViewModel.obtenerUltimoCierreCaja()
             }
 
             mCajaViewModel.vaciarUiStatus()

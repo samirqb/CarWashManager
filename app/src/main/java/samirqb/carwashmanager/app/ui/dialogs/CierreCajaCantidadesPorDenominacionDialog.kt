@@ -30,11 +30,12 @@ fun CierreCajaCantidadesPorDenominacionDialog(
 ) {
 
     val uiState_MVM by mMonedaViewModel.uiState.collectAsState()
-    //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
+    //val uiState_ACVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
     val uiState_CCVM by mCajaViewModel.uiState_CierreCaja.collectAsState()
 
-    mMonedaViewModel.leerTodo()
     mCajaViewModel.actualizarFechaYHora()
+    mMonedaViewModel.leerTodo()
+    mCajaViewModel.getIdCierreActual()
 
     val lM = uiState_MVM.todasLasMonedas
 
@@ -48,7 +49,7 @@ fun CierreCajaCantidadesPorDenominacionDialog(
         header_icon_id = R.drawable.rounded_point_of_sale_24,
         header_text_titulo_id =  R.string.txt_titulo_cierre_de_caja,
         header_text_subtitulo_id = R.string.txt_label_codigo_ac_caja,
-        header_text_consecutivo = uiState_CCVM.id_cierre_actual.toInt(),
+        header_text_consecutivo = uiState_CCVM.id_cierre_actual,
         content_dialg_body = {
 
             sSurface(

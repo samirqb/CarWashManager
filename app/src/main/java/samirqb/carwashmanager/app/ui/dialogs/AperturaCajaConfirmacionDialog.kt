@@ -69,7 +69,7 @@ fun AperturaCajaConfirmacionDialog(
 
                     content2 = {
                         TotalDineroAperturaCierreCajaWidget(
-                            txt_body_suma_total_denominaciones = uiState_CVM.suma_total_todas_las_monedas.floatValue.toString(),
+                            txt_body_suma_total_denominaciones = uiState_ACVM.suma_total_todas_las_monedas.floatValue.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .size(90.dp),
@@ -92,9 +92,9 @@ fun AperturaCajaConfirmacionDialog(
 
             mCajaViewModel.actualizarFechaYHora()
 
-            var lista_detalles_apertura  = mutableListOf<DetalleAperturaCajaEntity>()
+            var lista_detalles_apertura = mutableListOf<DetalleAperturaCajaEntity>()
 
-            uiState_CVM.lista_detalles_ac_caja_dtos.forEachIndexed {  index, it ->
+            uiState_ACVM.lista_detalles_ac_caja_dtos.forEachIndexed { index, it ->
 
                 var mDetalleAperturaCajaEntity = DetalleAperturaCajaEntity(
                     id_registro_detalle = 0,
@@ -109,15 +109,16 @@ fun AperturaCajaConfirmacionDialog(
 
             }
 
-            if(mCajaViewModel.apertura(
-                mAperturaCajaEntity = AperturaCajaEntity(
-                    id_apertura_caja_pk = 0,
-                    fecha_hora_creacion = uiState_CVM.fecha_y_hora,
-                    total_dinero_apertura = uiState_CVM.suma_total_todas_las_monedas.floatValue,
-                    apertura_activa = true,
-                ),
-                mDetalleAperturaCajaEntity = lista_detalles_apertura.toTypedArray()
-            )){
+            if (mCajaViewModel.apertura(
+                    mAperturaCajaEntity = AperturaCajaEntity(
+                        id_apertura_caja_pk = 0,
+                        total_dinero_apertura = uiState_ACVM.suma_total_todas_las_monedas.floatValue,
+                        fecha_hora_creacion = uiState_CVM.fecha_y_hora,
+                        apertura_activa = true,
+                    ),
+                    mDetalleAperturaCajaEntity = lista_detalles_apertura.toTypedArray()
+                )
+            ) {
                 mCajaViewModel.obtenerUltimaAperturaCaja()
             }
 

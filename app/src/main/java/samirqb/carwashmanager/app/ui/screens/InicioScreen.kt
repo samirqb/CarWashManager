@@ -42,6 +42,7 @@ import samirqb.lib.caja.entidades.CierreCajaEntity
 @Composable
 fun InicioScreen(
     onNavigateToAperturaCajaCantidadesPorDenominacionDialog: () -> Unit,
+    onNavigateToCierreCajaCantidadesPorDenominacionDialog: () -> Unit,
     onNavigateToAdministrarMonedaScreen: () -> Unit,
     onNavigateToAdministrarServiciosScreen: () -> Unit,
     onNavigateToAdministrarEmpleadosScreen: () -> Unit,
@@ -60,8 +61,9 @@ fun InicioScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
 
 
-    mCajaViewModel.obtenerUltimaAperturaCaja()
-    apertura_de_caja = uiState_AperturaCajaVM.ultimaAperturaCaja!!.apertura_activa ?: false
+    //mCajaViewModel.obtenerUltimaAperturaCaja()
+    apertura_de_caja = uiState_AperturaCajaVM.ultimaAperturaCaja?.apertura_activa ?: false
+
 
     if (apertura_de_caja) {
     //if (false) {
@@ -92,7 +94,7 @@ fun InicioScreen(
             onClick_dropdownmenuitem_admin_clientes = { onNavigateToAdministrarClientesScreen() },
             top_app_bar_action_button_icon_2 = R.drawable.baseline_output_24,
             top_app_bar_action_button_onClick2 = {
-                onNavigateToAperturaCajaCantidadesPorDenominacionDialog()
+                onNavigateToCierreCajaCantidadesPorDenominacionDialog()
             },
             content1 = {
                 EstadoCajaWidget(

@@ -4,7 +4,6 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -35,10 +34,13 @@ import samirqb.lib.helpers.SumaValoresDeItemsDeUnaLista
 class CajaViewModel(
     private val mAperturaCajaRepository: AperturaCajaRepository,
     private val mDetalleAperturaCajaRepository: DetalleAperturaCajaRepository,
-    val mCierreCajaRepository : CierreCajaRepository,
-    val mDetalleCierreCajaRepository : DetalleCierreCajaRepository
+    private val mDetalleCierreCajaRepository: DetalleCierreCajaRepository,
+    private val mCierreCajaRepository: CierreCajaRepository,
 
-) : ViewModel() {
+    ) : ViewModel() {
+
+
+    private val helper = SumaValoresDeItemsDeUnaLista()
 
     private val _uiState = MutableStateFlow(CajaUiState())
     val uiState: StateFlow<CajaUiState> = _uiState.asStateFlow()
@@ -49,7 +51,10 @@ class CajaViewModel(
     private val _uiState_CierreCaja = MutableStateFlow(CierreCajaUiState())
     val uiState_CierreCaja: StateFlow<CierreCajaUiState> = _uiState_CierreCaja.asStateFlow()
 
-    private val helper = SumaValoresDeItemsDeUnaLista()
+    init {
+        obtenerUltimaAperturaCaja()
+        obtenerUltimoCierreCaja()
+    }
 
     fun obtenerUltimaAperturaCaja() {
         viewModelScope.launch {
@@ -82,38 +87,75 @@ class CajaViewModel(
         }
     }
 
-    fun getIdAperturaActual(){
+    fun obtenerUltimoCierreCaja() {
+        viewModelScope.launch {
 
-        var id_actual = uiState_AperturaCaja.value.ultimaAperturaCaja?.id_apertura_caja_pk
+            try {
+                mCierreCajaRepository.leerCierreCajaMasReciente().collect {
 
-        if (id_actual.toString().isNullOrEmpty() or id_actual.toString().isNullOrBlank()){
+                    var ultimoCierre: CierreCajaEntity? = null
+
+                    if (it == null) {
+                        ultimoCierre = CierreCajaEntity(
+                            id_cierre_caja_pk = 0,
+                            id_apertura_caja_fk = 0,
+                            total_dinero_cierre = 0f,
+                            fecha_hora_creacion = "",
+                        )
+                    } else {
+                        ultimoCierre = it
+                    }
+
+                    _uiState_CierreCaja.update {
+                        it.copy(
+                            ultimoCierreCaja = ultimoCierre
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("_TAG_ERROR", e.toString())
+            }
+        }
+    }
+
+    fun getIdAperturaActual() {
+
+        if (uiState_AperturaCaja.value.ultimaAperturaCaja!!.apertura_activa) {
+
             _uiState_AperturaCaja.update {
                 it.copy(
-                    id_apertura_actual = 1,
+                    id_apertura_actual = uiState_AperturaCaja.value.ultimaAperturaCaja!!.id_apertura_caja_pk
                 )
             }
+
             _uiState_CierreCaja.update {
                 it.copy(
-                    id_cierre_actual = 1,
+                    id_cierre_actual = uiState_CierreCaja.value.ultimoCierreCaja!!.id_cierre_caja_pk
                 )
             }
         } else {
 
-            id_actual = id_actual?.plus(1)
-
             _uiState_AperturaCaja.update {
                 it.copy(
-                    id_apertura_actual = id_actual ?: 1,
+                    id_apertura_actual = uiState_AperturaCaja.value.ultimaAperturaCaja!!.id_apertura_caja_pk + 1
                 )
             }
 
             _uiState_CierreCaja.update {
                 it.copy(
-                    id_cierre_actual = id_actual ?: 1,
+                    id_cierre_actual = uiState_CierreCaja.value.ultimoCierreCaja!!.id_cierre_caja_pk + 1
                 )
             }
         }
+    }
 
+    fun getIdCierreActual() {
+
+        _uiState_CierreCaja.update {
+            it.copy(
+                id_cierre_actual = uiState_CierreCaja.value.ultimoCierreCaja!!.id_cierre_caja_pk + 1
+            )
+        }
     }
 
     fun listarTodasLasAperturas() {
@@ -130,14 +172,14 @@ class CajaViewModel(
         }
     }
 
-    fun actualizarSumaToalACCaje(es_apertura: Boolean, lista: List<Float>) {
+    fun actualizarSumaTotalACCaje(es_apertura: Boolean, lista: List<Float>) {
 
         var suma = 0f
 
         suma = helper.sumar(lista)
 
-        if(es_apertura){
-            _uiState.update {
+        if (es_apertura) {
+            _uiState_AperturaCaja.update {
                 it.copy(
                     suma_total_todas_las_monedas = mutableFloatStateOf(suma)
                 )
@@ -166,14 +208,24 @@ class CajaViewModel(
         }
     }
 
-    fun actualizarListaDetallesACCaja(lista_detalles_ac_caja: MutableList<DetalleACCajaDto>) {
+    fun actualizarListaDetallesACCaja(es_apertura: Boolean, lista_detalles_ac_caja: MutableList<DetalleACCajaDto>) {
 
-        _uiState.update {
+        if (es_apertura) {
+            _uiState_AperturaCaja.update {
 
-            it.copy(
-                lista_detalles_ac_caja_dtos = lista_detalles_ac_caja
-            )
+                it.copy(
+                    lista_detalles_ac_caja_dtos = lista_detalles_ac_caja
+                )
 
+            }
+        } else {
+            _uiState_CierreCaja.update {
+
+                it.copy(
+                    lista_detalles_ac_caja_dtos = lista_detalles_ac_caja
+                )
+
+            }
         }
     }
 
@@ -184,10 +236,24 @@ class CajaViewModel(
             it.copy(
                 fecha_y_hora = "",
                 id_apertura_caja = 0,
+            )
+
+        }
+
+        _uiState_AperturaCaja.update {
+
+            it.copy(
                 suma_total_todas_las_monedas = mutableFloatStateOf(0f),
                 lista_detalles_ac_caja_dtos = mutableListOf(),
             )
+        }
 
+        _uiState_CierreCaja.update {
+
+            it.copy(
+                suma_total_todas_las_monedas = mutableFloatStateOf(0f),
+                lista_detalles_ac_caja_dtos = mutableListOf(),
+            )
         }
     }
 
@@ -195,14 +261,15 @@ class CajaViewModel(
         mAperturaCajaEntity: AperturaCajaEntity,
         mDetalleAperturaCajaEntity: Array<DetalleAperturaCajaEntity>
     ): Boolean {
-
-
-        viewModelScope.launch {
-            mAperturaCajaRepository.insertar(mAperturaCajaEntity)
-            mDetalleAperturaCajaRepository.insertarVarios(mDetalleAperturaCajaEntity)
+        try {
+            viewModelScope.launch {
+                mAperturaCajaRepository.insertar(mAperturaCajaEntity)
+                mDetalleAperturaCajaRepository.insertarVarios(mDetalleAperturaCajaEntity)
+            }
+            return true
+        } catch (e: Exception) {
+            return false
         }
-
-        return true
     }
 
     fun cierre(
@@ -210,9 +277,22 @@ class CajaViewModel(
         mDetalleCierreCajaEntity: Array<DetalleCierreCajaEntity>
     ): Boolean {
         try {
+
+            _uiState_AperturaCaja.update {
+                it.copy(
+                    ultimaAperturaCaja = AperturaCajaEntity(
+                        id_apertura_caja_pk = uiState_AperturaCaja.value.ultimaAperturaCaja!!.id_apertura_caja_pk,
+                        total_dinero_apertura = uiState_AperturaCaja.value.ultimaAperturaCaja!!.total_dinero_apertura,
+                        fecha_hora_creacion = uiState_AperturaCaja.value.ultimaAperturaCaja!!.fecha_hora_creacion,
+                        apertura_activa = false
+                    )
+                )
+            }
+
             viewModelScope.launch {
                 mCierreCajaRepository.insertar(mCierreCajaEntity)
                 mDetalleCierreCajaRepository.insertarVarios(mDetalleCierreCajaEntity)
+                mAperturaCajaRepository.actualizar(uiState_AperturaCaja.value.ultimaAperturaCaja!!)
             }
             return true
         } catch (ex: Exception) {
@@ -237,10 +317,10 @@ class CajaViewModel(
                 val mDetalleCierreCajaRepository =
                     (this[APPLICATION_KEY] as MyApplication).mDetalleCierreCajaRepository
                 CajaViewModel(
-                    mAperturaCajaRepository,
-                    mDetalleAperturaCajaRepository,
-                    mCierreCajaRepository,
-                    mDetalleCierreCajaRepository,
+                    mAperturaCajaRepository = mAperturaCajaRepository,
+                    mDetalleAperturaCajaRepository = mDetalleAperturaCajaRepository,
+                    mCierreCajaRepository = mCierreCajaRepository,
+                    mDetalleCierreCajaRepository = mDetalleCierreCajaRepository,
                 )
             }
         }

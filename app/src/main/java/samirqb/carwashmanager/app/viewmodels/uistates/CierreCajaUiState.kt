@@ -11,7 +11,7 @@ data class CierreCajaUiState(
     val fecha: String = "",
     val hora: String = "",
     val lista_cierres_caja: List<CierreCajaEntity> = mutableListOf(),
-    val ultimaAperturaCaja: CierreCajaEntity? = CierreCajaEntity(
+    val ultimoCierreCaja: CierreCajaEntity? = CierreCajaEntity(
         id_cierre_caja_pk = 0,
         id_apertura_caja_fk = 0,
         total_dinero_cierre = 0F,

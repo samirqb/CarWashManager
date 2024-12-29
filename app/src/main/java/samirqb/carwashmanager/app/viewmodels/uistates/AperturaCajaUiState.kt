@@ -1,5 +1,8 @@
 package samirqb.carwashmanager.app.viewmodels.uistates
 
+import androidx.compose.runtime.MutableFloatState
+import androidx.compose.runtime.mutableFloatStateOf
+import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
 import samirqb.lib.caja.entidades.AperturaCajaEntity
 
 data class AperturaCajaUiState(
@@ -14,4 +17,6 @@ data class AperturaCajaUiState(
         fecha_hora_creacion = "",
         apertura_activa = false
     ),
+    val suma_total_todas_las_monedas: MutableFloatState = mutableFloatStateOf(0f),
+    val lista_detalles_ac_caja_dtos: MutableList<DetalleACCajaDto> = mutableListOf(),
 )
