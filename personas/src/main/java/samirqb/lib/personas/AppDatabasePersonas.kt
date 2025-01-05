@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import samirqb.lib.personas.daos.IClienteDao
+import samirqb.lib.personas.daos.IOperarioDao
 import samirqb.lib.personas.entities.ClienteEntity
 import samirqb.lib.personas.entities.OperarioEntity
 
@@ -20,7 +21,7 @@ import samirqb.lib.personas.entities.OperarioEntity
 abstract class AppDatabasePersonas: RoomDatabase() {
 
     abstract fun iClienteDao(): IClienteDao
-    abstract fun iOperarioDao(): IClienteDao
+    abstract fun iOperarioDao(): IOperarioDao
 
     companion object {
         @Volatile

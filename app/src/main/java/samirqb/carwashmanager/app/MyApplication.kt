@@ -14,7 +14,10 @@ import samirqb.lib.caja.repositories.TipoMonedaRepository
 import samirqb.lib.caja.repositories.UnidadMonetariaRepository
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.cu.AgregarClienteUseCase
+import samirqb.lib.personas.cu.AgregarOperarioUseCase
+import samirqb.lib.personas.cu.ListarTodosLosClientesUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
+import samirqb.lib.personas.repositories.OperarioRepository
 
 class MyApplication: Application() {
 
@@ -37,11 +40,12 @@ class MyApplication: Application() {
 
     //   R E P   M O D U L O   P E R S O N A S
     private val mClienteRepository by lazy { ClienteRepository(mAppDatabasePersonas.iClienteDao()) }
-    private val mOperarioRepository by lazy { ClienteRepository(mAppDatabasePersonas.iOperarioDao()) }
+    private val mOperarioRepository by lazy { OperarioRepository(mAppDatabasePersonas.iOperarioDao()) }
 
     //   U C   M O D U L O   P E R S O N A S
-    val AgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
-    val AgregarOperarioUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
+    val mAgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
+    val mListarTodosLosClientesUseCase by lazy { ListarTodosLosClientesUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }
+    val mAgregarOperarioUseCase by lazy { AgregarOperarioUseCase( OperarioRepository(mAppDatabasePersonas.iOperarioDao()) ) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access
