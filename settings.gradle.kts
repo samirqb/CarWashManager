@@ -23,3 +23,4 @@ rootProject.name = "Car Wash Manager"
 include(":app")
 include(":caja")
 include(":helpers")
+include(":personas")

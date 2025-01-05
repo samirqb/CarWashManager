@@ -84,7 +84,7 @@ dependencies {
 
     implementation(project(":caja"))
     implementation(project(":helpers"))
-    //implementation(project(":uicomponentes"))
+    implementation(project(":personas"))
     //releaseImplementation(project(":uicomponentes"))
     //debugImplementation(project(":uicomponentes"))
     //androidTestImplementation(project(":uicomponentes"))

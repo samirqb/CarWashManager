@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/caja" />
             <option value="$PROJECT_DIR$/helpers" />
+            <option value="$PROJECT_DIR$/personas" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
