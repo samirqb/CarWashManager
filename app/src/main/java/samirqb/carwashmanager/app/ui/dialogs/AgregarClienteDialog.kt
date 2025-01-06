@@ -1,28 +1,38 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sDialog
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
+import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
+import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.old.viewcontents.ListaClientesViewContent
 import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_NUM
+import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_TEL
+import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
+import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
 
 @Composable
@@ -32,6 +42,7 @@ fun AgregarClienteDialog(
 ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
+
     var identificacion_value by rememberSaveable { mutableStateOf("") }
     var nombre_y_apellidos_value by rememberSaveable { mutableStateOf("") }
     var telefono_value by rememberSaveable { mutableStateOf("") }
@@ -50,7 +61,9 @@ fun AgregarClienteDialog(
 
                 VLayout3P(
                     modifier = Modifier.padding(all = 13.dp),
-                    verticalArrangement = Arrangement.spacedBy(space = 13.dp),
+                    verticalArrangement = Arrangement.spacedBy(space = 19.dp),
+
+                    /**  I D E N T I F I C A C I O N  */
                     content1 = {
 
                         sSurface(
@@ -60,7 +73,7 @@ fun AgregarClienteDialog(
                             )*/
                         ) {
                             var value by rememberSaveable { mutableStateOf("") }
-                            //denominacion_value
+
                             xOutlinedTextField_CHAR(
                                 value = value,
                                 onValueChange = {
@@ -68,16 +81,25 @@ fun AgregarClienteDialog(
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
                                         value = it
                                         identificacion_value = it
-                                    } else {
-                                        value = value
-                                        identificacion_value = identificacion_value
+                                    } else if(it.isEmpty()) {
+                                        value = it
+                                        identificacion_value = it
                                     }
 
                                 },
-                                visualTransformation = SeparadorDeMiles()
+                                label = {
+                                    HLayout2P(
+                                        horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
+                                        content1 = { sIcon(image_vector_id = R.drawable.rounded_id_card_24) },
+                                        content2 = { xTextLabel(text = stringResource(id = R.string.identificacion)) },
+                                    )
+                                },
+                                //visualTransformation = SeparadorDeMiles()
                             )
                         }
                     },
+
+                    /**  NOMBRES Y APELLIDOS */
                     content2 = {
                         sSurface(
                             /*modifier = Modifier.padding(
@@ -86,7 +108,7 @@ fun AgregarClienteDialog(
                             )*/
                         ) {
                             var value by rememberSaveable { mutableStateOf("") }
-                            //denominacion_value
+
                             xOutlinedTextField_CHAR(
                                 value = value,
                                 onValueChange = {
@@ -94,16 +116,25 @@ fun AgregarClienteDialog(
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
                                         value = it
                                         nombre_y_apellidos_value = it
-                                    } else {
-                                        value = value
-                                        nombre_y_apellidos_value = nombre_y_apellidos_value
+                                    } else if(it.isEmpty()) {
+                                        value = it
+                                        nombre_y_apellidos_value = it
                                     }
 
                                 },
-                                visualTransformation = SeparadorDeMiles()
+                                label = {
+                                    HLayout2P(
+                                        horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
+                                        content1 = { sIcon(image_vector_id = R.drawable.rounded_insert_text_24) },
+                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre)) },
+                                    )
+                                },
+                                //visualTransformation = SeparadorDeMiles()
                             )
                         }
                     },
+
+                    /** TELEFONO CONTACTO */
                     content3 = {
 
                         sSurface(
@@ -113,21 +144,29 @@ fun AgregarClienteDialog(
                             )*/
                         ) {
                             var value by rememberSaveable { mutableStateOf("") }
-                            //denominacion_value
-                            xOutlinedTextField_NUM(
+
+                            xOutlinedTextField_TEL(
                                 value = value,
                                 onValueChange = {
 
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
                                         value = it
                                         telefono_value = it
-                                    } else {
-                                        value = value
-                                        telefono_value = telefono_value
+                                    } else if(it.isEmpty()) {
+                                        value = it
+                                        telefono_value = it
                                     }
 
                                 },
-                                visualTransformation = SeparadorDeMiles()
+                                label = {
+                                    HLayout2P(
+                                        //modifier = Modifier.background( color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(17.dp) ),
+                                        horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
+                                        content1 = { sIcon(image_vector_id = R.drawable.rounded_perm_phone_msg_24) },
+                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_telefono)) },
+                                    )
+                                },
+                                //visualTransformation = SeparadorDeMiles()
                             )
                         }
 

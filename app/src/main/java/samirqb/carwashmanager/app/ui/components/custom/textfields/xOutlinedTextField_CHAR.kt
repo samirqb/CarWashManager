@@ -10,16 +10,18 @@ import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
 
 @Composable
 fun xOutlinedTextField_CHAR(
-    value:String,
+    value: String,
     onValueChange: (String) -> Unit,
+    label: @Composable() (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     sOutlinedTextField(
-    value = value,
-    onValueChange = onValueChange,
-    modifier = Modifier.fillMaxWidth(),
-    keyboardOptions = KeyboardOptions( keyboardType = KeyboardType.Text , ),
-    visualTransformation = visualTransformation,
-    singleLine = true,
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        label = label,
+        visualTransformation = visualTransformation,
+        singleLine = true,
     )
 }

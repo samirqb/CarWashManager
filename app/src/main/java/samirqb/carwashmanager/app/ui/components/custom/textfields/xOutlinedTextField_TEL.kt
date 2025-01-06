@@ -9,7 +9,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
 
 @Composable
-fun xOutlinedTextField_NUM(
+fun xOutlinedTextField_TEL(
     value:String,
     onValueChange: (String) -> Unit,
     label: @Composable() (() -> Unit)? = null,
@@ -19,7 +19,7 @@ fun xOutlinedTextField_NUM(
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions( keyboardType = KeyboardType.Number, ),
+        keyboardOptions = KeyboardOptions( keyboardType = KeyboardType.Phone, ),
         label = label,
         visualTransformation = visualTransformation,
         singleLine = true,

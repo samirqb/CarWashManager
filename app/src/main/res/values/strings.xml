@@ -37,4 +37,7 @@
     <string name="informacion_no_disponible">Informacion no disponible</string>
     <string name="txt_titulo_cierre_de_caja">Cierre de caja</string>
     <string name="txt_titulo_agregar_cliente">Agregar cliente</string>
+    <string name="identificacion">Identificacion</string>
+    <string name="txt_label_nombre">Nombre</string>
+    <string name="txt_label_telefono">Telefono</string>
 </resources>
