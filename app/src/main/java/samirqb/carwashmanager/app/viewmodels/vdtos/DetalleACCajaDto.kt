@@ -1,4 +1,4 @@
-package samirqb.carwashmanager.app.viewmodels.viewdtos
+package samirqb.carwashmanager.app.viewmodels.vdtos
 
 data class DetalleACCajaDto(
     var id_ac_caja: Int,

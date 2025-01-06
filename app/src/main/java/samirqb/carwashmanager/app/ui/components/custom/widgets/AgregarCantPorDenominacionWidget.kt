@@ -28,7 +28,7 @@ import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextF
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
-import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
+import samirqb.carwashmanager.app.viewmodels.vdtos.DetalleACCajaDto
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.helpers.ValidarEntradasRegex

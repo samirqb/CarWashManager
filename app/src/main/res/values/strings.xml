@@ -36,4 +36,5 @@
     <string name="txt_body_menu_clientes">Clientes</string>
     <string name="informacion_no_disponible">Informacion no disponible</string>
     <string name="txt_titulo_cierre_de_caja">Cierre de caja</string>
+    <string name="txt_titulo_agregar_cliente">Agregar cliente</string>
 </resources>

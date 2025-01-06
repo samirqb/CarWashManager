@@ -19,7 +19,7 @@ import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.AperturaCajaUiState
 import samirqb.carwashmanager.app.viewmodels.uistates.CajaUiState
 import samirqb.carwashmanager.app.viewmodels.uistates.CierreCajaUiState
-import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
+import samirqb.carwashmanager.app.viewmodels.vdtos.DetalleACCajaDto
 import samirqb.lib.caja.entidades.AperturaCajaEntity
 import samirqb.lib.caja.entidades.CierreCajaEntity
 import samirqb.lib.caja.entidades.DetalleAperturaCajaEntity

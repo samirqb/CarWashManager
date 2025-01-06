@@ -1,9 +1,5 @@
 package samirqb.carwashmanager.app.viewmodels.uistates
 
-import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.mutableFloatStateOf
-import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
-
 data class CajaUiState (
     val fecha_y_hora: String = "",
     val fecha: String = "",

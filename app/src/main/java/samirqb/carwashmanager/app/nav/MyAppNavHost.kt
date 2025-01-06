@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
@@ -23,6 +24,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
+import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
@@ -76,6 +78,10 @@ object CierreCajaConfirmacionDialogRoute
 object AgregarMonedaDialogRoute
 //data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
 
+@Serializable
+object AgregarClienteDialogRoute
+//data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -95,6 +101,8 @@ fun MyAppNavHost(
         viewModel(factory = DenominacionMonedaViewModel.Factory),
     mCajaViewModel: CajaViewModel =
         viewModel(factory = CajaViewModel.Factory),
+    mClienteViewModel: ClienteViewModel =
+        viewModel(factory = ClienteViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -167,7 +175,7 @@ fun MyAppNavHost(
             AdministrarClientesScreen(
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_cliente = {
-                    //navController.navigate(route = AgregarServicioDialogRoute)
+                    navController.navigate(route = AgregarClienteDialogRoute)
                 }
             )
         }
@@ -253,6 +261,13 @@ fun MyAppNavHost(
                 mTMVM = mTipoMonedaViewModel,
                 mMVM = mMonedaViewModel,
                 mDMVM = mDenominacionMonedaViewModel,
+            )
+        }
+
+        dialog<AgregarClienteDialogRoute> {
+            AgregarClienteDialog(
+                onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
+                mClienteViewMpdel = mClienteViewModel,
             )
         }
     }

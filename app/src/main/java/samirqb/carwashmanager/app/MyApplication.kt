@@ -42,6 +42,7 @@ class MyApplication: Application() {
     private val mClienteRepository by lazy { ClienteRepository(mAppDatabasePersonas.iClienteDao()) }
     private val mOperarioRepository by lazy { OperarioRepository(mAppDatabasePersonas.iOperarioDao()) }
 
+
     //   U C   M O D U L O   P E R S O N A S
     val mAgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
     val mListarTodosLosClientesUseCase by lazy { ListarTodosLosClientesUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }

@@ -12,4 +12,8 @@ class ValidarEntradasRegex {
         return mMyRegex.valoresNumericosEnterosValidos.matches(string)
     }
 
+    fun validarAlfanumericos(string:String):Boolean{
+        return mMyRegex.valoresAlfaNumericosValidos.matches(string)
+    }
+
 }

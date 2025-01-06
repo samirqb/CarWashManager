@@ -2,7 +2,7 @@ package samirqb.carwashmanager.app.viewmodels.uistates
 
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.mutableFloatStateOf
-import samirqb.carwashmanager.app.viewmodels.viewdtos.DetalleACCajaDto
+import samirqb.carwashmanager.app.viewmodels.vdtos.DetalleACCajaDto
 import samirqb.lib.caja.entidades.CierreCajaEntity
 
 data class CierreCajaUiState(
