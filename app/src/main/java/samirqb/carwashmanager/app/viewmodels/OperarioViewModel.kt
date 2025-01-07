@@ -15,22 +15,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
-import samirqb.carwashmanager.app.viewmodels.uistates.ClienteUiState
+import samirqb.carwashmanager.app.viewmodels.uistates.OperarioUiState
 import samirqb.lib.helpers.FechaYHora
-import samirqb.lib.personas.cu.AgregarClienteUseCase
-import samirqb.lib.personas.cu.ListarTodosLosClientesUseCase
-import samirqb.lib.personas.entities.ClienteEntity
+import samirqb.lib.personas.cu.AgregarOperarioUseCase
+import samirqb.lib.personas.cu.ListarTodosLosOperariosUseCase
+import samirqb.lib.personas.entities.OperarioEntity
 
+class OperarioViewModel(
+    private val mAgregarOperarioUC: AgregarOperarioUseCase,
+    private val mListarTodosLosOperariosUC: ListarTodosLosOperariosUseCase
+): ViewModel() {
 
-class ClienteViewModel(
-    private val mListarTodosLosClientesUseCase: ListarTodosLosClientesUseCase,
-    private val mAgregarClienteUseCase: AgregarClienteUseCase,
-):ViewModel() {
+    private val NOMBRE_CLASE = "OperarioViewModel"
 
-    private val NOMBRE_CLASE = "ClienteViewModel"
-
-    private val _uiState = MutableStateFlow(ClienteUiState())
-    val uiState: StateFlow<ClienteUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(OperarioUiState())
+    val uiState: StateFlow<OperarioUiState> = _uiState.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
@@ -47,21 +46,21 @@ class ClienteViewModel(
         }
     }
 
-    fun listarTodosLosClientesUC(){
+    fun listarTodosLosOperariosUC(){
 
-        val NOMBRE_FUN = "listarTodosLosClientesUC"
+        val NOMBRE_FUN = "listarTodosLosOperariosUC"
 
         viewModelScope.launch {
 
             try {
-                mListarTodosLosClientesUseCase().collect{
+                mListarTodosLosOperariosUC().collect{
 
                     var lista = it
 
                     _uiState.update{
 
                         it.copy(
-                            todos_los_clientes = lista
+                            todos_los_operarios = lista
                         )
                     }
                 }
@@ -72,14 +71,14 @@ class ClienteViewModel(
     }
 
 
-    fun agregarClienteUC(mTEntity: ClienteEntity){
+    fun agregarOperariosUC(mTEntity: OperarioEntity){
 
-        val NOMBRE_FUN = "agregarClienteUC"
+        val NOMBRE_FUN = "agregarOperariosUC"
 
         viewModelScope.launch {
 
             try {
-                mAgregarClienteUseCase(mTEntity)
+                mAgregarOperarioUC(mTEntity)
             }catch (e:Exception){
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
@@ -87,18 +86,16 @@ class ClienteViewModel(
     }
 
 
-
-
     /** ViewModelFactori **/
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 // val savedStateHandle = createSavedStateHandle()
-                val mAgregarClienteUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarClienteUseCase
-                val mListarTodosLosClientesUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosClientesUseCase
-                ClienteViewModel(
-                    mListarTodosLosClientesUseCase = mListarTodosLosClientesUseCase,
-                    mAgregarClienteUseCase = mAgregarClienteUseCase,
+                val mAgregarOperarioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarOperarioUseCase
+                val mListarTodosLosOperariosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosOperariosUseCase
+                OperarioViewModel(
+                    mListarTodosLosOperariosUC = mListarTodosLosOperariosUseCase,
+                    mAgregarOperarioUC = mAgregarOperarioUseCase,
                 )
             }
         }

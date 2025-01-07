@@ -9,10 +9,11 @@ import androidx.compose.runtime.Composable
 @Composable
 fun miCustomSetTopAppBarColors():TopAppBarColors {
     return TopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer ,
-        scrolledContainerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        //containerColor = MaterialTheme.colorScheme.primaryContainer ,
+        containerColor = MaterialTheme.colorScheme.onSecondary ,
+        scrolledContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        navigationIconContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        titleContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        actionIconContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
     )
 }

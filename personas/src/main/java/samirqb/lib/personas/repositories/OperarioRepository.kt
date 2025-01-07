@@ -19,7 +19,7 @@ class OperarioRepository(
 
     override fun leerPorId(id: Int): Flow<OperarioEntity> {
         try {
-            return leerPorId(id)
+            return mDao.leerPorId(id)
         } catch (e: Exception) {
             throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
         }
@@ -27,7 +27,7 @@ class OperarioRepository(
 
     override fun leerPorId(id: Float): Flow<OperarioEntity> {
         try {
-            return leerPorId(id)
+            return mDao.leerPorId(id)
         } catch (e: Exception) {
             throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
         }
@@ -35,7 +35,7 @@ class OperarioRepository(
 
     override fun leerPorId(id: String): Flow<OperarioEntity> {
         try {
-            return leerPorId(id)
+            return mDao.leerPorId(id)
         } catch (e: Exception) {
             throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
         }
@@ -43,7 +43,7 @@ class OperarioRepository(
 
     override fun leerTodo(): Flow<List<OperarioEntity>> {
         try {
-            return leerTodo()
+            return mDao.leerTodo()
         } catch (e: Exception) {
             throw CustomDatabaseException("Error al leerTodo OperarioEntity", e)
         }

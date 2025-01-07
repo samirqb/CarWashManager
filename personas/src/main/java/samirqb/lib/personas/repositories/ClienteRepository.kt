@@ -13,19 +13,19 @@ class ClienteRepository(
     }
 
     override fun leerPorId(id: Int): Flow<ClienteEntity> {
-        return leerPorId(id)
+        return mDao.leerPorId(id)
     }
 
     override fun leerPorId(id: Float): Flow<ClienteEntity> {
-        return leerPorId(id)
+        return mDao.leerPorId(id)
     }
 
     override fun leerPorId(id: String): Flow<ClienteEntity> {
-        return leerPorId(id)
+        return mDao.leerPorId(id)
     }
 
     override fun leerTodo(): Flow<List<ClienteEntity>> {
-        return leerTodo()
+        return mDao.leerTodo()
     }
 
     override suspend fun borrarTodo() {

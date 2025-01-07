@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
 import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
@@ -27,6 +28,7 @@ import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
+import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
@@ -76,11 +78,15 @@ object CierreCajaConfirmacionDialogRoute
 
 @Serializable
 object AgregarMonedaDialogRoute
-//data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
+//data class AgregarMonedaDialogRoute( val x: XXX )
 
 @Serializable
 object AgregarClienteDialogRoute
-//data class AperturaCajaCantPorDenominacionRoute( val x: XXX )
+//data class AgregarClienteDialogRoute( val x: XXX )
+
+@Serializable
+object AgregarOperarioDialogRoute
+//data class AgregarOperarioDialogRoute( val x: XXX )
 
 
 
@@ -103,6 +109,8 @@ fun MyAppNavHost(
         viewModel(factory = CajaViewModel.Factory),
     mClienteViewModel: ClienteViewModel =
         viewModel(factory = ClienteViewModel.Factory),
+    mOperarioViewModel: OperarioViewModel =
+        viewModel(factory = OperarioViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -164,15 +172,17 @@ fun MyAppNavHost(
 
         composable<AdministrarEmpleadosScreenRoute>{
             AdministrarEmpleadosScreen(
+                mOperarioViewModel = mOperarioViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_empleado = {
-                    //navController.navigate(route = AgregarServicioDialogRoute)
+                    navController.navigate(route = AgregarOperarioDialogRoute)
                 }
             )
         }
 
         composable<AdministrarClientesScreenRoute>{
             AdministrarClientesScreen(
+                mClienteViewModel =  mClienteViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_cliente = {
                     navController.navigate(route = AgregarClienteDialogRoute)
@@ -267,7 +277,14 @@ fun MyAppNavHost(
         dialog<AgregarClienteDialogRoute> {
             AgregarClienteDialog(
                 onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
-                mClienteViewMpdel = mClienteViewModel,
+                mClienteViewModel = mClienteViewModel,
+            )
+        }
+
+        dialog<AgregarOperarioDialogRoute> {
+            AgregarOperarioDialog(
+                onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
+                mOperarioViewModel = mOperarioViewModel,
             )
         }
     }

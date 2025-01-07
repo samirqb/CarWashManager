@@ -16,6 +16,7 @@ import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.cu.AgregarClienteUseCase
 import samirqb.lib.personas.cu.AgregarOperarioUseCase
 import samirqb.lib.personas.cu.ListarTodosLosClientesUseCase
+import samirqb.lib.personas.cu.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
 
@@ -25,7 +26,6 @@ class MyApplication: Application() {
 
     private val mAppDatabaseCaja by lazy { AppDatabaseCaja.getDatabase(this, applicationScope) }
     private val mAppDatabasePersonas by lazy { AppDatabasePersonas.getDatabase(this, applicationScope) }
-
 
     //   R E P   M O D U L O   C A J A
     val mUnidadMonetariaRepository by lazy { UnidadMonetariaRepository(mAppDatabaseCaja.iUnidadMonetariaDao()) }
@@ -37,16 +37,15 @@ class MyApplication: Application() {
     val mDetalleAperturaCajaRepository by lazy { DetalleAperturaCajaRepository(mAppDatabaseCaja.iDetalleAperturaCaja()) }
     val mDetalleCierreCajaRepository by lazy { DetalleCierreCajaRepository(mAppDatabaseCaja.iDetalleCierreCajaDao()) }
 
-
     //   R E P   M O D U L O   P E R S O N A S
     private val mClienteRepository by lazy { ClienteRepository(mAppDatabasePersonas.iClienteDao()) }
     private val mOperarioRepository by lazy { OperarioRepository(mAppDatabasePersonas.iOperarioDao()) }
-
 
     //   U C   M O D U L O   P E R S O N A S
     val mAgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
     val mListarTodosLosClientesUseCase by lazy { ListarTodosLosClientesUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }
     val mAgregarOperarioUseCase by lazy { AgregarOperarioUseCase( OperarioRepository(mAppDatabasePersonas.iOperarioDao()) ) }
+    val mListarTodosLosOperariosUseCase by lazy { ListarTodosLosOperariosUseCase(OperarioRepository(mAppDatabasePersonas.iOperarioDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

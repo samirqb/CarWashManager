@@ -2,13 +2,10 @@ package samirqb.carwashmanager.app.ui.dialogs
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,32 +14,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
-import samirqb.carwashmanager.app.ui.components.base.containers.sDialog
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
-import samirqb.carwashmanager.app.ui.components.custom.old.viewcontents.ListaClientesViewContent
-import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
-import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_NUM
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_TEL
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
-import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
-import samirqb.lib.personas.entities.ClienteEntity
 import samirqb.lib.personas.entities.OperarioEntity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AgregarClienteDialog(
-    mClienteViewModel: ClienteViewModel,
+fun AgregarOperarioDialog(
+    mOperarioViewModel: OperarioViewModel,
     onDismissFromAgregarClienteDialog: () -> Unit,
 ) {
 
@@ -53,15 +43,17 @@ fun AgregarClienteDialog(
     var telefono_value by rememberSaveable { mutableStateOf("") }
 
     tDialogScaffoldM2(
-        header_icon_id = R.drawable.rounded_group_24,
-        header_text_titulo_id = R.string.txt_titulo_agregar_cliente,
+        header_icon_id = R.drawable.rounded_server_person_24,
+        header_text_titulo_id = R.string.txt_titulo_agregar_empleado,
         content_dialg_body = {
 
             sSurface(
                 color = MaterialTheme.colorScheme.secondaryContainer
-                /*modifier = Modifier
+                /*
+                modifier = Modifier
                     .fillMaxWidth()
-                    .size(432.dp),*/
+                    .size(432.dp),
+                */
             ) {
 
                 VLayout3P(
@@ -72,10 +64,12 @@ fun AgregarClienteDialog(
                     content1 = {
 
                         sSurface(
-                            /*modifier = Modifier.padding(
+                            /*
+                            modifier = Modifier.padding(
                                 horizontal = 9.dp,
                                 vertical = 15.dp,
-                            )*/
+                            )
+                            */
                         ) {
                             var value by rememberSaveable { mutableStateOf("") }
 
@@ -90,7 +84,6 @@ fun AgregarClienteDialog(
                                         value = it
                                         identificacion_value = it
                                     }
-
                                 },
                                 label = {
                                     HLayout2P(
@@ -107,10 +100,12 @@ fun AgregarClienteDialog(
                     /**  NOMBRES Y APELLIDOS */
                     content2 = {
                         sSurface(
-                            /*modifier = Modifier.padding(
+                            /*
+                            modifier = Modifier.padding(
                                 horizontal = 9.dp,
                                 vertical = 15.dp,
-                            )*/
+                            )
+                            */
                         ) {
                             var value by rememberSaveable { mutableStateOf("") }
 
@@ -174,26 +169,24 @@ fun AgregarClienteDialog(
                                 //visualTransformation = SeparadorDeMiles()
                             )
                         }
-
                     },
                 )
-
             }
-
         },
+
         boton_txt_1 = R.string.txt_label_cancelar,
         on_click_boton_1 = {
             onDismissFromAgregarClienteDialog()
         },
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
-            mClienteViewModel.actualizarFechaYHora()
-            mClienteViewModel.agregarClienteUC(
-                ClienteEntity(
+            mOperarioViewModel.actualizarFechaYHora()
+            mOperarioViewModel.agregarOperariosUC(
+                OperarioEntity(
                     identificacion_pk = identificacion_value,
-                    nombre_apellidos = nombre_y_apellidos_value,
+                    nombre_apellido = nombre_y_apellidos_value,
                     telefono = telefono_value,
-                    fecha_hora_creacion = mClienteViewModel.uiState.value.fecha_y_hora,
+                    fecha_hora_creacion = mOperarioViewModel.uiState.value.fecha_y_hora,
                 )
             )
             onDismissFromAgregarClienteDialog()
