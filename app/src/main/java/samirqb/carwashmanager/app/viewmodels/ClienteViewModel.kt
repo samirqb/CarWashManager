@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.ClienteUiState
 import samirqb.lib.helpers.FechaYHora
-import samirqb.lib.personas.cu.AgregarClienteUseCase
-import samirqb.lib.personas.cu.ListarTodosLosClientesUseCase
+import samirqb.lib.personas.uc.AgregarClienteUseCase
+import samirqb.lib.personas.uc.ListarTodosLosClientesUseCase
 import samirqb.lib.personas.entities.ClienteEntity
 
 

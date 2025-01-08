@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.OperarioUiState
 import samirqb.lib.helpers.FechaYHora
-import samirqb.lib.personas.cu.AgregarOperarioUseCase
-import samirqb.lib.personas.cu.ListarTodosLosOperariosUseCase
+import samirqb.lib.personas.uc.AgregarOperarioUseCase
+import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.entities.OperarioEntity
 
 class OperarioViewModel(

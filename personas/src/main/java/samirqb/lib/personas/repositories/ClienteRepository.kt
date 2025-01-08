@@ -1,6 +1,7 @@
 package samirqb.lib.personas.repositories
 
 import kotlinx.coroutines.flow.Flow
+import samirqb.lib.personas.CustomDatabaseException
 import samirqb.lib.personas.daos.IClienteDao
 import samirqb.lib.personas.entities.ClienteEntity
 import samirqb.lib.personas.interfaces.IBaseRepository
@@ -9,34 +10,66 @@ class ClienteRepository(
     val mDao: IClienteDao
 ):IBaseRepository<ClienteEntity> {
     override suspend fun insertar(mTEntity: ClienteEntity) {
-        mDao.insertar(mTEntity)
+        try {
+            mDao.insertar(mTEntity)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al insertar ClienteEntity", e)
+        }
     }
 
     override fun leerPorId(id: Int): Flow<ClienteEntity> {
-        return mDao.leerPorId(id)
+        try {
+            return mDao.leerPorId(id)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al leerPorId ClienteEntity", e)
+        }
     }
 
     override fun leerPorId(id: Float): Flow<ClienteEntity> {
-        return mDao.leerPorId(id)
+        try {
+            return mDao.leerPorId(id)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al leerPorId ClienteEntity", e)
+        }
     }
 
     override fun leerPorId(id: String): Flow<ClienteEntity> {
-        return mDao.leerPorId(id)
+        try {
+            return mDao.leerPorId(id)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al leerPorId ClienteEntity", e)
+        }
     }
 
     override fun leerTodo(): Flow<List<ClienteEntity>> {
-        return mDao.leerTodo()
+        try {
+            return mDao.leerTodo()
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al leerTodo ClienteEntity", e)
+        }
     }
 
     override suspend fun borrarTodo() {
-        mDao.borrarTodo()
+        try {
+            mDao.borrarTodo()
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al borrarTodo ClienteEntity", e)
+        }
     }
 
     override suspend fun borrar(mTEntity: ClienteEntity) {
-        mDao.borrar(mTEntity)
+        try {
+            mDao.borrar(mTEntity)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al borrar ClienteEntity", e)
+        }
     }
 
     override suspend fun actualizar(mTEntity: ClienteEntity) {
-        mDao.actualizar(mTEntity)
+        try {
+            mDao.actualizar(mTEntity)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al actualizar ClienteEntity", e)
+        }
     }
 }

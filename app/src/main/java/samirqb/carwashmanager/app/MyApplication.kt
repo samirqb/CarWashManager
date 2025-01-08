@@ -13,10 +13,10 @@ import samirqb.lib.caja.repositories.MonedaRepository
 import samirqb.lib.caja.repositories.TipoMonedaRepository
 import samirqb.lib.caja.repositories.UnidadMonetariaRepository
 import samirqb.lib.personas.AppDatabasePersonas
-import samirqb.lib.personas.cu.AgregarClienteUseCase
-import samirqb.lib.personas.cu.AgregarOperarioUseCase
-import samirqb.lib.personas.cu.ListarTodosLosClientesUseCase
-import samirqb.lib.personas.cu.ListarTodosLosOperariosUseCase
+import samirqb.lib.personas.uc.AgregarClienteUseCase
+import samirqb.lib.personas.uc.AgregarOperarioUseCase
+import samirqb.lib.personas.uc.ListarTodosLosClientesUseCase
+import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
 

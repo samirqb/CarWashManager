@@ -1,4 +1,4 @@
-package samirqb.lib.personas.cu
+package samirqb.lib.personas.uc
 
 import samirqb.lib.personas.entities.OperarioEntity
 import samirqb.lib.personas.repositories.OperarioRepository

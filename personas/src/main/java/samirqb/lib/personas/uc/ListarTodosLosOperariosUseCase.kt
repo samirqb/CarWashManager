@@ -1,4 +1,4 @@
-package samirqb.lib.personas.cu
+package samirqb.lib.personas.uc
 
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.personas.entities.OperarioEntity
