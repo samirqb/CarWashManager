@@ -5,22 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
-import samirqb.lib.vehiculos.dao.IClasificacionDelVehiculoDao
-import samirqb.lib.vehiculos.dao.IVehiculoDao
-import samirqb.lib.vehiculos.entities.ClasificacionDelVehiculoEntity
-import samirqb.lib.vehiculos.entities.VehiculoEntity
 
 @Database(
     entities = [
-        ClasificacionDelVehiculoEntity::class,
-        VehiculoEntity::class,
+        //ClasificacionDelVehiculoEntity::class,
+        //VehiculoEntity::class,
     ],
     version = 1,
     exportSchema = false,
 )
 abstract class AppDatabaseVehiculos:RoomDatabase() {
-    abstract fun iClasificacionDelVehiculoDao(): IClasificacionDelVehiculoDao
-    abstract fun iVehiculoDao(): IVehiculoDao
+    //abstract fun iClasificacionDelVehiculoDao(): IClasificacionDelVehiculoDao
+    //abstract fun iVehiculoDao(): IVehiculoDao
 
     companion object {
         @Volatile
