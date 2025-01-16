@@ -1,4 +1,4 @@
-package samirqb.carwashmanager.ofertas
+package samirqb.lib.ofertas
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package samirqb.carwashmanager.ofertas
+package samirqb.lib.ofertas
 
 import org.junit.Test
 
