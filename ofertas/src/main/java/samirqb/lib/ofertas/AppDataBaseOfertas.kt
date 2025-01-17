@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import samirqb.lib.ofertas.entities.PrecioEntity
-import samirqb.lib.ofertas.entities.PreciosDeProductosEntity
-import samirqb.lib.ofertas.entities.PreciosDeServiciosEntity
+import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
+import samirqb.lib.ofertas.entities.PrecioDeServicioEntity
 import samirqb.lib.ofertas.entities.ProductoEntity
 import samirqb.lib.ofertas.entities.ServicioEntity
 
@@ -16,8 +16,8 @@ import samirqb.lib.ofertas.entities.ServicioEntity
         PrecioEntity::class,
         ProductoEntity::class,
         ServicioEntity::class,
-        PreciosDeServiciosEntity::class,
-        PreciosDeProductosEntity::class,
+        PrecioDeServicioEntity::class,
+        PrecioDeProductoEntity::class,
     ],
     version = 1,
     exportSchema = false

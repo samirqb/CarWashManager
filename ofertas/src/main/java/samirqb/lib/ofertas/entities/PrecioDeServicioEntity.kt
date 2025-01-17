@@ -7,13 +7,13 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "tab_precios_de_productos",
-    indices = [Index(value = ["id_registro","id_producto_fk","precio_fk"])],
+    tableName = "tab_precios_de_servicios",
+    indices = [Index(value = ["id_registro","id_servicio_fk","precio_fk"])],
     foreignKeys = [
         ForeignKey(
-            entity = ProductoEntity::class,
-            parentColumns = ["id_producto_pk"],
-            childColumns = ["id_producto_fk"],
+            entity = ServicioEntity::class,
+            parentColumns = ["id_servicio_pk"],
+            childColumns = ["id_servicio_fk"],
             onDelete = CASCADE,
             onUpdate = CASCADE
         ),
@@ -26,10 +26,10 @@ import androidx.room.PrimaryKey
         ),
     ]
 )
-data class PreciosDeProductosEntity(
+data class PrecioDeServicioEntity(
     @PrimaryKey(autoGenerate = true)
     var id_registro:Int,
-    var id_producto_fk: Int,
+    var id_servicio_pk: Int,
     var precio_fk:Float,
     var precio_activo: Boolean,
     var fecha_hora_creacion: String,

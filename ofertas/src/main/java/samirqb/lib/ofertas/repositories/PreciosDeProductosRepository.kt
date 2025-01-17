@@ -4,14 +4,14 @@ import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ofertas.customexception.MyCustomException
 
 import samirqb.lib.ofertas.daos.IPreciosDeProductosDao
-import samirqb.lib.ofertas.entities.PreciosDeProductosEntity
+import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
 import samirqb.lib.ofertas.interfaces.IBaseRepository
 
 class PreciosDeProductosRepository(
     val mDao: IPreciosDeProductosDao
-): IBaseRepository<PreciosDeProductosEntity> {
+): IBaseRepository<PrecioDeProductoEntity> {
 
-    override suspend fun insertar(mTEntity: PreciosDeProductosEntity) {
+    override suspend fun insertar(mTEntity: PrecioDeProductoEntity) {
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception){
@@ -19,7 +19,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override fun leerPorId(id: Int): Flow<PreciosDeProductosEntity> {
+    override fun leerPorId(id: Int): Flow<PrecioDeProductoEntity> {
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
@@ -27,7 +27,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override fun leerPorId(id: Float): Flow<PreciosDeProductosEntity> {
+    override fun leerPorId(id: Float): Flow<PrecioDeProductoEntity> {
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
@@ -35,7 +35,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override fun leerPorId(id: String): Flow<PreciosDeProductosEntity> {
+    override fun leerPorId(id: String): Flow<PrecioDeProductoEntity> {
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
@@ -43,7 +43,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override fun leerTodo(): Flow<List<PreciosDeProductosEntity>> {
+    override fun leerTodo(): Flow<List<PrecioDeProductoEntity>> {
         return try {
             mDao.leerTodo()
         } catch (e: Exception){
@@ -59,7 +59,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override suspend fun borrar(mTEntity: PreciosDeProductosEntity) {
+    override suspend fun borrar(mTEntity: PrecioDeProductoEntity) {
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception){
@@ -67,7 +67,7 @@ class PreciosDeProductosRepository(
         }
     }
 
-    override suspend fun actualizar(mTEntity: PreciosDeProductosEntity) {
+    override suspend fun actualizar(mTEntity: PrecioDeProductoEntity) {
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception){
