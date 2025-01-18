@@ -26,7 +26,7 @@ interface IVehiculoDao:IBaseDao<VehiculoEntity> {
 
     @Transaction
     @Query( "SELECT * FROM tab_vehiculos ORDER BY matricula_pk DESC LIMIT 1 " )
-    fun leerClienteMasReciente(): Flow<VehiculoEntity?>
+    fun leerMasReciente(): Flow<VehiculoEntity?>
 
     @Query( "DELETE FROM tab_vehiculos" )
     suspend fun borrarTodo()

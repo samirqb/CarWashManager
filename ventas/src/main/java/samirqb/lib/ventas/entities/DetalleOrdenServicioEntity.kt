@@ -39,7 +39,7 @@ import samirqb.lib.personas.entities.OperarioEntity
 )
 data class DetalleOrdenServicioEntity (
     @PrimaryKey(autoGenerate = true)
-    val id_servicio_pk: Int,
+    val id_registro_pk: Int,
     val id_orden_venta_fk: Int,
     val id_precio_y_servicio_fk: Int,
     val id_operario_fk: String,
