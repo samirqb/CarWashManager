@@ -36,7 +36,7 @@ data class OrdenDeVentaEntity(
     val cliente_identificacion_fk:String, // esta clave proviene de otra base de datos
     val matricula_vehiculo_fk: String, // esta clave proviene de otra base de datos
     val valor_total_orden: Float,
-    val valor_total_solo_productos: Float,
     val valor_total_solo_servicios: Float,
+    val valor_total_solo_productos: Float,
     val fecha_hora_creacion: String,
 )
