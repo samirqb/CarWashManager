@@ -74,6 +74,8 @@ abstract class AppDatabaseTransacciones: RoomDatabase() {
                         uTTDao.borrarTodo()
                         tMDPDao.borrarTodo()
 
+                        /** TRANSACCIONES FINACIERAS
+                        VENTA - PAGOS - COMPRAS - COBROS */
                         var mTipoTransaccionEntity = TipoTransaccionEntity(
                             id_tipo_transaccion_pk = 1,
                             descripcion = "VENTA",
@@ -89,6 +91,7 @@ abstract class AppDatabaseTransacciones: RoomDatabase() {
                         uTTDao.insertar(mTipoTransaccionEntity)
 
 
+                        /** MEDIOS DE PAGO */
                         var mMDPEntity = MedioDePagoEntity(
                             id_medio_de_pago_pk = 1,
                             descripcion = "EFECTIVO",
@@ -112,7 +115,7 @@ abstract class AppDatabaseTransacciones: RoomDatabase() {
 
                         mMDPEntity = MedioDePagoEntity(
                             id_medio_de_pago_pk = 4,
-                            descripcion = "TRANSACCION ELECTRONICA",
+                            descripcion = "TRANSFERENCIA BANCARIA",
                             fecha_hora_creacion = datetime.toString()
                         )
                         tMDPDao.insertar(mMDPEntity)
