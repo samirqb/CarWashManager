@@ -4,11 +4,12 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
+import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.personas.entities.OperarioEntity
 
 @Entity(
     tableName = "tab_ordenes_de_pago_nomina",
-    indices = [Index(value = ["id_orden_pago_nomina_pk","operario_id_fk",])],
+    indices = [Index(value = ["id_orden_pago_nomina_pk","operario_id_fk","id_moneda_fk"])],
     foreignKeys = [
         ForeignKey(
             entity = OperarioEntity::class,
@@ -17,11 +18,20 @@ import samirqb.lib.personas.entities.OperarioEntity
             onDelete = CASCADE,
             onUpdate = CASCADE
         ),
+
+        ForeignKey(
+            entity = MonedaEntity::class,
+            parentColumns = ["id_moneda_pk"],
+            childColumns = ["id_moneda_fk"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE
+        ),
     ]
 )
 data class OrdenPagoNominaEntity(
     val id_orden_pago_nomina_pk: Int,
     val operario_id_fk: Int,
+    val id_moneda_fk: Int,
     val cantidad_servicios_realizados: Int,
     val total_bruto_ventas_servicios_realizadas: Float,
     val comisiones_por_venta_servicios: Float,

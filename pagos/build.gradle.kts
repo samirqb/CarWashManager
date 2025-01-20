@@ -53,4 +53,5 @@ dependencies {
 
     //MODULOS
     implementation(project(":personas"))
+    implementation(project(":caja"))
 }
