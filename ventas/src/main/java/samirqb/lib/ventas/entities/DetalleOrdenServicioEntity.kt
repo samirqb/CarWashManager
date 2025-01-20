@@ -6,16 +6,25 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import samirqb.lib.ofertas.entities.PrecioDeServicioEntity
+import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.personas.entities.OperarioEntity
 
 @Entity(
     tableName = "tab_detalles_ordenes_servicios",
-    indices = [Index(value = ["id_servicio_pk","id_orden_venta_fk","id_precio_y_servicio_fk","id_operario_fk"])],
+    indices = [Index(value = ["id_servicio_pk","id_orden_venta_fk","id_orden_pago_nomina_fk","id_precio_y_servicio_fk","id_operario_fk"])],
     foreignKeys = [
         ForeignKey(
             entity = OrdenDeVentaEntity::class,
             parentColumns = ["id_orden_pk"],
             childColumns = ["id_orden_venta_fk"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE,
+        ),
+
+        ForeignKey(
+            entity = OrdenPagoNominaEntity::class,
+            parentColumns = ["id_orden_pago_nomina_pk"],
+            childColumns = ["id_orden_pago_nomina_fk"],
             onDelete = CASCADE,
             onUpdate = CASCADE,
         ),
@@ -41,6 +50,7 @@ data class DetalleOrdenServicioEntity (
     @PrimaryKey(autoGenerate = true)
     val id_registro_pk: Int,
     val id_orden_venta_fk: Int,
+    val id_orden_pago_nomina_fk: Int,
     val id_precio_y_servicio_fk: Int,
     val id_operario_fk: String,
     val servicio_culminado: Boolean,

@@ -6,11 +6,12 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import samirqb.lib.caja.entidades.AperturaCajaEntity
+import samirqb.lib.caja.entidades.MonedaEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @Entity(
     tableName = "tab_transacciones",
-    indices = [Index(value = ["id_transaccion_pk","id_apertura_caja","id_tipo_transaccion_fk","id_medio_de_pago_fk","id_orden_fk"])],
+    indices = [Index(value = ["id_transaccion_pk","id_apertura_caja","id_tipo_transaccion_fk","id_medio_de_pago_fk","id_moneda_fk","id_orden_fk"])],
     foreignKeys = [
         ForeignKey(
             entity = AperturaCajaEntity::class,
@@ -37,6 +38,14 @@ import samirqb.lib.ventas.entities.OrdenDeVentaEntity
         ),
 
         ForeignKey(
+            entity = MonedaEntity::class,
+            parentColumns = ["id_moneda_pk"],
+            childColumns = ["id_moneda_fk"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE
+        ),
+
+        ForeignKey(
             entity = OrdenDeVentaEntity::class,
             parentColumns = ["id_orden_pk"],
             childColumns = ["id_orden_fk"],
@@ -50,6 +59,7 @@ data class TransaccionEntity(
     val id_transaccion_pk:Int,
     val id_apertura_caja_fk: Int,
     val id_tipo_transaccion_fk: Int,
+    val id_moneda_fk: Int,
     val id_medio_de_pago_fk: Int,
     val id_orden_fk: Int,
     val fecha_hora_creaccion: String

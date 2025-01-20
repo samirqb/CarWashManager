@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "samirqb.lib.ventas"
+    namespace = "samirqb.lib.pagos"
     compileSdk = 34
 
     defaultConfig {
@@ -51,9 +51,6 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.common)
 
-    //MODULOS RELACIONADOS
+    //MODULOS
     implementation(project(":personas"))
-    implementation(project(":vehiculos"))
-    implementation(project(":ofertas"))
-    implementation(project(":pagos"))
 }
