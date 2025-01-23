@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 )
 data class ClasificacionDelVehiculoEntity (
     @PrimaryKey(autoGenerate = true)
-    val clase_id_pk: String,
+    val clase_id_pk: Int,
     val descripcion: String,
     val fecha_hora_creacion: String
     )

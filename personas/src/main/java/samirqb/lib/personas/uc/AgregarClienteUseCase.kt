@@ -10,4 +10,3 @@ class AgregarClienteUseCase(
         mRepository.insertar(mTEntity)
     }
 }
-

@@ -12,6 +12,10 @@ import samirqb.lib.caja.repositories.DetalleCierreCajaRepository
 import samirqb.lib.caja.repositories.MonedaRepository
 import samirqb.lib.caja.repositories.TipoMonedaRepository
 import samirqb.lib.caja.repositories.UnidadMonetariaRepository
+import samirqb.lib.ofertas.AppDataBaseOfertas
+import samirqb.lib.ofertas.repositories.ServiciosRepository
+import samirqb.lib.ofertas.uc.AgregarServicioUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosUseCase
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.uc.AgregarClienteUseCase
 import samirqb.lib.personas.uc.AgregarOperarioUseCase
@@ -24,10 +28,13 @@ class MyApplication: Application() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
 
+    //   I N S T A C I A S   D E   B A S E S   D E   D A T O S
     private val mAppDatabaseCaja by lazy { AppDatabaseCaja.getDatabase(this, applicationScope) }
     private val mAppDatabasePersonas by lazy { AppDatabasePersonas.getDatabase(this, applicationScope) }
+    private val mAppDatabaseOfertas by lazy { AppDataBaseOfertas.getDatabase(this, applicationScope) }
 
-    //   R E P   M O D U L O   C A J A
+
+    //   R E P O   M O D U L O   C A J A
     val mUnidadMonetariaRepository by lazy { UnidadMonetariaRepository(mAppDatabaseCaja.iUnidadMonetariaDao()) }
     val mTipoMonedaRepository by lazy { TipoMonedaRepository(mAppDatabaseCaja.iTipoMonedaDao()) }
     val mDenominacionMonedaRepository by lazy { DenominacionMonedaRepository(mAppDatabaseCaja.iDenominacionMonedaDao()) }
@@ -37,15 +44,17 @@ class MyApplication: Application() {
     val mDetalleAperturaCajaRepository by lazy { DetalleAperturaCajaRepository(mAppDatabaseCaja.iDetalleAperturaCaja()) }
     val mDetalleCierreCajaRepository by lazy { DetalleCierreCajaRepository(mAppDatabaseCaja.iDetalleCierreCajaDao()) }
 
-    //   R E P   M O D U L O   P E R S O N A S
-    private val mClienteRepository by lazy { ClienteRepository(mAppDatabasePersonas.iClienteDao()) }
-    private val mOperarioRepository by lazy { OperarioRepository(mAppDatabasePersonas.iOperarioDao()) }
 
     //   U C   M O D U L O   P E R S O N A S
     val mAgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
     val mListarTodosLosClientesUseCase by lazy { ListarTodosLosClientesUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }
     val mAgregarOperarioUseCase by lazy { AgregarOperarioUseCase( OperarioRepository(mAppDatabasePersonas.iOperarioDao()) ) }
     val mListarTodosLosOperariosUseCase by lazy { ListarTodosLosOperariosUseCase(OperarioRepository(mAppDatabasePersonas.iOperarioDao())) }
+
+    //   U C   O F E R T A S
+    val mAgregarServicioUseCase by lazy { AgregarServicioUseCase(ServiciosRepository(mAppDatabaseOfertas.iServicioDao())) }
+    val mListarTodosLosServiciosUseCase by lazy { ListarTodosLosServiciosUseCase(ServiciosRepository(mAppDatabaseOfertas.iServicioDao())) }
+
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

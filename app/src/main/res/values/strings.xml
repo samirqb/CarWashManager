@@ -41,4 +41,5 @@
     <string name="txt_label_nombre">Nombre</string>
     <string name="txt_label_telefono">Telefono</string>
     <string name="txt_titulo_agregar_empleado">Agregar empleado</string>
+    <string name="txt_titulo_agregar_nombre_servicio">Agregar nombre servicio</string>
 </resources>

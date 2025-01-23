@@ -78,8 +78,8 @@ fun AgregarOperarioDialog(
                                 onValueChange = {
 
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
-                                        value = it
-                                        identificacion_value = it
+                                        value = it.uppercase()
+                                        identificacion_value = it.uppercase()
                                     } else if(it.isEmpty()) {
                                         value = it
                                         identificacion_value = it
@@ -114,8 +114,8 @@ fun AgregarOperarioDialog(
                                 onValueChange = {
 
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
-                                        value = it
-                                        nombre_y_apellidos_value = it
+                                        value = it.uppercase()
+                                        nombre_y_apellidos_value = it.uppercase()
                                     } else if(it.isEmpty()) {
                                         value = it
                                         nombre_y_apellidos_value = it
@@ -150,8 +150,8 @@ fun AgregarOperarioDialog(
                                 onValueChange = {
 
                                     if (mValidarEntradasRegex.validarAlfanumericos(it)) {
-                                        value = it
-                                        telefono_value = it
+                                        value = it.uppercase()
+                                        telefono_value = it.uppercase()
                                     } else if(it.isEmpty()) {
                                         value = it
                                         telefono_value = it

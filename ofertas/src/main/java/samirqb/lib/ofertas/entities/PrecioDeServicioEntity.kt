@@ -29,7 +29,7 @@ import androidx.room.PrimaryKey
 data class PrecioDeServicioEntity(
     @PrimaryKey(autoGenerate = true)
     var id_registro:Int,
-    var id_servicio_pk: Int,
+    var id_servicio_fk: Int,
     var precio_fk:Float,
     var precio_activo: Boolean,
     var fecha_hora_creacion: String,

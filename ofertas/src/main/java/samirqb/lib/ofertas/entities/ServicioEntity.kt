@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 )
 data class ServicioEntity(
     @PrimaryKey(autoGenerate = true)
-    val id_servicio_pk:String,
+    val id_servicio_pk:Int,
     val descripcion: String,
     val fecha_hora_creacion: String,
 )

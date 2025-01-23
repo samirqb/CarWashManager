@@ -14,6 +14,7 @@ import kotlinx.serialization.Serializable
 import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
@@ -29,6 +30,7 @@ import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
+import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
@@ -88,6 +90,10 @@ object AgregarClienteDialogRoute
 object AgregarOperarioDialogRoute
 //data class AgregarOperarioDialogRoute( val x: XXX )
 
+@Serializable
+object AgregarServicioDialogRoute
+//data class AgregarServicioDialogRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -111,6 +117,8 @@ fun MyAppNavHost(
         viewModel(factory = ClienteViewModel.Factory),
     mOperarioViewModel: OperarioViewModel =
         viewModel(factory = OperarioViewModel.Factory),
+    mServicioViewModel: ServicioViewModel =
+        viewModel(factory = ServicioViewModel.Factory),
 ) {
     NavHost(
         modifier = modifier,
@@ -166,6 +174,9 @@ fun MyAppNavHost(
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_servicio = {
                     //navController.navigate(route = AgregarServicioDialogRoute)
+                },
+                onClick_crear_servicio = {
+                    navController.navigate(route = AgregarServicioDialogRoute)
                 }
             )
         }
@@ -285,6 +296,13 @@ fun MyAppNavHost(
             AgregarOperarioDialog(
                 onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
                 mOperarioViewModel = mOperarioViewModel,
+            )
+        }
+
+        dialog<AgregarServicioDialogRoute> {
+            AgregarServicioDialog(
+                onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
+                mServicioViewModel = mServicioViewModel,
             )
         }
     }

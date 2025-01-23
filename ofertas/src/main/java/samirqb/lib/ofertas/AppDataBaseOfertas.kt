@@ -5,6 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
+import samirqb.lib.ofertas.daos.IPrecioDao
+import samirqb.lib.ofertas.daos.IPreciosDeServiciosDao
+import samirqb.lib.ofertas.daos.IServicioDao
 import samirqb.lib.ofertas.entities.PrecioEntity
 import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
 import samirqb.lib.ofertas.entities.PrecioDeServicioEntity
@@ -24,7 +27,9 @@ import samirqb.lib.ofertas.entities.ServicioEntity
 )
 abstract class AppDataBaseOfertas: RoomDatabase()  {
 
-    //abstract fun iUnidadMonetariaDao(): IUnidadMonetariaDao
+    abstract fun iServicioDao(): IServicioDao
+    abstract fun iPrecioDao(): IPrecioDao
+    abstract fun iPrecioDeServicioDao(): IPreciosDeServiciosDao
 
     companion object {
         @Volatile

@@ -1,11 +1,13 @@
 package samirqb.lib.vehiculos.dao
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.vehiculos.entities.VehiculoEntity
 import samirqb.lib.vehiculos.interfaces.IBaseDao
 
+@Dao
 interface IVehiculoDao:IBaseDao<VehiculoEntity> {
 
     @Transaction

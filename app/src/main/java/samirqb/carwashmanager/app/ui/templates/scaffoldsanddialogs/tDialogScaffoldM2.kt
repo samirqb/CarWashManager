@@ -13,7 +13,6 @@ import samirqb.carwashmanager.app.ui.templates.textbuttons.tHTxtButtonsX2
 
 @Composable
 fun tDialogScaffoldM2(
-
     header_icon_id: Int,
     header_text_titulo_id: Int,
     content_dialg_body: @Composable() (ColumnScope.() -> Unit),

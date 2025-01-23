@@ -11,13 +11,13 @@ import samirqb.carwashmanager.app.ui.components.base.layouts.sColumn
 fun VLayout1P(
     content1: @Composable () (ColumnScope.()-> Unit),
     modifier: Modifier = Modifier,
-    horizontalArrangement: Alignment.Horizontal = Alignment.CenterHorizontally,
-    verticalAlignment: Arrangement.Vertical = Arrangement.Center,
+    verticalArrangement: Arrangement. Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment. Horizontal = Alignment.CenterHorizontally,
 ){
     sColumn(
         modifier = modifier,
-        horizontalAlignment = horizontalArrangement,
-        verticalArrangement = verticalAlignment,
+        horizontalAlignment = horizontalAlignment,
+        verticalArrangement = verticalArrangement,
         content = {
             content1()
         }
