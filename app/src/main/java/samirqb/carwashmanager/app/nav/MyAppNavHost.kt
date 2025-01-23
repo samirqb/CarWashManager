@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
-import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarNombreDelServicioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
@@ -91,8 +91,8 @@ object AgregarOperarioDialogRoute
 //data class AgregarOperarioDialogRoute( val x: XXX )
 
 @Serializable
-object AgregarServicioDialogRoute
-//data class AgregarServicioDialogRoute( val x: XXX )
+object AgregarNombreServicioDialogRoute
+//data class AgregarNombreServicioDialogRoute( val x: XXX )
 
 
 
@@ -105,18 +105,25 @@ fun MyAppNavHost(
     /**   V I E W   M O D E L S   **/
     mUnidadMonetariaViewModel: UnidadMonetariaViewModel =
         viewModel(factory = UnidadMonetariaViewModel.Factory),
+
     mTipoMonedaViewModel: TipoMonedaViewModel =
         viewModel(factory = TipoMonedaViewModel.Factory),
+
     mMonedaViewModel: MonedaViewModel =
         viewModel(factory = MonedaViewModel.Factory),
+
     mDenominacionMonedaViewModel: DenominacionMonedaViewModel =
         viewModel(factory = DenominacionMonedaViewModel.Factory),
+
     mCajaViewModel: CajaViewModel =
         viewModel(factory = CajaViewModel.Factory),
+
     mClienteViewModel: ClienteViewModel =
         viewModel(factory = ClienteViewModel.Factory),
+
     mOperarioViewModel: OperarioViewModel =
         viewModel(factory = OperarioViewModel.Factory),
+
     mServicioViewModel: ServicioViewModel =
         viewModel(factory = ServicioViewModel.Factory),
 ) {
@@ -176,7 +183,7 @@ fun MyAppNavHost(
                     //navController.navigate(route = AgregarServicioDialogRoute)
                 },
                 onClick_crear_servicio = {
-                    navController.navigate(route = AgregarServicioDialogRoute)
+                    navController.navigate(route = AgregarNombreServicioDialogRoute)
                 }
             )
         }
@@ -299,9 +306,9 @@ fun MyAppNavHost(
             )
         }
 
-        dialog<AgregarServicioDialogRoute> {
-            AgregarServicioDialog(
-                onDismissFromAgregarClienteDialog = { navController.navigateUp( ) },
+        dialog<AgregarNombreServicioDialogRoute> {
+            AgregarNombreDelServicioDialog(
+                onDismissFromAgregarNombreServicioDialog = { navController.navigateUp( ) },
                 mServicioViewModel = mServicioViewModel,
             )
         }

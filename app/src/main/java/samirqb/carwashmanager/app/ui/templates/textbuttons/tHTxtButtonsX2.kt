@@ -16,7 +16,8 @@ fun tHTxtButtonsX2(
     txt_btn_2: Int,
     on_click_boton_2: ()->Unit,
     modifier: Modifier,
-    enabled_btn2:Boolean = true
+    enabled_btn1:Boolean = true,
+    enabled_btn2:Boolean = true,
 ) {
     sSurface(
         modifier = modifier,
@@ -26,6 +27,7 @@ fun tHTxtButtonsX2(
             content1 = {
                 sTextButton(
                     onClick = on_click_boton_1,
+                    enabled = enabled_btn1,
                     content = {
                         xTextLabel(text = stringResource(id = txt_btn_1))
                     }

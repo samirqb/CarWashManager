@@ -57,7 +57,7 @@ fun AgregarClienteDialog(
         header_text_titulo_id = R.string.txt_titulo_agregar_cliente,
         content_dialg_body = {
 
-            sSurface(
+             sSurface(
                 color = MaterialTheme.colorScheme.secondaryContainer
                 /*modifier = Modifier
                     .fillMaxWidth()

@@ -15,7 +15,7 @@ fun AdministrarServiciosScreen(
         top_app_bar_title = R.string.txt_body_menu_servicios,
         top_app_bar_navigation_back = { onClick_navigate_back() },
         top_app_bar_navigation_back_icon = R.drawable.rounded_keyboard_backspace_24,
-        top_app_bar_action_button_icon_1 = R.drawable.rounded_design_services_24,
+        top_app_bar_action_button_icon_1 = R.drawable.rounded_new_label_24,
         top_app_bar_action_button_onClick1 = { onClick_crear_servicio() },
         content1 = {},
         floatingActionButton_onClick = { onClick_agregar_servicio() },

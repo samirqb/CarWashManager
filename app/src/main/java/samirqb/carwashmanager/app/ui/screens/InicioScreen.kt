@@ -51,7 +51,7 @@ fun InicioScreen(
     mCajaViewModel: CajaViewModel,
 ) {
 
-    val uiState_CVM by mCajaViewModel.uiState.collectAsState()
+    //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
     val uiState_AperturaCajaVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
 
     var apertura_de_caja by rememberSaveable { mutableStateOf(false) }
