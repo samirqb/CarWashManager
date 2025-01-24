@@ -36,11 +36,17 @@ fun AgregarNombreDelServicioDialog(
     onDismissFromAgregarNombreServicioDialog: () -> Unit,
 ){
 
+    val mValidarEntradasRegex = ValidarEntradasRegex()
+
+    mServicioViewModel.actualizarFechaYHora()
+    mServicioViewModel.listarTodosLosServiciosUC()
+
     val uiState_SVM by mServicioViewModel.uiState.collectAsState()
+
+    val lista_servicios = uiState_SVM.todos_los_servicios
 
     var enabled_btn1 by rememberSaveable { mutableStateOf(false) }
     var enabled_btn2 by rememberSaveable { mutableStateOf(true) }
-    val mValidarEntradasRegex = ValidarEntradasRegex()
     var nombre_servicio_value by rememberSaveable { mutableStateOf("") }
 
 
