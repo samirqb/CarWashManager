@@ -8,7 +8,7 @@ import samirqb.lib.ofertas.entities.PrecioDeServicioEntity
 import samirqb.lib.ofertas.interfaces.IBaseDao
 
 @Dao
-interface IPreciosDeServiciosDao:IBaseDao<PrecioDeServicioEntity> {
+interface IPrecioDeServicioDao:IBaseDao<PrecioDeServicioEntity> {
 
     @Transaction
     @Query( "SELECT * FROM tab_precios_de_servicios ORDER BY fecha_hora_creacion DESC" )

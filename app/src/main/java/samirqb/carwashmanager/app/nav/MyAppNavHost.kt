@@ -15,6 +15,7 @@ import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarNombreDelServicioDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioYPrecioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
@@ -93,6 +94,10 @@ object AgregarOperarioDialogRoute
 @Serializable
 object AgregarNombreServicioDialogRoute
 //data class AgregarNombreServicioDialogRoute( val x: XXX )
+
+@Serializable
+object AgregarServicioYPrecioDialogRoute
+//data class AgregarServicioYPrecioDialogRoute( val x: XXX )
 
 
 
@@ -180,7 +185,7 @@ fun MyAppNavHost(
             AdministrarServiciosScreen(
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_servicio = {
-                    //navController.navigate(route = AgregarServicioDialogRoute)
+                    navController.navigate(route = AgregarServicioYPrecioDialogRoute)
                 },
                 onClick_crear_servicio = {
                     navController.navigate(route = AgregarNombreServicioDialogRoute)
@@ -310,6 +315,14 @@ fun MyAppNavHost(
             AgregarNombreDelServicioDialog(
                 onDismissFromAgregarNombreServicioDialog = { navController.navigateUp( ) },
                 mServicioViewModel = mServicioViewModel,
+            )
+        }
+
+        dialog<AgregarServicioYPrecioDialogRoute> {
+            AgregarServicioYPrecioDialog(
+                onDismissFromAgregarServicioYPrecioDialog = { navController.navigateUp( ) },
+                mServicioViewModel = mServicioViewModel,
+                mUnidadMonetariaViewModel = mUnidadMonetariaViewModel
             )
         }
     }

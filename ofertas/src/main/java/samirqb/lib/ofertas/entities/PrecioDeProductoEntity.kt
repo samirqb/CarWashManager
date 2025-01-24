@@ -5,10 +5,11 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 
 @Entity(
     tableName = "tab_precios_de_productos",
-    indices = [Index(value = ["id_registro","id_producto_fk","precio_fk"])],
+    indices = [Index(value = ["id_registro","id_producto_fk","precio_fk","codigo_iso_4217_fk"])],
     foreignKeys = [
         ForeignKey(
             entity = ProductoEntity::class,
@@ -24,6 +25,13 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE,
             onUpdate = CASCADE
         ),
+        ForeignKey(
+            entity = UnidadMonetariaEntity::class,
+            parentColumns = ["codigo_iso_4217_pk"],
+            childColumns = ["codigo_iso_4217_fk"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE
+        ),
     ]
 )
 data class PrecioDeProductoEntity(
@@ -31,6 +39,7 @@ data class PrecioDeProductoEntity(
     var id_registro:Int,
     var id_producto_fk: Int,
     var precio_fk:Float,
+    var codigo_iso_4217_fk:String,
     var precio_activo: Boolean,
     var fecha_hora_creacion: String,
 )

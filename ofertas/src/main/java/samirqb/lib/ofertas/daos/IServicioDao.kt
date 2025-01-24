@@ -6,6 +6,7 @@ import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ofertas.entities.ServicioEntity
 import samirqb.lib.ofertas.interfaces.IBaseDao
+
 @Dao
 interface IServicioDao:IBaseDao<ServicioEntity> {
 

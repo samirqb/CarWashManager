@@ -1,12 +1,14 @@
 package samirqb.lib.ofertas.daos
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
 import samirqb.lib.ofertas.interfaces.IBaseDao
 
-interface IPreciosDeProductosDao:IBaseDao<PrecioDeProductoEntity> {
+@Dao
+interface IPrecioDeProductoDao:IBaseDao<PrecioDeProductoEntity> {
 
     @Transaction
     @Query( "SELECT * FROM tab_precios_de_productos ORDER BY fecha_hora_creacion DESC" )

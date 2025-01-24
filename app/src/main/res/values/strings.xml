@@ -44,4 +44,5 @@
     <string name="txt_titulo_agregar_nombre_servicio">Agregar nombre servicio</string>
     <string name="txt_label_nombre_servicio">Nombre del servicio</string>
     <string name="txt_titulo_agregar_servicio">Agregar servicio</string>
+    <string name="txt_body_elige_un_servicio">Elige un servicio</string>
 </resources>

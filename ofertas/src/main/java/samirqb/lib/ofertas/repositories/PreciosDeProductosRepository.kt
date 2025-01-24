@@ -3,12 +3,12 @@ package samirqb.lib.ofertas.repositories
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ofertas.customexception.MyCustomException
 
-import samirqb.lib.ofertas.daos.IPreciosDeProductosDao
+import samirqb.lib.ofertas.daos.IPrecioDeProductoDao
 import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
 import samirqb.lib.ofertas.interfaces.IBaseRepository
 
 class PreciosDeProductosRepository(
-    val mDao: IPreciosDeProductosDao
+    val mDao: IPrecioDeProductoDao
 ): IBaseRepository<PrecioDeProductoEntity> {
 
     override suspend fun insertar(mTEntity: PrecioDeProductoEntity) {
