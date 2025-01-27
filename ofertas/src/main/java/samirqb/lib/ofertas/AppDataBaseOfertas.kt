@@ -24,7 +24,6 @@ import samirqb.lib.ofertas.entities.ServicioEntity
         ServicioEntity::class,
         PrecioDeServicioEntity::class,
         PrecioDeProductoEntity::class,
-        UnidadMonetariaEntity::class
     ],
     version = 1,
     exportSchema = false

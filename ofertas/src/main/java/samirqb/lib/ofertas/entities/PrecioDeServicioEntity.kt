@@ -5,7 +5,6 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 
 @Entity(
     tableName = "tab_precios_de_servicios",
@@ -22,13 +21,6 @@ import samirqb.lib.caja.entidades.UnidadMonetariaEntity
             entity = PrecioEntity::class,
             parentColumns = ["precio_pk"],
             childColumns = ["precio_fk"],
-            onDelete = CASCADE,
-            onUpdate = CASCADE
-        ),
-        ForeignKey(
-            entity = UnidadMonetariaEntity::class,
-            parentColumns = ["codigo_iso_4217_pk"],
-            childColumns = ["codigo_iso_4217_fk"],
             onDelete = CASCADE,
             onUpdate = CASCADE
         ),

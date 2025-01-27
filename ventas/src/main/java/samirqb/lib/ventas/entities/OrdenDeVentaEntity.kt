@@ -1,34 +1,12 @@
 package samirqb.lib.ventas.entities
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import samirqb.lib.personas.entities.ClienteEntity
-import samirqb.lib.vehiculos.entities.VehiculoEntity
 
 @Entity(
     tableName = "tab_ordenes_de_ventas",
     indices = [Index(value = ["id_orden_pk","cliente_id_fk","matricula_vehiculo_fk"])],
-    foreignKeys = [
-        ForeignKey(
-            entity = ClienteEntity::class,
-            parentColumns = ["identificacion_pk"],
-            childColumns = ["cliente_identificacion_fk"],
-            onUpdate = CASCADE,
-            onDelete = CASCADE,
-        ),
-
-        ForeignKey(
-            entity = VehiculoEntity::class,
-            parentColumns = ["matricula_pk"],
-            childColumns = ["matricula_vehiculo_fk"],
-            onUpdate = CASCADE,
-            onDelete = CASCADE,
-        ),
-
-    ]
 )
 data class OrdenDeVentaEntity(
     @PrimaryKey(autoGenerate = true)
