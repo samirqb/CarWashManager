@@ -1,12 +1,14 @@
 package samirqb.lib.ventas.daos
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
-import samirqb.lib.vehiculos.interfaces.IBaseDao
 import samirqb.lib.ventas.entities.DetalleOrdenProductoEntity
+import samirqb.lib.ventas.interfaces.IBaseDao
 
-interface IDetalleOrdenProductoDao:IBaseDao<DetalleOrdenProductoEntity> {
+@Dao
+interface IDetalleOrdenProductoDao: IBaseDao<DetalleOrdenProductoEntity> {
 
     @Transaction
     @Query("SELECT * FROM tab_detalles_ordenes_productos ORDER BY id_registro_pk ASC")

@@ -50,10 +50,4 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.common)
-
-    //MODULOS RELACIONADOS
-    implementation(project(":personas"))
-    implementation(project(":vehiculos"))
-    implementation(project(":ofertas"))
-    implementation(project(":pagos"))
 }

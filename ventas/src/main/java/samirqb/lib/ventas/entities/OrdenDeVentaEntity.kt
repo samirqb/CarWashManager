@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_ordenes_de_ventas",
-    indices = [Index(value = ["id_orden_pk","cliente_id_fk","matricula_vehiculo_fk"])],
+    indices = [Index(value = ["id_orden_pk","cliente_identificacion_fk","matricula_vehiculo_fk"])],
 )
 data class OrdenDeVentaEntity(
     @PrimaryKey(autoGenerate = true)

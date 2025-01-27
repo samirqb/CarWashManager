@@ -26,7 +26,7 @@ import androidx.room.PrimaryKey
         ),
     ]
 )
-data class PrecioDeServicioEntity(
+data class ServicioYPrecioEntity(
     @PrimaryKey(autoGenerate = true)
     var id_registro:Int,
     var id_servicio_fk: Int,

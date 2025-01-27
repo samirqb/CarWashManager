@@ -51,7 +51,4 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.common)
-
-    // MODULOS
-    implementation(project(":caja"))
 }

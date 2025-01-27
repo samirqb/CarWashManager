@@ -32,6 +32,7 @@ import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 
@@ -131,6 +132,9 @@ fun MyAppNavHost(
 
     mServicioViewModel: ServicioViewModel =
         viewModel(factory = ServicioViewModel.Factory),
+
+    mServicioYPrecioViewModel: ServicioYPrecioViewModel =
+        viewModel(factory = ServicioYPrecioViewModel.Factory)
 ) {
     NavHost(
         modifier = modifier,
@@ -184,7 +188,7 @@ fun MyAppNavHost(
         composable<AdministrarServiciosScreenRoute>{
             AdministrarServiciosScreen(
                 onClick_navigate_back = { navController.navigateUp( ) },
-                onClick_agregar_servicio = {
+                onClick_agregar_servicio_y_precio = {
                     navController.navigate(route = AgregarServicioYPrecioDialogRoute)
                 },
                 onClick_crear_servicio = {
@@ -221,6 +225,8 @@ fun MyAppNavHost(
                 }
             )
         }
+
+
 
         /**   D I A L O S   **/
         dialog<AperturaCajaCantPorDenominacionDialogRoute> {
@@ -322,6 +328,7 @@ fun MyAppNavHost(
             AgregarServicioYPrecioDialog(
                 onDismissFromAgregarServicioYPrecioDialog = { navController.navigateUp( ) },
                 mServicioViewModel = mServicioViewModel,
+                mServicioYPrecioViewModel = mServicioYPrecioViewModel,
                 mUnidadMonetariaViewModel = mUnidadMonetariaViewModel
             )
         }

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_transacciones",
-    indices = [Index(value = ["id_transaccion_pk","id_apertura_caja","id_tipo_transaccion_fk","id_medio_de_pago_fk","id_moneda_fk","id_orden_fk"])],
+    indices = [Index(value = ["id_transaccion_pk","id_apertura_caja_fk","id_tipo_transaccion_fk","id_medio_de_pago_fk","id_moneda_fk","id_orden_fk"])],
     foreignKeys = [
 
         ForeignKey(

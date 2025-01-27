@@ -1,11 +1,13 @@
 package samirqb.lib.transacciones.daos
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.transacciones.entities.MedioDePagoEntity
 import samirqb.lib.transacciones.interfaces.IBaseDao
 
+@Dao
 interface IMedioDePagoDao:IBaseDao<MedioDePagoEntity> {
 
     @Transaction

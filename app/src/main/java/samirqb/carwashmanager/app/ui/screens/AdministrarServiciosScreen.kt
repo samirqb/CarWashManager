@@ -2,12 +2,11 @@ package samirqb.carwashmanager.app.ui.screens
 
 import androidx.compose.runtime.Composable
 import samirqb.carwashmanager.app.R
-import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM3
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM4
 
 @Composable
 fun AdministrarServiciosScreen(
-    onClick_agregar_servicio:()->Unit,
+    onClick_agregar_servicio_y_precio:()->Unit,
     onClick_navigate_back:()->Unit,
     onClick_crear_servicio:()->Unit,
 ) {
@@ -18,7 +17,7 @@ fun AdministrarServiciosScreen(
         top_app_bar_action_button_icon_1 = R.drawable.rounded_new_label_24,
         top_app_bar_action_button_onClick1 = { onClick_crear_servicio() },
         content1 = {},
-        floatingActionButton_onClick = { onClick_agregar_servicio() },
+        floatingActionButton_onClick = { onClick_agregar_servicio_y_precio() },
         floatingActionButton_image_vector_id = R.drawable.rounded_add_24,
     )
 }

@@ -1,11 +1,13 @@
 package samirqb.lib.ventas.daos
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
-import samirqb.lib.vehiculos.interfaces.IBaseDao
 import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
+import samirqb.lib.ventas.interfaces.IBaseDao
 
+@Dao
 interface IDetalleOrdenServicioDao: IBaseDao<DetalleOrdenServicioEntity> {
 
     @Transaction

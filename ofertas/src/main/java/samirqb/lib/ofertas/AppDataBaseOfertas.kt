@@ -5,14 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
-import samirqb.lib.caja.entidades.UnidadMonetariaEntity
 import samirqb.lib.ofertas.daos.IPrecioDao
 import samirqb.lib.ofertas.daos.IPrecioDeProductoDao
-import samirqb.lib.ofertas.daos.IPrecioDeServicioDao
+import samirqb.lib.ofertas.daos.IServicioYPrecioDao
 import samirqb.lib.ofertas.daos.IProductoDao
 import samirqb.lib.ofertas.daos.IServicioDao
 import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
-import samirqb.lib.ofertas.entities.PrecioDeServicioEntity
+import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 import samirqb.lib.ofertas.entities.PrecioEntity
 import samirqb.lib.ofertas.entities.ProductoEntity
 import samirqb.lib.ofertas.entities.ServicioEntity
@@ -22,7 +21,7 @@ import samirqb.lib.ofertas.entities.ServicioEntity
         PrecioEntity::class,
         ProductoEntity::class,
         ServicioEntity::class,
-        PrecioDeServicioEntity::class,
+        ServicioYPrecioEntity::class,
         PrecioDeProductoEntity::class,
     ],
     version = 1,
@@ -33,7 +32,7 @@ abstract class AppDataBaseOfertas: RoomDatabase()  {
     abstract fun iPrecioDao(): IPrecioDao
     abstract fun iServicioDao(): IServicioDao
     abstract fun iProductoDao(): IProductoDao
-    abstract fun iPrecioDeServicioDao(): IPrecioDeServicioDao
+    abstract fun iServicioYPrecioDao(): IServicioYPrecioDao
     abstract fun iPrecioDeProductoDao(): IPrecioDeProductoDao
 
     companion object {

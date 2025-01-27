@@ -22,7 +22,8 @@ interface IPrecioDao: IBaseDao<PrecioEntity> {
     fun leerPorId(id: Float): Flow<PrecioEntity>
 
     @Transaction
-    @Query( "SELECT * FROM tab_precios WHERE precio_pk = :id ORDER BY precio_pk ASC" )
+    //@Query( "SELECT * FROM tab_precios WHERE precio_pk = :id ORDER BY precio_pk ASC" )
+    @Query( "SELECT LAST_INSERT_ROWID()" )
     fun leerPorId(id: String): Flow<PrecioEntity>
 
     @Transaction

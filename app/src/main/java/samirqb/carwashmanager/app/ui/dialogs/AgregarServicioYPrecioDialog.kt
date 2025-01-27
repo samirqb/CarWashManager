@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -29,18 +29,22 @@ import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
+import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AgregarServicioYPrecioDialog(
     mServicioViewModel: ServicioViewModel,
+    mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mUnidadMonetariaViewModel: UnidadMonetariaViewModel,
     onDismissFromAgregarServicioYPrecioDialog: () -> Unit,
 ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
-    
+
     mServicioViewModel.listarTodosLosServiciosUC()
     mUnidadMonetariaViewModel.leerTodo()
     
@@ -101,7 +105,7 @@ fun AgregarServicioYPrecioDialog(
 
                             DropdownMenu(
                                 expanded = expander,
-                                onDismissRequest = {},
+                                onDismissRequest = { expander = false },
                                 modifier = Modifier.size(width = 266.dp, height = Dp.Unspecified)
                             ) {
                                 uiState_ServicioViewModel.todos_los_servicios.forEachIndexed { index, item ->
@@ -123,8 +127,9 @@ fun AgregarServicioYPrecioDialog(
 
                     content2 = {
                         sSurface() {
+
                             var value by rememberSaveable { mutableStateOf("") }
-                            //denominacion_value
+
                             xOutlinedTextField_NUM(
                                 value = value,
                                 onValueChange = {
@@ -180,7 +185,7 @@ fun AgregarServicioYPrecioDialog(
 
                             DropdownMenu(
                                 expanded = expander,
-                                onDismissRequest = {},
+                                onDismissRequest = { expander = false },
                                 modifier = Modifier.size(width = 266.dp, height = Dp.Unspecified)
                             ) {
                                 uiState_UnidadMonetariaViewModel.lista_unidades_monetarias.forEachIndexed { index, item ->
@@ -207,7 +212,19 @@ fun AgregarServicioYPrecioDialog(
         on_click_boton_1 = { onDismissFromAgregarServicioYPrecioDialog() },
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
-            ServicioViewModel
+            mServicioYPrecioViewModel.actualizarFechaYHora()
+            mServicioYPrecioViewModel.agregarServicioYPrecioUseCase(
+                ServicioYPrecioEntity(
+                    id_registro = 0,
+                    id_servicio_fk = servicio_seleccionado,
+                    precio_fk = precio_servicio_value.toFloat(),
+                    codigo_iso_4217_fk = unidad_monetaria_seleccionada,
+                    precio_activo = true,
+                    fecha_hora_creacion = uiState_ServicioViewModel.fecha_y_hora
+                )
+            )
+
+            onDismissFromAgregarServicioYPrecioDialog()
         },
         enabled_btn1 = true,
         enabled_btn2 = true,

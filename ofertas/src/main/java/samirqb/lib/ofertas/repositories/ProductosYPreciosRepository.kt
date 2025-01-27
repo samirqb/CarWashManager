@@ -7,7 +7,7 @@ import samirqb.lib.ofertas.daos.IPrecioDeProductoDao
 import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
 import samirqb.lib.ofertas.interfaces.IBaseRepository
 
-class PreciosDeProductosRepository(
+class ProductosYPreciosRepository(
     val mDao: IPrecioDeProductoDao
 ): IBaseRepository<PrecioDeProductoEntity> {
 
