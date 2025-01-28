@@ -31,6 +31,7 @@ import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
+import samirqb.carwashmanager.app.viewmodels.PrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
@@ -134,7 +135,11 @@ fun MyAppNavHost(
         viewModel(factory = ServicioViewModel.Factory),
 
     mServicioYPrecioViewModel: ServicioYPrecioViewModel =
-        viewModel(factory = ServicioYPrecioViewModel.Factory)
+        viewModel(factory = ServicioYPrecioViewModel.Factory),
+
+    mPrecioViewModel: PrecioViewModel =
+        viewModel(factory = PrecioViewModel.Factory)
+
 ) {
     NavHost(
         modifier = modifier,
@@ -187,6 +192,8 @@ fun MyAppNavHost(
 
         composable<AdministrarServiciosScreenRoute>{
             AdministrarServiciosScreen(
+                mServicioYPrecioViewModel = mServicioYPrecioViewModel,
+                mServicioViewModel =  mServicioViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_servicio_y_precio = {
                     navController.navigate(route = AgregarServicioYPrecioDialogRoute)
@@ -326,10 +333,11 @@ fun MyAppNavHost(
 
         dialog<AgregarServicioYPrecioDialogRoute> {
             AgregarServicioYPrecioDialog(
-                onDismissFromAgregarServicioYPrecioDialog = { navController.navigateUp( ) },
                 mServicioViewModel = mServicioViewModel,
+                mPrecioViewModel = mPrecioViewModel,
                 mServicioYPrecioViewModel = mServicioYPrecioViewModel,
-                mUnidadMonetariaViewModel = mUnidadMonetariaViewModel
+                mUnidadMonetariaViewModel = mUnidadMonetariaViewModel,
+                onDismissFromAgregarServicioYPrecioDialog = { navController.navigateUp( ) },
             )
         }
     }

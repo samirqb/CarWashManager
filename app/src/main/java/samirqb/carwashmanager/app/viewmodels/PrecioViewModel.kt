@@ -18,11 +18,13 @@ import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.PrecioUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.ofertas.entities.PrecioEntity
-import samirqb.lib.ofertas.uc.AgregarUnPrecioUseCase
+import samirqb.lib.ofertas.uc.AgregarPrecioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosPreciosUseCase
+import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
 
 class PrecioViewModel(
-    private val mAgregarUnPrecioUseCase: AgregarUnPrecioUseCase,
+    private val mAgregarPrecioUseCase: AgregarPrecioUseCase,
+    private val mObtenerElPrecioMasRecienteUseCase: ObtenerElPrecioMasRecienteUseCase,
     private val mListarTodosLosPreciosUseCase: ListarTodosLosPreciosUseCase,
 ): ViewModel() {
 
@@ -35,6 +37,7 @@ class PrecioViewModel(
     fun actualizarFechaYHora() {
 
         var mFechaYHora = FechaYHora()
+
         mFechaYHora.now()
 
         _uiState.update {
@@ -53,7 +56,28 @@ class PrecioViewModel(
         viewModelScope.launch {
 
             try {
-                mAgregarUnPrecioUseCase(mTEntity)
+                mAgregarPrecioUseCase(mTEntity)
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun obtenerPrecioMasRecienteUseCase(){
+
+        val NOMBRE_FUN = "obtenerPrecioMasRecienteUseCase"
+
+        viewModelScope.launch {
+            try {
+                mObtenerElPrecioMasRecienteUseCase().collect{
+                    var precioEntity = it
+
+                    _uiState.update {
+                        it.copy(
+                            precio_mas_reciente = precioEntity
+                        )
+                    }
+                }
             } catch (e:Exception){
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
@@ -84,20 +108,20 @@ class PrecioViewModel(
         }
     }
 
-
     /** ViewModelFactori **/
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 // val savedStateHandle = createSavedStateHandle()
-                val mAgregarServiciosUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarServicioUseCase
-                val mListarTodosLosServiciosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosUseCase
-                ServicioViewModel(
-                    mAgregarServicioUseCase  = mAgregarServiciosUseCase,
-                    mListarTodosLosServiciosUseCase = mListarTodosLosServiciosUseCase,
+                val mAgregarPrecioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarPrecioUseCase
+                val mObtenerElPrecioMasRecienteUseCase = (this[APPLICATION_KEY] as MyApplication).mObtenerElPrecioMasRecienteUseCase
+                val mListarTodosLosPreciosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosPreciosUseCase
+                PrecioViewModel(
+                    mAgregarPrecioUseCase  = mAgregarPrecioUseCase,
+                    mObtenerElPrecioMasRecienteUseCase = mObtenerElPrecioMasRecienteUseCase,
+                    mListarTodosLosPreciosUseCase = mListarTodosLosPreciosUseCase,
                 )
             }
         }
     }
-
 }

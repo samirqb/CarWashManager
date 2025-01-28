@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import samirqb.lib.ofertas.daos.IPrecioDao
-import samirqb.lib.ofertas.daos.IPrecioDeProductoDao
+import samirqb.lib.ofertas.daos.IProductoYPrecioDao
 import samirqb.lib.ofertas.daos.IServicioYPrecioDao
 import samirqb.lib.ofertas.daos.IProductoDao
 import samirqb.lib.ofertas.daos.IServicioDao
-import samirqb.lib.ofertas.entities.PrecioDeProductoEntity
+import samirqb.lib.ofertas.entities.ProductoYPrecioEntity
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 import samirqb.lib.ofertas.entities.PrecioEntity
 import samirqb.lib.ofertas.entities.ProductoEntity
@@ -22,7 +22,7 @@ import samirqb.lib.ofertas.entities.ServicioEntity
         ProductoEntity::class,
         ServicioEntity::class,
         ServicioYPrecioEntity::class,
-        PrecioDeProductoEntity::class,
+        ProductoYPrecioEntity::class,
     ],
     version = 1,
     exportSchema = false
@@ -33,7 +33,7 @@ abstract class AppDataBaseOfertas: RoomDatabase()  {
     abstract fun iServicioDao(): IServicioDao
     abstract fun iProductoDao(): IProductoDao
     abstract fun iServicioYPrecioDao(): IServicioYPrecioDao
-    abstract fun iPrecioDeProductoDao(): IPrecioDeProductoDao
+    abstract fun iPrecioDeProductoDao(): IProductoYPrecioDao
 
     companion object {
         @Volatile

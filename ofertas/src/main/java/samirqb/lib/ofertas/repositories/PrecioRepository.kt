@@ -74,4 +74,12 @@ class PrecioRepository(
         }
     }
 
+    fun leerMasReciente(): Flow<PrecioEntity?> {
+        return try {
+            mDao.leerMasReciente()
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerMasReciente PrecioEntity", e)
+        }
+    }
+
 }

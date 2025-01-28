@@ -1,6 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -28,16 +29,19 @@ import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextF
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
+import samirqb.carwashmanager.app.viewmodels.PrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
+import samirqb.lib.ofertas.entities.PrecioEntity
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AgregarServicioYPrecioDialog(
     mServicioViewModel: ServicioViewModel,
+    mPrecioViewModel: PrecioViewModel,
     mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mUnidadMonetariaViewModel: UnidadMonetariaViewModel,
     onDismissFromAgregarServicioYPrecioDialog: () -> Unit,
@@ -47,8 +51,9 @@ fun AgregarServicioYPrecioDialog(
 
     mServicioViewModel.listarTodosLosServiciosUC()
     mUnidadMonetariaViewModel.leerTodo()
-    
+
     val uiState_ServicioViewModel by mServicioViewModel.uiState.collectAsState()
+    val uiState_PrecioViewModel by mPrecioViewModel.uiState.collectAsState()
     val uiState_UnidadMonetariaViewModel by mUnidadMonetariaViewModel.uiState.collectAsState()
 
     var servicio_seleccionado by rememberSaveable { mutableStateOf(0) }
@@ -118,11 +123,9 @@ fun AgregarServicioYPrecioDialog(
                                             expander = false
                                         }
                                     )
-
                                 }
                             }
                         }
-
                     },
 
                     content2 = {
@@ -149,7 +152,6 @@ fun AgregarServicioYPrecioDialog(
                     },
 
                     content3 = {
-
 
                         var unidad_monetaria by rememberSaveable { mutableStateOf("") }
 
@@ -202,29 +204,50 @@ fun AgregarServicioYPrecioDialog(
                                 }
                             }
                         }
-
-
                     }
                 )
             }
         },
+
         boton_txt_1 = R.string.txt_label_cancelar,
         on_click_boton_1 = { onDismissFromAgregarServicioYPrecioDialog() },
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
-            mServicioYPrecioViewModel.actualizarFechaYHora()
-            mServicioYPrecioViewModel.agregarServicioYPrecioUseCase(
-                ServicioYPrecioEntity(
-                    id_registro = 0,
-                    id_servicio_fk = servicio_seleccionado,
-                    precio_fk = precio_servicio_value.toFloat(),
-                    codigo_iso_4217_fk = unidad_monetaria_seleccionada,
-                    precio_activo = true,
-                    fecha_hora_creacion = uiState_ServicioViewModel.fecha_y_hora
+
+            // 1_AGREGAR PRECIO
+            mPrecioViewModel.actualizarFechaYHora()
+            Log.i("_xTEST_FROM_DIALOG", uiState_PrecioViewModel.fecha_y_hora)
+
+            mPrecioViewModel.agregarPrecioUseCase(
+                PrecioEntity(
+                    precio_pk = precio_servicio_value.toFloat(),
+                    //fecha_hora_creacion = uiState_PrecioViewModel.fecha_y_hora
+                    fecha_hora_creacion = mPrecioViewModel.uiState.value.fecha_y_hora,
                 )
             )
 
+            // OBTENER EL PRECIO MAS RECIENTE
+
+            if(precio_servicio_value.toFloat() != null){
+                //2_AGREGAR SERVICIO Y SU PRECIO
+                mServicioYPrecioViewModel.actualizarFechaYHora()
+
+                mServicioYPrecioViewModel.agregarServicioYPrecioUseCase(
+                    ServicioYPrecioEntity(
+                        id_registro = 0,
+                        id_servicio_fk = servicio_seleccionado,
+                        //precio_fk = precio_servicio_value.toFloat(),
+                        precio_fk = precio_servicio_value.toFloat(),
+                        codigo_iso_4217_fk = unidad_monetaria_seleccionada,
+                        precio_activo = true,
+                        //fecha_hora_creacion = uiState_ServicioViewModel.fecha_y_hora
+                        fecha_hora_creacion = mServicioYPrecioViewModel.uiState.value.fecha_y_hora
+                    )
+                )
+            }
+
             onDismissFromAgregarServicioYPrecioDialog()
+
         },
         enabled_btn1 = true,
         enabled_btn2 = true,

@@ -18,10 +18,11 @@ import samirqb.lib.ofertas.repositories.ServiciosRepository
 import samirqb.lib.ofertas.repositories.ServiciosYPreciosRepository
 import samirqb.lib.ofertas.uc.AgregarServicioUseCase
 import samirqb.lib.ofertas.uc.AgregarServicioYPrecioUseCase
-import samirqb.lib.ofertas.uc.AgregarUnPrecioUseCase
+import samirqb.lib.ofertas.uc.AgregarPrecioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosPreciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
+import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.uc.AgregarClienteUseCase
 import samirqb.lib.personas.uc.AgregarOperarioUseCase
@@ -65,8 +66,9 @@ class MyApplication: Application() {
     val mListarTodosLosServiciosUseCase by lazy { ListarTodosLosServiciosUseCase(ServiciosRepository(mAppDatabaseOfertas.iServicioDao())) }
     val mAgregarServicioYPrecioUseCase by lazy { AgregarServicioYPrecioUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mListarTodosLosServiciosYPreciosUseCase by lazy { ListarTodosLosServiciosYPreciosUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
-    val mAgregarUnPrecioUseCase by lazy { AgregarUnPrecioUseCase( PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
+    val mAgregarPrecioUseCase by lazy { AgregarPrecioUseCase( PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mListarTodosLosPreciosUseCase by lazy { ListarTodosLosPreciosUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
+    val mObtenerElPrecioMasRecienteUseCase by lazy { ObtenerElPrecioMasRecienteUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access
