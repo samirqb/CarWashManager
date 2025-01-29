@@ -30,6 +30,10 @@ import samirqb.lib.personas.uc.ListarTodosLosClientesUseCase
 import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
+import samirqb.lib.vehiculos.AppDatabaseVehiculos
+import samirqb.lib.vehiculos.repositories.ClasificacionDelVehiculoRepository
+import samirqb.lib.vehiculos.uc.AgregarClasificacionDelVehiculoUseCase
+import samirqb.lib.vehiculos.uc.ListarTodasLasClasificacionesDelVehiculoUseCase
 
 class MyApplication: Application() {
 
@@ -41,6 +45,7 @@ class MyApplication: Application() {
     private val mAppDatabaseCaja by lazy { AppDatabaseCaja.getDatabase(this, applicationScope) }
     private val mAppDatabasePersonas by lazy { AppDatabasePersonas.getDatabase(this, applicationScope) }
     private val mAppDatabaseOfertas by lazy { AppDataBaseOfertas.getDatabase(this, applicationScope) }
+    private val mAppDatabaseVehiculos by lazy { AppDatabaseVehiculos.getDatabase(this, applicationScope) }
 
 
     //   R E P O   M O D U L O   C A J A
@@ -70,6 +75,9 @@ class MyApplication: Application() {
     val mListarTodosLosPreciosUseCase by lazy { ListarTodosLosPreciosUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mObtenerElPrecioMasRecienteUseCase by lazy { ObtenerElPrecioMasRecienteUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
 
+    //   U C   V E H I C U L O S
+    val mAgregarClasificacionDelVehiculoUseCase by lazy { AgregarClasificacionDelVehiculoUseCase( ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
+    val mListarTodasLasClasificacionesDelVehiculoUseCase by lazy{ ListarTodasLasClasificacionesDelVehiculoUseCase(ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access
     }

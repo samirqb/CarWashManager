@@ -25,34 +25,32 @@ import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
-import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
-import samirqb.lib.ofertas.entities.ServicioEntity
+import samirqb.lib.vehiculos.entities.ClasificacionDelVehiculoEntity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AgregarNombreDelServicioDialog(
-    mServicioViewModel: ServicioViewModel,
-    onDismissFromAgregarNombreServicioDialog: () -> Unit,
-){
+fun AgregarClasificacionVehiculoDialog(
+    mClasificacionDelVehiculoViewModel: ClasificacionDelVehiculoViewModel,
+    onDismissFromAgregarClasificacionVehiculoDialog: () -> Unit,
+) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
-    mServicioViewModel.actualizarFechaYHora()
-    mServicioViewModel.listarTodosLosServiciosUC()
+    val uiState by mClasificacionDelVehiculoViewModel.uiState.collectAsState()
 
-    val uiState_SVM by mServicioViewModel.uiState.collectAsState()
+    var fecha_y_hora = uiState.fecha_y_hora
 
-    val lista_servicios = uiState_SVM.todos_los_servicios
+    mClasificacionDelVehiculoViewModel.actualizarFechaYHora()
 
     var enabled_btn1 by rememberSaveable { mutableStateOf(true) }
     var enabled_btn2 by rememberSaveable { mutableStateOf(false) }
-    var nombre_servicio_value by rememberSaveable { mutableStateOf("") }
-
+    var nombre_clasificacion_value by rememberSaveable { mutableStateOf("") }
 
     tDialogScaffoldM2(
-        header_icon_id = R.drawable.rounded_new_label_24,
-        header_text_titulo_id = R.string.txt_titulo_agregar_nombre_servicio,
+        header_icon_id = R.drawable.rounded_category_24,
+        header_text_titulo_id = R.string.txt_titulo_agregar_clasificacion_vehiculo,
         content_dialg_body = {
 
             sSurface(
@@ -71,7 +69,7 @@ fun AgregarNombreDelServicioDialog(
 
                         var value by rememberSaveable { mutableStateOf("") }
 
-                        if(value.length >= 5){
+                        if(value.length >= 1){
                             enabled_btn2 = true
                         } else {
                             enabled_btn2 = false
@@ -83,17 +81,17 @@ fun AgregarNombreDelServicioDialog(
 
                                 if (mValidarEntradasRegex.validarAlfanumericos(it)) {
                                     value = it.uppercase()
-                                    nombre_servicio_value = it.uppercase()
+                                    nombre_clasificacion_value = it.uppercase()
                                 } else if(it.isEmpty()) {
                                     value = it
-                                    nombre_servicio_value = it
+                                    nombre_clasificacion_value = it
                                 }
                             },
                             label = {
                                 HLayout2P(
                                     horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
-                                    content1 = { sIcon(image_vector_id = R.drawable.rounded_new_label_24) },
-                                    content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre_servicio)) },
+                                    content1 = { sIcon(image_vector_id = R.drawable.rounded_category_24) },
+                                    content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre_clasification)) },
                                 )
                             },
                             //visualTransformation = SeparadorDeMiles()
@@ -103,23 +101,25 @@ fun AgregarNombreDelServicioDialog(
             }
 
         },
+
         enabled_btn1 = enabled_btn1,
         boton_txt_1 = R.string.txt_label_cancelar,
-        on_click_boton_1 = { onDismissFromAgregarNombreServicioDialog() },
+        on_click_boton_1 = { onDismissFromAgregarClasificacionVehiculoDialog() },
 
         enabled_btn2 = enabled_btn2,
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
-            mServicioViewModel.actualizarFechaYHora()
-            mServicioViewModel.agregarServicioUseCase(
-                ServicioEntity(
-                    id_servicio_pk = 0,
-                    descripcion = nombre_servicio_value,
-                    fecha_hora_creacion = uiState_SVM.fecha_y_hora
+            mClasificacionDelVehiculoViewModel.actualizarFechaYHora()
+            mClasificacionDelVehiculoViewModel.agregarNuevaClasificacionDeVehiculo(
+                ClasificacionDelVehiculoEntity(
+                    clase_id_pk = 0,
+                    descripcion = nombre_clasificacion_value,
+                    fecha_hora_creacion = uiState.fecha_y_hora
                 )
             )
-            onDismissFromAgregarNombreServicioDialog()
+            onDismissFromAgregarClasificacionVehiculoDialog()
         },
+
         modifier_content1 = Modifier
             .fillMaxWidth()
             .size(150.dp),

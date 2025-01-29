@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import samirqb.carwashmanager.app.ui.dialogs.AgregarClasificacionVehiculoDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
@@ -27,6 +28,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
+import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
@@ -60,7 +62,7 @@ object AdministrarClientesScreenRoute
 //data class AdministrarClientesScreenRoute(val name: String? = null)
 
 @Serializable
-object AdministrarCategoriasScreenRoute
+object AdministrarClasificacionVehiculoScreenRoute
 //data class AdministrarCategoriasScreenRoute(val name: String? = null)
 
 
@@ -101,6 +103,10 @@ object AgregarNombreServicioDialogRoute
 object AgregarServicioYPrecioDialogRoute
 //data class AgregarServicioYPrecioDialogRoute( val x: XXX )
 
+@Serializable
+object AgregarClasificacionVehiculoDialogRoute
+//data class AgregarClasificacionVehiculoDialogRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -138,7 +144,10 @@ fun MyAppNavHost(
         viewModel(factory = ServicioYPrecioViewModel.Factory),
 
     mPrecioViewModel: PrecioViewModel =
-        viewModel(factory = PrecioViewModel.Factory)
+        viewModel(factory = PrecioViewModel.Factory),
+
+    mClasificacionDelVehiculoViewModel: ClasificacionDelVehiculoViewModel =
+        viewModel(factory = ClasificacionDelVehiculoViewModel.Factory),
 
 ) {
     NavHost(
@@ -170,7 +179,7 @@ fun MyAppNavHost(
                 },
 
                 onNavigateToAdministrarCategoriasScreen = {
-                    navController.navigate( route = AdministrarCategoriasScreenRoute )
+                    navController.navigate( route = AdministrarClasificacionVehiculoScreenRoute )
                 },
 
                 onNavigateToAdministrarClientesScreen = {
@@ -224,11 +233,12 @@ fun MyAppNavHost(
             )
         }
 
-        composable<AdministrarCategoriasScreenRoute>{
+        composable<AdministrarClasificacionVehiculoScreenRoute>{
             AdministrarCategoriasScreen(
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_categoria = {
-                    //navController.navigate(route = AgregarServicioDialogRoute)
+                    navController.navigate(route = AgregarClasificacionVehiculoDialogRoute)
                 }
             )
         }
@@ -338,6 +348,13 @@ fun MyAppNavHost(
                 mServicioYPrecioViewModel = mServicioYPrecioViewModel,
                 mUnidadMonetariaViewModel = mUnidadMonetariaViewModel,
                 onDismissFromAgregarServicioYPrecioDialog = { navController.navigateUp( ) },
+            )
+        }
+
+        dialog<AgregarClasificacionVehiculoDialogRoute> {
+            AgregarClasificacionVehiculoDialog(
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                onDismissFromAgregarClasificacionVehiculoDialog= { navController.navigateUp( ) },
             )
         }
     }

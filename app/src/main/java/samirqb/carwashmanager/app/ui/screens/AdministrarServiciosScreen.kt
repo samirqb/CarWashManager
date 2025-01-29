@@ -59,6 +59,8 @@ fun AdministrarServiciosScreen(
                         it.id_servicio_pk == item.id_servicio_fk
                     }
 
+                    //listarTLS.binarySearch {  }
+
                     sCard(
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
