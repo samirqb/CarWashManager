@@ -28,6 +28,7 @@ fun tTopAppBarMenuM1(
     onClick_dropdownmenuitem_admin_empleados: ()->Unit,
     onClick_dropdownmenuitem_admin_clientes: ()->Unit,
     onClick_dropdownmenuitem_admin_categorias: ()->Unit,
+    onClick_dropdownmenuitem_admin_vehiculos: ()->Unit,
 ) {
 
     var display_menu by rememberSaveable { mutableStateOf(false) }
@@ -125,6 +126,22 @@ fun tTopAppBarMenuM1(
                     onClick = {
                         display_menu = false
                         onClick_dropdownmenuitem_admin_clientes()
+                    }
+                )
+                HorizontalDivider()
+
+                // A D M I N I S T R A S   V E H I C U L O S
+                DropdownMenuItem(
+                    text = {
+                        HLayout2P(
+                            horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_transportation_24) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_vehiculos)) },
+                        )
+                    },
+                    onClick = {
+                        display_menu = false
+                        onClick_dropdownmenuitem_admin_vehiculos()
                     }
                 )
                 HorizontalDivider()

@@ -40,6 +40,7 @@ fun tTopAppBarM2(
     onClick_dropdownmenuitem_admin_empleados: () -> Unit,
     onClick_dropdownmenuitem_admin_categorias: () -> Unit,
     onClick_dropdownmenuitem_admin_clientes: () -> Unit,
+    onClick_dropdownmenuitem_admin_vehiculos: () -> Unit,
     top_app_bar_modifier: Modifier = Modifier,
     top_app_bar_navigationIcon: @Composable () -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
@@ -82,6 +83,7 @@ fun tTopAppBarM2(
                 onClick_dropdownmenuitem_admin_empleados = onClick_dropdownmenuitem_admin_empleados,
                 onClick_dropdownmenuitem_admin_categorias = onClick_dropdownmenuitem_admin_categorias,
                 onClick_dropdownmenuitem_admin_clientes = onClick_dropdownmenuitem_admin_clientes,
+                onClick_dropdownmenuitem_admin_vehiculos = onClick_dropdownmenuitem_admin_vehiculos
             )
         },
         windowInsets = windowInsets,

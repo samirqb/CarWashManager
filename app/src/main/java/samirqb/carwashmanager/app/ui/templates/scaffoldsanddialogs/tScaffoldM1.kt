@@ -26,6 +26,7 @@ fun tScaffoldM1(
     onClick_dropdownmenuitem_admin_empleados: () -> Unit,
     onClick_dropdownmenuitem_admin_categorias: () -> Unit,
     onClick_dropdownmenuitem_admin_clientes: () -> Unit,
+    onClick_dropdownmenuitem_admin_vehiculos: () -> Unit,
     top_app_bar_action_button_icon_2: Int,
     top_app_bar_action_button_onClick2: () -> Unit,
     modifier: Modifier = Modifier,
@@ -46,6 +47,7 @@ fun tScaffoldM1(
                 onClick_dropdownmenuitem_admin_empleados = onClick_dropdownmenuitem_admin_empleados,
                 onClick_dropdownmenuitem_admin_categorias = onClick_dropdownmenuitem_admin_categorias,
                 onClick_dropdownmenuitem_admin_clientes = onClick_dropdownmenuitem_admin_clientes,
+                onClick_dropdownmenuitem_admin_vehiculos = onClick_dropdownmenuitem_admin_vehiculos,
             )
         },
         floatingActionButton = {

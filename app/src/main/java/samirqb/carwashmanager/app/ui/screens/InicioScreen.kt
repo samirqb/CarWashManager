@@ -48,6 +48,7 @@ fun InicioScreen(
     onNavigateToAdministrarEmpleadosScreen: () -> Unit,
     onNavigateToAdministrarCategoriasScreen: () -> Unit,
     onNavigateToAdministrarClientesScreen: () -> Unit,
+    onNavigateToAdministrarVehiculosScreen: () -> Unit,
     mCajaViewModel: CajaViewModel,
 ) {
 
@@ -92,6 +93,7 @@ fun InicioScreen(
             onClick_dropdownmenuitem_admin_empleados = { onNavigateToAdministrarEmpleadosScreen() },
             onClick_dropdownmenuitem_admin_categorias = { onNavigateToAdministrarCategoriasScreen() },
             onClick_dropdownmenuitem_admin_clientes = { onNavigateToAdministrarClientesScreen() },
+            onClick_dropdownmenuitem_admin_vehiculos = { onNavigateToAdministrarVehiculosScreen() },
             top_app_bar_action_button_icon_2 = R.drawable.baseline_output_24,
             top_app_bar_action_button_onClick2 = {
                 onNavigateToCierreCajaCantidadesPorDenominacionDialog()
@@ -197,6 +199,7 @@ fun InicioScreen(
             onClick_dropdownmenuitem_admin_empleados = { onNavigateToAdministrarEmpleadosScreen() },
             onClick_dropdownmenuitem_admin_categorias = { onNavigateToAdministrarCategoriasScreen() },
             onClick_dropdownmenuitem_admin_clientes = { onNavigateToAdministrarClientesScreen() },
+            onClick_dropdownmenuitem_admin_vehiculos = { onNavigateToAdministrarVehiculosScreen() },
             top_app_bar_action_button_icon_2 = R.drawable.rounded_input_24,
             top_app_bar_action_button_onClick2 = {  onNavigateToAperturaCajaCantidadesPorDenominacionDialog() },
         )

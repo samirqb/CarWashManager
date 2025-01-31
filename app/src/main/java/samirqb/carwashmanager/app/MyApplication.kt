@@ -32,8 +32,11 @@ import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
 import samirqb.lib.vehiculos.AppDatabaseVehiculos
 import samirqb.lib.vehiculos.repositories.ClasificacionDelVehiculoRepository
+import samirqb.lib.vehiculos.repositories.VehiculoRepository
 import samirqb.lib.vehiculos.uc.AgregarClasificacionDelVehiculoUseCase
+import samirqb.lib.vehiculos.uc.AgregarVehiculoUseCase
 import samirqb.lib.vehiculos.uc.ListarTodasLasClasificacionesDelVehiculoUseCase
+import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
 
 class MyApplication: Application() {
 
@@ -78,6 +81,9 @@ class MyApplication: Application() {
     //   U C   V E H I C U L O S
     val mAgregarClasificacionDelVehiculoUseCase by lazy { AgregarClasificacionDelVehiculoUseCase( ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
     val mListarTodasLasClasificacionesDelVehiculoUseCase by lazy{ ListarTodasLasClasificacionesDelVehiculoUseCase(ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
+    val mAgregarVehiculoUseCase by lazy{ AgregarVehiculoUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
+    val mListarTodosLosVehiculosUseCase by lazy{ ListarTodosLosVehiculosUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
+
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access
     }

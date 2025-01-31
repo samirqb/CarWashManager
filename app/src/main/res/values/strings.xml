@@ -47,4 +47,5 @@
     <string name="txt_body_elige_un_servicio">Elige un servicio</string>
     <string name="txt_titulo_agregar_clasificacion_vehiculo">Categoria de vehiculos</string>
     <string name="txt_label_nombre_clasification">Nombre categoria</string>
+    <string name="txt_body_menu_vehiculos">Vehiculos</string>
 </resources>

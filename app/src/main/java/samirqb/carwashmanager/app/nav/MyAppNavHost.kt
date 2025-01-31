@@ -17,6 +17,7 @@ import samirqb.carwashmanager.app.ui.dialogs.AgregarMonedaDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarOperarioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarNombreDelServicioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioYPrecioDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarVehiculoDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
@@ -26,6 +27,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
+import samirqb.carwashmanager.app.ui.screens.AdministrarVehiculosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
@@ -38,6 +40,7 @@ import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.TipoMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.UnidadMonetariaViewModel
+import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
 
 
 /**   S C R E E N S   */
@@ -64,6 +67,10 @@ object AdministrarClientesScreenRoute
 @Serializable
 object AdministrarClasificacionVehiculoScreenRoute
 //data class AdministrarCategoriasScreenRoute(val name: String? = null)
+
+@Serializable
+object AdministrarVehiculosScreenRoute
+//data class AdministrarVehiculoScreenRoute(val name: String? = null)
 
 
 /**   D I A L O G S   */
@@ -107,6 +114,10 @@ object AgregarServicioYPrecioDialogRoute
 object AgregarClasificacionVehiculoDialogRoute
 //data class AgregarClasificacionVehiculoDialogRoute( val x: XXX )
 
+@Serializable
+object AgregarVehiculoDialogRoute
+//data class AgregarVehiculoDialogRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -149,6 +160,9 @@ fun MyAppNavHost(
     mClasificacionDelVehiculoViewModel: ClasificacionDelVehiculoViewModel =
         viewModel(factory = ClasificacionDelVehiculoViewModel.Factory),
 
+    mVehiculoViewModel: VehiculoViewModel =
+        viewModel(factory = VehiculoViewModel.Factory),
+
 ) {
     NavHost(
         modifier = modifier,
@@ -184,6 +198,10 @@ fun MyAppNavHost(
 
                 onNavigateToAdministrarClientesScreen = {
                     navController.navigate( route = AdministrarClientesScreenRoute )
+                },
+
+                onNavigateToAdministrarVehiculosScreen = {
+                    navController.navigate( route = AdministrarVehiculosScreenRoute )
                 },
 
                 mCajaViewModel = mCajaViewModel
@@ -239,6 +257,17 @@ fun MyAppNavHost(
                 onClick_navigate_back = { navController.navigateUp( ) },
                 onClick_agregar_categoria = {
                     navController.navigate(route = AgregarClasificacionVehiculoDialogRoute)
+                }
+            )
+        }
+
+        composable<AdministrarVehiculosScreenRoute>{
+            AdministrarVehiculosScreen(
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onClick_agregar_vehiculo = {
+                    navController.navigate(route = AgregarVehiculoDialogRoute)
                 }
             )
         }
@@ -355,6 +384,14 @@ fun MyAppNavHost(
             AgregarClasificacionVehiculoDialog(
                 mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
                 onDismissFromAgregarClasificacionVehiculoDialog= { navController.navigateUp( ) },
+            )
+        }
+
+        dialog<AgregarVehiculoDialogRoute> {
+            AgregarVehiculoDialog(
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
+                onDismissFromAgregarVehiculoDialog= { navController.navigateUp( ) },
             )
         }
     }
