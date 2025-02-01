@@ -20,6 +20,7 @@ import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioYPrecioDialog
 import samirqb.carwashmanager.app.ui.dialogs.AgregarVehiculoDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
+import samirqb.carwashmanager.app.ui.dialogs.BuscarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
@@ -118,6 +119,10 @@ object AgregarClasificacionVehiculoDialogRoute
 object AgregarVehiculoDialogRoute
 //data class AgregarVehiculoDialogRoute( val x: XXX )
 
+@Serializable
+object BuscarClienteDialogRoute
+//data class BuscarClienteDialogRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -202,6 +207,10 @@ fun MyAppNavHost(
 
                 onNavigateToAdministrarVehiculosScreen = {
                     navController.navigate( route = AdministrarVehiculosScreenRoute )
+                },
+
+                onNavigateToNuevaOrdenVenta = {
+                    navController.navigate( route = BuscarClienteDialogRoute )
                 },
 
                 mCajaViewModel = mCajaViewModel
@@ -392,6 +401,13 @@ fun MyAppNavHost(
                 mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
                 onDismissFromAgregarVehiculoDialog= { navController.navigateUp( ) },
+            )
+        }
+
+        dialog<BuscarClienteDialogRoute> {
+            BuscarClienteDialog(
+                mClienteViewModel = mClienteViewModel,
+                onDismissFromBuscarClienteDialog = { navController.navigateUp( ) },
             )
         }
     }

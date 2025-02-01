@@ -49,6 +49,7 @@ fun InicioScreen(
     onNavigateToAdministrarCategoriasScreen: () -> Unit,
     onNavigateToAdministrarClientesScreen: () -> Unit,
     onNavigateToAdministrarVehiculosScreen: () -> Unit,
+    onNavigateToNuevaOrdenVenta: () -> Unit,
     mCajaViewModel: CajaViewModel,
 ) {
 
@@ -129,7 +130,9 @@ fun InicioScreen(
                 }
             },
 
-            floatingActionButton_onClick = {},
+            floatingActionButton_onClick = {
+                onNavigateToNuevaOrdenVenta()
+            },
 
             floatingActionButton_image_vector_id = R.drawable.rounded_local_car_wash_24
         )

@@ -31,4 +31,9 @@ interface IOrdenPagoNominaDao: IBaseDao<OrdenPagoNominaEntity> {
 
     @Query( "DELETE FROM tab_ordenes_de_pago_nomina" )
     suspend fun borrarTodo()
+
+    //CUSTOM
+    @Transaction
+    @Query( "SELECT * FROM tab_ordenes_de_pago_nomina WHERE orden_pagada = :orden_pagada" )
+    fun leerTodoPorPagar(orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>>
 }

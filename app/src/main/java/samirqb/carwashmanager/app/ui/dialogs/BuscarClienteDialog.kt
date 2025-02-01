@@ -1,14 +1,9 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,47 +12,38 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
+import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
-import samirqb.carwashmanager.app.ui.templates.iconsandtexts.tHTextAndIcon
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
-import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
-import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
+import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
-import samirqb.lib.vehiculos.entities.VehiculoEntity
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AgregarVehiculoDialog(
-    mClasificacionDelVehiculoViewModel: ClasificacionDelVehiculoViewModel,
-    mVehiculoViewModel: VehiculoViewModel,
-    onDismissFromAgregarVehiculoDialog: () -> Unit,
+fun BuscarClienteDialog(
+    mClienteViewModel: ClienteViewModel,
+    onDismissFromBuscarClienteDialog: () -> Unit,
 ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
-    mClasificacionDelVehiculoViewModel.listarTodasLasClasificacionesDeVehiculoUserCase()
-    mVehiculoViewModel.actualizarFechaYHora()
+    val uiState by mClienteViewModel.uiState.collectAsState()
 
-    val uiState_ClasificacionDelVehiculo by mClasificacionDelVehiculoViewModel.uiState.collectAsState()
-    val uiState_Vehiculo by mVehiculoViewModel.uiState.collectAsState()
-
-    var lista_categorias_vehiculo = uiState_ClasificacionDelVehiculo.listar_todas_las_clasificaciones_de_vehiculo
+    var resultado_busqueda_cliente = uiState.resultado_busqueda_cliente
 
     var enabled_btn1 by rememberSaveable { mutableStateOf(true) }
     var enabled_btn2 by rememberSaveable { mutableStateOf(false) }
-    var categoria_seleccionada by rememberSaveable { mutableStateOf(0) }
-    var matricula_vehiculo_value by rememberSaveable { mutableStateOf("") }
+    var cliente_id_value by rememberSaveable { mutableStateOf("") }
+    var busqueda_realizada by rememberSaveable { mutableStateOf( false) }
 
     tDialogScaffoldM2(
-        header_icon_id = R.drawable.rounded_transportation_24,
-        header_text_titulo_id = R.string.txt_titulo_agregar_vehiculo,
+        header_icon_id = R.drawable.rounded_person_search_24,
+        header_text_titulo_id = R.string.txt_titulo_buscar_cliente,
         content_dialg_body = {
             sSurface(
                 color = MaterialTheme.colorScheme.secondaryContainer
@@ -68,6 +54,8 @@ fun AgregarVehiculoDialog(
                 VLayout2P(
                     modifier = Modifier.padding(all = 13.dp),
                     verticalArrangement = Arrangement.spacedBy(space = 13.dp),
+
+                    /*
                     content1 = {
 
                         var categoria_vehiculo by rememberSaveable { mutableStateOf("") }
@@ -122,8 +110,9 @@ fun AgregarVehiculoDialog(
                         }
 
                     },
+                    */
 
-                    content2 = {
+                    content1 = {
                         sSurface() {
                             var value by rememberSaveable { mutableStateOf("") }
 
@@ -140,13 +129,31 @@ fun AgregarVehiculoDialog(
 
                                     if(mValidarEntradasRegex.validarAlfanumericos(it)) {
                                         value = it.uppercase()
-                                        matricula_vehiculo_value = it.uppercase()
+                                        cliente_id_value = it.uppercase()
                                     } else {
                                         value = ""
-                                        matricula_vehiculo_value = ""
+                                        cliente_id_value = ""
                                     }
                                 },
                             )
+                        }
+                    },
+
+                    content2 = {
+
+
+
+                        sSurface {
+                            if (busqueda_realizada && resultado_busqueda_cliente == null){
+                                xTextBody(
+                                    text = stringResource(R.string.txt_body_registro_no_existe)
+                                )
+                            }
+                            if (busqueda_realizada && resultado_busqueda_cliente != null){
+                                xTextBody(
+                                    text = "OK"
+                                )
+                            }
                         }
                     },
                 )
@@ -156,21 +163,19 @@ fun AgregarVehiculoDialog(
         enabled_btn1 = enabled_btn1,
         boton_txt_1 = R.string.txt_label_cancelar,
         on_click_boton_1 = {
-            onDismissFromAgregarVehiculoDialog()
+            onDismissFromBuscarClienteDialog()
         },
 
         enabled_btn2 = enabled_btn2,
-        boton_txt_2 = R.string.txt_label_agregar,
+        boton_txt_2 = R.string.txt_label_buscar,
         on_click_boton_2 = {
 
-            mVehiculoViewModel.agregarNuevoVehiculo(
-                VehiculoEntity(
-                    matricula_pk = matricula_vehiculo_value,
-                    clase_id_fk = categoria_seleccionada,
-                    fecha_hora_creacion = uiState_Vehiculo.fecha_y_hora,
-                )
-            )
-            onDismissFromAgregarVehiculoDialog()
+            mClienteViewModel.buscarClientePorIdUseCase( cliente_id_value )
+
+            busqueda_realizada = true
+
+            //onDismissFromBuscarClienteDialog()
+
         },
         modifier_content1 = Modifier
             .fillMaxWidth()
@@ -180,4 +185,5 @@ fun AgregarVehiculoDialog(
             .size(50.dp),
         //modifier_content3: Modifier = Modifier
     )
+
 }

@@ -23,6 +23,11 @@ import samirqb.lib.ofertas.uc.ListarTodosLosPreciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
+import samirqb.lib.pagos.AppDatabasePagos
+import samirqb.lib.pagos.repositories.OrdenPagoNominaRepositories
+import samirqb.lib.pagos.uc.AgregarOrdenDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
+import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaUseCase
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.uc.AgregarClienteUseCase
 import samirqb.lib.personas.uc.AgregarOperarioUseCase
@@ -30,6 +35,7 @@ import samirqb.lib.personas.uc.ListarTodosLosClientesUseCase
 import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
+import samirqb.lib.personas.uc.BuscarClientePorIdUseCase
 import samirqb.lib.vehiculos.AppDatabaseVehiculos
 import samirqb.lib.vehiculos.repositories.ClasificacionDelVehiculoRepository
 import samirqb.lib.vehiculos.repositories.VehiculoRepository
@@ -49,6 +55,7 @@ class MyApplication: Application() {
     private val mAppDatabasePersonas by lazy { AppDatabasePersonas.getDatabase(this, applicationScope) }
     private val mAppDatabaseOfertas by lazy { AppDataBaseOfertas.getDatabase(this, applicationScope) }
     private val mAppDatabaseVehiculos by lazy { AppDatabaseVehiculos.getDatabase(this, applicationScope) }
+    private val mAppDatabasePagos by lazy { AppDatabasePagos.getDatabase(this, applicationScope) }
 
 
     //   R E P O   M O D U L O   C A J A
@@ -63,8 +70,12 @@ class MyApplication: Application() {
 
 
     //   U C   M O D U L O   P E R S O N A S
+    //   ---> CLIENTES
     val mAgregarClienteUseCase by lazy { AgregarClienteUseCase( ClienteRepository(mAppDatabasePersonas.iClienteDao()) ) }
     val mListarTodosLosClientesUseCase by lazy { ListarTodosLosClientesUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }
+    val mBuscarClientePorIdUseCase by lazy { BuscarClientePorIdUseCase(ClienteRepository(mAppDatabasePersonas.iClienteDao())) }
+
+    //   ---> OPERARIOS
     val mAgregarOperarioUseCase by lazy { AgregarOperarioUseCase( OperarioRepository(mAppDatabasePersonas.iOperarioDao()) ) }
     val mListarTodosLosOperariosUseCase by lazy { ListarTodosLosOperariosUseCase(OperarioRepository(mAppDatabasePersonas.iOperarioDao())) }
 
@@ -78,11 +89,19 @@ class MyApplication: Application() {
     val mListarTodosLosPreciosUseCase by lazy { ListarTodosLosPreciosUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mObtenerElPrecioMasRecienteUseCase by lazy { ObtenerElPrecioMasRecienteUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
 
+
     //   U C   V E H I C U L O S
     val mAgregarClasificacionDelVehiculoUseCase by lazy { AgregarClasificacionDelVehiculoUseCase( ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
     val mListarTodasLasClasificacionesDelVehiculoUseCase by lazy{ ListarTodasLasClasificacionesDelVehiculoUseCase(ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
     val mAgregarVehiculoUseCase by lazy{ AgregarVehiculoUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
     val mListarTodosLosVehiculosUseCase by lazy{ ListarTodosLosVehiculosUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
+
+
+    //   U C   O R D E N E S   D E   P A G O   N O M I N A
+    val mAgregarOrdenDePagoNominaUseCase by lazy{ AgregarOrdenDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarTodasLasOrdenesDePagoNominaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

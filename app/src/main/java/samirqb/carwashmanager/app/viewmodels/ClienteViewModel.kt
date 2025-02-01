@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,11 +21,13 @@ import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.personas.uc.AgregarClienteUseCase
 import samirqb.lib.personas.uc.ListarTodosLosClientesUseCase
 import samirqb.lib.personas.entities.ClienteEntity
+import samirqb.lib.personas.uc.BuscarClientePorIdUseCase
 
 
 class ClienteViewModel(
     private val mListarTodosLosClientesUseCase: ListarTodosLosClientesUseCase,
     private val mAgregarClienteUseCase: AgregarClienteUseCase,
+    private val mBuscarClientePorIdUseCase: BuscarClientePorIdUseCase,
 ):ViewModel() {
 
     private val NOMBRE_CLASE = "ClienteViewModel"
@@ -51,7 +54,7 @@ class ClienteViewModel(
 
         val NOMBRE_FUN = "listarTodosLosClientesUC"
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 mListarTodosLosClientesUseCase().collect{
@@ -76,7 +79,7 @@ class ClienteViewModel(
 
         val NOMBRE_FUN = "agregarClienteUC"
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 mAgregarClienteUseCase(mTEntity)
@@ -87,6 +90,29 @@ class ClienteViewModel(
     }
 
 
+    fun buscarClientePorIdUseCase(id:String){
+
+        val NOMBRE_FUN = "buscarClientePorIdUseCase"
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                mBuscarClientePorIdUseCase(id).collect{
+
+                    var resultado_busqueda_cliente = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            resultado_busqueda_cliente = resultado_busqueda_cliente
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
 
 
     /** ViewModelFactori **/
@@ -96,9 +122,11 @@ class ClienteViewModel(
                 // val savedStateHandle = createSavedStateHandle()
                 val mAgregarClienteUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarClienteUseCase
                 val mListarTodosLosClientesUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosClientesUseCase
+                val mBuscarClientePorIdUseCase = (this[APPLICATION_KEY] as MyApplication).mBuscarClientePorIdUseCase
                 ClienteViewModel(
                     mListarTodosLosClientesUseCase = mListarTodosLosClientesUseCase,
                     mAgregarClienteUseCase = mAgregarClienteUseCase,
+                    mBuscarClientePorIdUseCase = mBuscarClientePorIdUseCase,
                 )
             }
         }

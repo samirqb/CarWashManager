@@ -72,4 +72,13 @@ class OrdenPagoNominaRepositories(
             throw MyCustomException("Error al actualizar OrdenPagoNominaEntity", e)
         }
     }
+
+    //CUSTOM
+    fun leerTodoPorPagar(orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>> {
+        try {
+            return mDao.leerTodoPorPagar(orden_pagada)
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerTodoPorPagar OrdenPagoNominaEntity", e)
+        }
+    }
 }
