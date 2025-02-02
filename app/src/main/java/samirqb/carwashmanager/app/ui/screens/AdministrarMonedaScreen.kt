@@ -1,13 +1,19 @@
 package samirqb.carwashmanager.app.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import samirqb.carwashmanager.app.R
+import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyColumn
+import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.old.viewcontents.CantidadPorDenominacionViewContent
+import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM3
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 
@@ -33,22 +39,37 @@ fun AdministrarMonedaScreen(
             onClick_navigate_back()
         },
         content1 = {
-            sLazyColumn {
 
-                itemsIndexed(lM){index, item ->
-
-                    var icono_actual:Int = 0
-
-                    if (item.tipo_fk == "BILLETE"){ icono_actual = billete_icon }
-                    if (item.tipo_fk == "MONEDA") { icono_actual = moneda_icon }
-                    if (item.tipo_fk == "DIGITAL") { icono_actual = digital_icon }
-
-                    CantidadPorDenominacionViewContent(
-                        image_vector_id = icono_actual,
-                        denominacion_fk = item.denominacion_fk.toString(),
-                        codigo_iso_4217_fk = item.codigo_iso_4217_fk,
-                        tipo_fk = item.tipo_fk
+            if (lM.isEmpty()){
+                sSurface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    VLayout1P(
+                        modifier = Modifier.fillMaxSize(),
+                        content1 = {
+                            xTextTitle(text = stringResource(id = R.string.informacion_no_disponible))
+                        }
                     )
+                }
+            } else {
+
+                sLazyColumn {
+
+                    itemsIndexed(lM){index, item ->
+
+                        var icono_actual:Int = 0
+
+                        if (item.tipo_fk == "BILLETE"){ icono_actual = billete_icon }
+                        if (item.tipo_fk == "MONEDA") { icono_actual = moneda_icon }
+                        if (item.tipo_fk == "DIGITAL") { icono_actual = digital_icon }
+
+                        CantidadPorDenominacionViewContent(
+                            image_vector_id = icono_actual,
+                            denominacion_fk = item.denominacion_fk.toString(),
+                            codigo_iso_4217_fk = item.codigo_iso_4217_fk,
+                            tipo_fk = item.tipo_fk
+                        )
+                    }
                 }
             }
         },

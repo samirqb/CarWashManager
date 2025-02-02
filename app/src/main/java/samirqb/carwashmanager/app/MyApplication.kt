@@ -41,6 +41,7 @@ import samirqb.lib.vehiculos.repositories.ClasificacionDelVehiculoRepository
 import samirqb.lib.vehiculos.repositories.VehiculoRepository
 import samirqb.lib.vehiculos.uc.AgregarClasificacionDelVehiculoUseCase
 import samirqb.lib.vehiculos.uc.AgregarVehiculoUseCase
+import samirqb.lib.vehiculos.uc.BuscarVehiculoPorMatriculaUseCase
 import samirqb.lib.vehiculos.uc.ListarTodasLasClasificacionesDelVehiculoUseCase
 import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
 
@@ -95,6 +96,7 @@ class MyApplication: Application() {
     val mListarTodasLasClasificacionesDelVehiculoUseCase by lazy{ ListarTodasLasClasificacionesDelVehiculoUseCase(ClasificacionDelVehiculoRepository(mAppDatabaseVehiculos.iClasificacionDelVehiculoDao())) }
     val mAgregarVehiculoUseCase by lazy{ AgregarVehiculoUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
     val mListarTodosLosVehiculosUseCase by lazy{ ListarTodosLosVehiculosUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
+    val mBuscarVehiculoPorMatriculaUseCase by lazy{ BuscarVehiculoPorMatriculaUseCase(VehiculoRepository(mAppDatabaseVehiculos.iVehiculoDao())) }
 
 
     //   U C   O R D E N E S   D E   P A G O   N O M I N A

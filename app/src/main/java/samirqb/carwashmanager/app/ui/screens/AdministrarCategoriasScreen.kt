@@ -11,11 +11,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sCard
+import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.layouts.sColumn
 import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyColumn
+import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
@@ -42,25 +45,40 @@ fun AdministrarCategoriasScreen(
         },
         content1 = {
 
-            sLazyColumn(
-                verticalArrangement = Arrangement.spacedBy(space = 13.dp, alignment = Alignment.CenterVertically)
-            ) {
-                itemsIndexed( listarTLC ){index, item ->
+            if (listarTLC.isEmpty()){
+                sSurface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    VLayout1P(
+                        modifier = Modifier.fillMaxSize(),
+                        content1 = {
+                            xTextTitle(text = stringResource(id = R.string.informacion_no_disponible))
+                        }
+                    )
+                }
+            } else {
 
-                    //listarTLS.binarySearch {  }
+                sLazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(space = 13.dp, alignment = Alignment.CenterVertically)
+                ) {
+                    itemsIndexed( listarTLC ){index, item ->
 
-                    sCard(
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        ),
-                        modifier = Modifier.fillMaxSize().size(50.dp)
-                    ) {
-                        sColumn {
-                            xTextTitle(text = item.descripcion)
-                            xTextLabel(text = item.fecha_hora_creacion)
+                        //listarTLS.binarySearch {  }
+
+                        sCard(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer
+                            ),
+                            modifier = Modifier.fillMaxSize().size(50.dp)
+                        ) {
+                            sColumn {
+                                xTextTitle(text = item.descripcion)
+                                xTextLabel(text = item.fecha_hora_creacion)
+                            }
                         }
                     }
                 }
+
             }
 
         },

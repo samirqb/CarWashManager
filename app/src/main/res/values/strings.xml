@@ -50,4 +50,5 @@
     <string name="txt_body_menu_vehiculos">Vehiculos</string>
     <string name="txt_titulo_agregar_vehiculo">Agregar vehiculo</string>
     <string name="txt_body_registro_no_existe">Registro inexistente</string>
+    <string name="txt_titulo_enlazar_vehiculo">Enlazar vehiculo</string>
 </resources>

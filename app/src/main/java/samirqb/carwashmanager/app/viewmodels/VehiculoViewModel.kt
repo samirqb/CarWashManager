@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,11 +20,13 @@ import samirqb.carwashmanager.app.viewmodels.uistates.VehiculoUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.vehiculos.entities.VehiculoEntity
 import samirqb.lib.vehiculos.uc.AgregarVehiculoUseCase
+import samirqb.lib.vehiculos.uc.BuscarVehiculoPorMatriculaUseCase
 import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
 
 class VehiculoViewModel(
     private val mAgregarVehiculoUseCase: AgregarVehiculoUseCase,
-    private val mListarTodosLosVehiculosUseCase: ListarTodosLosVehiculosUseCase
+    private val mListarTodosLosVehiculosUseCase: ListarTodosLosVehiculosUseCase,
+    private val mBuscarVehiculoPorMatriculaUseCase: BuscarVehiculoPorMatriculaUseCase,
 ): ViewModel() {
 
     private val NOMBRE_CLASE = "VehiculoViewModel"
@@ -65,7 +68,7 @@ class VehiculoViewModel(
 
         val NOMBRE_FUN = "listarTodosLosVehiculoUserCase"
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 mListarTodosLosVehiculosUseCase().collect{
@@ -85,6 +88,14 @@ class VehiculoViewModel(
         }
     }
 
+    fun buscarVehiculoPorMatriculaUseCase(matricala_vehiculo: String){
+
+        val NOMBRE_FUN = "buscarVehiculoPorMatriculaUseCase"
+
+
+
+    }
+
     /** ViewModelFactori **/
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
@@ -98,10 +109,17 @@ class VehiculoViewModel(
                 val mListarTodosLosVehiculosUseCase =
                     (this[APPLICATION_KEY] as MyApplication).mListarTodosLosVehiculosUseCase
 
+                val mBuscarVehiculoPorMatriculaUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mBuscarVehiculoPorMatriculaUseCase
+
                 VehiculoViewModel(
                     mAgregarVehiculoUseCase = mAgregarVehiculoUseCase,
                     mListarTodosLosVehiculosUseCase = mListarTodosLosVehiculosUseCase,
+                    mBuscarVehiculoPorMatriculaUseCase = mBuscarVehiculoPorMatriculaUseCase,
                 )
+
+
+
             }
         }
     }

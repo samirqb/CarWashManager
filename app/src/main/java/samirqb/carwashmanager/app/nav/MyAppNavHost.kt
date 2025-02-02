@@ -23,6 +23,7 @@ import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.BuscarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaConfirmacionDialog
+import samirqb.carwashmanager.app.ui.dialogs.VincularClienteYVehiculoDialog
 import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
@@ -122,6 +123,10 @@ object AgregarVehiculoDialogRoute
 @Serializable
 object BuscarClienteDialogRoute
 //data class BuscarClienteDialogRoute( val x: XXX )
+
+@Serializable
+object VincularClienteYVehiculoDialogDialogRoute
+//data class BuscarVehiculoDialogRoute( val x: XXX )
 
 
 
@@ -407,7 +412,16 @@ fun MyAppNavHost(
         dialog<BuscarClienteDialogRoute> {
             BuscarClienteDialog(
                 mClienteViewModel = mClienteViewModel,
+                onNavigateToVincularVehiculoYClienteDialog = { navController.navigate(route = VincularClienteYVehiculoDialogDialogRoute ) },
                 onDismissFromBuscarClienteDialog = { navController.navigateUp( ) },
+            )
+        }
+
+        dialog<VincularClienteYVehiculoDialogDialogRoute> {
+            VincularClienteYVehiculoDialog(
+                mClienteViewModel = mClienteViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
+                onDismissFromVincularClienteYVehiculoDialog = { navController.navigateUp( ) },
             )
         }
     }

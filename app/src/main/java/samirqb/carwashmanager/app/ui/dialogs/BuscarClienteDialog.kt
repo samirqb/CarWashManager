@@ -16,30 +16,38 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
-import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
+import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
+import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
+import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
+import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
+import samirqb.lib.personas.entities.ClienteEntity
 
 @Composable
 fun BuscarClienteDialog(
     mClienteViewModel: ClienteViewModel,
+    onNavigateToVincularVehiculoYClienteDialog: () -> Unit,
     onDismissFromBuscarClienteDialog: () -> Unit,
 ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
-    val uiState by mClienteViewModel.uiState.collectAsState()
-
-    var resultado_busqueda_cliente = uiState.resultado_busqueda_cliente
 
     var enabled_btn1 by rememberSaveable { mutableStateOf(true) }
     var enabled_btn2 by rememberSaveable { mutableStateOf(false) }
     var cliente_id_value by rememberSaveable { mutableStateOf("") }
     var busqueda_realizada by rememberSaveable { mutableStateOf( false) }
+
+    val uiState by mClienteViewModel.uiState.collectAsState()
+
+    var resultado_busqueda_cliente = uiState.resultado_busqueda_cliente
+    //var resultado_busqueda_cliente by remember {  mutableStateOf(null) }
+
 
     tDialogScaffoldM2(
         header_icon_id = R.drawable.rounded_person_search_24,
@@ -141,17 +149,44 @@ fun BuscarClienteDialog(
 
                     content2 = {
 
+                        if (busqueda_realizada && resultado_busqueda_cliente != null) {
+                            /*
+                            onDismissFromBuscarClienteDialog()
+                            onNavigateToVincularVehiculoYClienteDialog()
+                            */
 
+                            VLayout3P(
+                                content1 = {
+                                    xTextTitle(text = resultado_busqueda_cliente.nombre_apellidos)
+                                },
+                                content2 = {
+                                    HLayout2P(
+                                        content1 = {
+                                            sIcon(image_vector_id = R.drawable.rounded_id_card_24)
+                                        },
+                                        content2 = {
+                                            xTextBody(text = resultado_busqueda_cliente.identificacion_pk)
+                                        },
+                                    )
+                                },
+                                content3 = {
+                                    HLayout2P(
+                                        content1 = {
+                                            sIcon(image_vector_id = R.drawable.rounded_perm_phone_msg_24)
+                                        },
+                                        content2 = {
+                                            xTextBody(text = resultado_busqueda_cliente!!.telefono)
+                                        },
+                                    )
+                                },
+                            )
+                        }
 
-                        sSurface {
-                            if (busqueda_realizada && resultado_busqueda_cliente == null){
+                        if (busqueda_realizada && resultado_busqueda_cliente == null){
+                            sSurface {
                                 xTextBody(
-                                    text = stringResource(R.string.txt_body_registro_no_existe)
-                                )
-                            }
-                            if (busqueda_realizada && resultado_busqueda_cliente != null){
-                                xTextBody(
-                                    text = "OK"
+                                    text = stringResource(R.string.txt_body_registro_no_existe),
+                                    color = MaterialTheme.colorScheme.error
                                 )
                             }
                         }
@@ -173,8 +208,6 @@ fun BuscarClienteDialog(
             mClienteViewModel.buscarClientePorIdUseCase( cliente_id_value )
 
             busqueda_realizada = true
-
-            //onDismissFromBuscarClienteDialog()
 
         },
         modifier_content1 = Modifier

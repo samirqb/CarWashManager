@@ -146,32 +146,28 @@ fun InicioScreen(
             top_app_bar_subtitle = R.string.txt_label_app_subtitulo_estatus_cerrado,
             content1 = {
 
-
-                sLazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(space = 1.dp)
-                ) {
-
-                    mCajaViewModel.listarTodasLasAperturas()
-
-                    if(uiState_AperturaCajaVM.lista_aperturas_caja.isEmpty()){
-                        item {
-                            sSurface(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                VLayout1P(
-                                    modifier = Modifier.fillMaxSize(),
-                                    content1 = {
-                                        //xTextTitle(text = "No existen monedas agregadas")
-                                        xTextTitle(text = stringResource(id = R.string.informacion_no_disponible))
-                                    }
-                                )
+                if(uiState_AperturaCajaVM.lista_aperturas_caja.isEmpty()){
+                    sSurface(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        VLayout1P(
+                            modifier = Modifier.fillMaxSize(),
+                            content1 = {
+                                //xTextTitle(text = "No existen monedas agregadas")
+                                xTextTitle(text = stringResource(id = R.string.informacion_no_disponible))
                             }
-                        }
+                        )
                     }
-                    else {
+                } else {
+                    sLazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(space = 1.dp)
+                    ) {
+
+                        mCajaViewModel.listarTodasLasAperturas()
+
                         itemsIndexed(uiState_AperturaCajaVM.lista_aperturas_caja){ index, item ->
                             sSurface(
                                 modifier = Modifier.fillMaxWidth().size(87.dp)
@@ -190,9 +186,9 @@ fun InicioScreen(
                             }
                             HorizontalDivider()
                         }
+
                     }
                 }
-
             },
 
             top_app_bar_action_button_icon_1 = R.drawable.rounded_more_vert_24,
