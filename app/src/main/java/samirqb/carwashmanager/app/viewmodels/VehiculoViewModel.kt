@@ -92,9 +92,22 @@ class VehiculoViewModel(
 
         val NOMBRE_FUN = "buscarVehiculoPorMatriculaUseCase"
 
-
-
     }
+
+
+    fun limpiarResultadoDeBusqueda(){
+
+        val NOMBRE_FUN = "limpiarResultadoDeBusqueda"
+
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    resultado_busqueda_vehiculo = null
+                )
+            }
+        }
+    }
+
 
     /** ViewModelFactori **/
     companion object {
@@ -117,9 +130,6 @@ class VehiculoViewModel(
                     mListarTodosLosVehiculosUseCase = mListarTodosLosVehiculosUseCase,
                     mBuscarVehiculoPorMatriculaUseCase = mBuscarVehiculoPorMatriculaUseCase,
                 )
-
-
-
             }
         }
     }

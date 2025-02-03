@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
@@ -32,6 +34,7 @@ fun tTopAppBarMenuM1(
 ) {
 
     var display_menu by rememberSaveable { mutableStateOf(false) }
+    val color: Color = MaterialTheme.colorScheme.primaryContainer
 
     sIconButton(
         onClick = {display_menu = !display_menu},
@@ -55,8 +58,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_attach_money_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_monedas)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_attach_money_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_monedas),color) },
                         )
                     },
                     onClick = {
@@ -71,8 +74,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_local_car_wash_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_servicios)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_local_car_wash_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_servicios),color) },
                         )
                     },
                     onClick = {
@@ -87,8 +90,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_server_person_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_empleados)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_server_person_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_empleados),color) },
                         )
                     },
                     onClick = {
@@ -103,8 +106,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_category_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_categorias_vehiculos)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_car_tag_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_categorias_vehiculos),color) },
                         )
                     },
                     onClick = {
@@ -119,8 +122,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_group_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_clientes)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_group_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_clientes),color) },
                         )
                     },
                     onClick = {
@@ -135,8 +138,8 @@ fun tTopAppBarMenuM1(
                     text = {
                         HLayout2P(
                             horizontalArrangement = Arrangement.spacedBy(space = SPACE_BY),
-                            content1 = { sIcon(image_vector_id = R.drawable.rounded_transportation_24) },
-                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_vehiculos)) },
+                            content1 = { sIcon(image_vector_id = R.drawable.rounded_transportation_24, tint = color) },
+                            content2 = { xTextBody(stringResource(id = R.string.txt_body_menu_vehiculos),color) },
                         )
                     },
                     onClick = {

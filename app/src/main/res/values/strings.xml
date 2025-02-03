@@ -51,4 +51,7 @@
     <string name="txt_titulo_agregar_vehiculo">Agregar vehiculo</string>
     <string name="txt_body_registro_no_existe">Registro inexistente</string>
     <string name="txt_titulo_enlazar_vehiculo">Enlazar vehiculo</string>
+    <string name="txt_titulo_nueva_orden_servidios">Nueva orden de venta</string>
+    <string name="txt_label_matricula_vehiculo">Matricula</string>
+    <string name="txt_body_elige_una_categoria">Elige una categoria</string>
 </resources>

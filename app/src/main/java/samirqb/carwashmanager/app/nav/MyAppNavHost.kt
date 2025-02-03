@@ -23,7 +23,7 @@ import samirqb.carwashmanager.app.ui.dialogs.AperturaCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.BuscarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaConfirmacionDialog
-import samirqb.carwashmanager.app.ui.dialogs.VincularClienteYVehiculoDialog
+import samirqb.carwashmanager.app.ui.dialogs.NuevaOrdenDeVentaDialog
 import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
@@ -125,7 +125,7 @@ object BuscarClienteDialogRoute
 //data class BuscarClienteDialogRoute( val x: XXX )
 
 @Serializable
-object VincularClienteYVehiculoDialogDialogRoute
+object NuevaOrdenDeVentaDialogRoute
 //data class BuscarVehiculoDialogRoute( val x: XXX )
 
 
@@ -215,7 +215,7 @@ fun MyAppNavHost(
                 },
 
                 onNavigateToNuevaOrdenVenta = {
-                    navController.navigate( route = BuscarClienteDialogRoute )
+                    navController.navigate( route = NuevaOrdenDeVentaDialogRoute )
                 },
 
                 mCajaViewModel = mCajaViewModel
@@ -412,13 +412,13 @@ fun MyAppNavHost(
         dialog<BuscarClienteDialogRoute> {
             BuscarClienteDialog(
                 mClienteViewModel = mClienteViewModel,
-                onNavigateToVincularVehiculoYClienteDialog = { navController.navigate(route = VincularClienteYVehiculoDialogDialogRoute ) },
+                onNavigateToVincularVehiculoYClienteDialog = { navController.navigate(route = NuevaOrdenDeVentaDialogRoute ) },
                 onDismissFromBuscarClienteDialog = { navController.navigateUp( ) },
             )
         }
 
-        dialog<VincularClienteYVehiculoDialogDialogRoute> {
-            VincularClienteYVehiculoDialog(
+        dialog<NuevaOrdenDeVentaDialogRoute> {
+            NuevaOrdenDeVentaDialog(
                 mClienteViewModel = mClienteViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
                 onDismissFromVincularClienteYVehiculoDialog = { navController.navigateUp( ) },

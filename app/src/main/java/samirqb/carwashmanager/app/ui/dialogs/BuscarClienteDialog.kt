@@ -37,7 +37,6 @@ fun BuscarClienteDialog(
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
-
     var enabled_btn1 by rememberSaveable { mutableStateOf(true) }
     var enabled_btn2 by rememberSaveable { mutableStateOf(false) }
     var cliente_id_value by rememberSaveable { mutableStateOf("") }

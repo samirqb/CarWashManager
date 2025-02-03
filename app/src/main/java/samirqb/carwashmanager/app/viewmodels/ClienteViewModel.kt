@@ -114,6 +114,18 @@ class ClienteViewModel(
         }
     }
 
+    fun limpiarResultadoDeBusqueda(){
+
+        val NOMBRE_FUN = "limpiarResultadoDeBusqueda"
+
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    resultado_busqueda_cliente = null
+                )
+            }
+        }
+    }
 
     /** ViewModelFactori **/
     companion object {

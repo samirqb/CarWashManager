@@ -49,7 +49,7 @@ fun AgregarClasificacionVehiculoDialog(
     var nombre_clasificacion_value by rememberSaveable { mutableStateOf("") }
 
     tDialogScaffoldM2(
-        header_icon_id = R.drawable.rounded_category_24,
+        header_icon_id = R.drawable.rounded_car_tag_24,
         header_text_titulo_id = R.string.txt_titulo_agregar_clasificacion_vehiculo,
         content_dialg_body = {
 
@@ -90,7 +90,7 @@ fun AgregarClasificacionVehiculoDialog(
                             label = {
                                 HLayout2P(
                                     horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
-                                    content1 = { sIcon(image_vector_id = R.drawable.rounded_category_24) },
+                                    content1 = { sIcon(image_vector_id = R.drawable.rounded_car_tag_24) },
                                     content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre_clasification)) },
                                 )
                             },
