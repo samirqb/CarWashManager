@@ -92,6 +92,24 @@ class VehiculoViewModel(
 
         val NOMBRE_FUN = "buscarVehiculoPorMatriculaUseCase"
 
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                mBuscarVehiculoPorMatriculaUseCase(matricala_vehiculo).collect{
+
+                    var resultado_busqueda_vehiculo = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            resultado_busqueda_vehiculo = resultado_busqueda_vehiculo
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
     }
 
 

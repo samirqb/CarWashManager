@@ -421,7 +421,8 @@ fun MyAppNavHost(
             NuevaOrdenDeVentaDialog(
                 mClienteViewModel = mClienteViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
-                onDismissFromVincularClienteYVehiculoDialog = { navController.navigateUp( ) },
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                onDismissFromNuevaOrdenDeVentaDialog = { navController.navigateUp( ) },
             )
         }
     }

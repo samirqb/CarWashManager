@@ -1,7 +1,6 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,24 +25,31 @@ import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
+import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
+import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
 
 @Composable
 fun NuevaOrdenDeVentaDialog(
     mClienteViewModel: ClienteViewModel,
+    mClasificacionDelVehiculoViewModel: ClasificacionDelVehiculoViewModel,
     mVehiculoViewModel: VehiculoViewModel,
-    onDismissFromVincularClienteYVehiculoDialog: () -> Unit,
+    onDismissFromNuevaOrdenDeVentaDialog: () -> Unit,
     //onNavigateToVincularVehiculoDialog: () -> Unit,
 ) {
 
     val mValidarEntradasRegex = ValidarEntradasRegex()
 
+    mClasificacionDelVehiculoViewModel.listarTodasLasClasificacionesDeVehiculoUserCase()
+
     val uiState_ClienteViemodel by mClienteViewModel.uiState.collectAsState()
+    val uiState_ClasificacionDelVehiculoViewModel by mClasificacionDelVehiculoViewModel.uiState.collectAsState()
     val uiState_VehiculoViemodel by mVehiculoViewModel.uiState.collectAsState()
 
     val resultado_busqueda_cliente = uiState_ClienteViemodel.resultado_busqueda_cliente
+    val lista_clasificaciones_vehiculos = uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo.sortedBy { it.clase_id_pk }
     val resultado_busqueda_vehiculo = uiState_VehiculoViemodel.resultado_busqueda_vehiculo
 
     var enabled_btn1 by rememberSaveable { mutableStateOf(true) }
@@ -107,7 +113,8 @@ fun NuevaOrdenDeVentaDialog(
                             )
                         } else if(busqueda_cliente_realizada && resultado_busqueda_cliente == null) {
                             xTextBody(
-                                text = "REGISTRO NO EXISTE -> FORM"
+                                text = stringResource(R.string.txt_body_registro_no_existe),
+                                color = MaterialTheme.colorScheme.error
                             )
                         } else {
                             VLayout3P(
@@ -174,29 +181,45 @@ fun NuevaOrdenDeVentaDialog(
                             )
                         } else if(busqueda_vehiculo_realizada && resultado_busqueda_vehiculo == null) {
                             xTextBody(
-                                text = "REGISTRO NO EXISTE -> FORM"
+                                text = stringResource(R.string.txt_body_registro_no_existe),
+                                color = MaterialTheme.colorScheme.error
                             )
                         } else {
-                            xTextBody(
-                                text = "DATOS DEL VEHICULO..."
+
+                            VLayout2P(
+                                content1 = {
+                                    HLayout2P(
+                                        content1 = {
+                                            sIcon(image_vector_id = R.drawable.rounded_pin_24)
+                                        },
+                                        content2 = {
+                                            xTextTitle(text = resultado_busqueda_vehiculo!!.matricula_pk)
+                                        },
+                                    )
+                                },
+
+                                content2 = {
+                                    HLayout2P(
+                                        content1 = {
+                                            sIcon(image_vector_id = R.drawable.rounded_car_tag_24)
+                                        },
+                                        content2 = {
+                                            val id_clasificacion = lista_clasificaciones_vehiculos.binarySearch{
+                                                it.clase_id_pk.compareTo(resultado_busqueda_vehiculo!!.clase_id_fk)
+                                            }
+                                            xTextTitle(text = lista_clasificaciones_vehiculos[id_clasificacion].descripcion)
+                                        },
+                                    )
+                                },
                             )
                         }
                     },
 
                     content3 = {
-                        sSurface {
-                            if (busqueda_vehiculo_realizada && resultado_busqueda_cliente == null) {
-                                xTextBody(
-                                    text = stringResource(R.string.txt_body_registro_no_existe),
-                                    color = MaterialTheme.colorScheme.error
-                                )
-                            }
-
-                            if (busqueda_vehiculo_realizada && resultado_busqueda_cliente != null){
-                                xTextBody(
-                                    text = "OK"
-                                )
-                            }
+                        if (resultado_busqueda_cliente != null && resultado_busqueda_vehiculo != null){
+                            xTextBody(
+                                text = "DROPDOWN LISTA SERVICIOS DISPONIBLES",
+                            )
                         }
                     },
                 )
@@ -206,7 +229,7 @@ fun NuevaOrdenDeVentaDialog(
         enabled_btn1 = enabled_btn1,
         boton_txt_1 = R.string.txt_label_cancelar,
         on_click_boton_1 = {
-            onDismissFromVincularClienteYVehiculoDialog()
+            onDismissFromNuevaOrdenDeVentaDialog()
 
             /** SE LIMPIAN LOS RESULTADOS DE BUSQUEDA */
             mClienteViewModel.limpiarResultadoDeBusqueda()
@@ -231,15 +254,20 @@ fun NuevaOrdenDeVentaDialog(
             */
 
         },
+        //header
         modifier_content1 = Modifier
             .fillMaxWidth()
             .size(150.dp),
-        modifier_content3 = Modifier
-            .fillMaxWidth()
-            .size(50.dp),
+
+        //body
         /*modifier_content2 = Modifier
             .fillMaxWidth()
             .size(150.dp),*/
+
+        //botones accion
+        modifier_content3 = Modifier
+            .fillMaxWidth()
+            .size(50.dp),
     )
 
 }
