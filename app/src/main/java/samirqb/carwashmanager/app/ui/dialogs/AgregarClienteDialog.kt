@@ -2,13 +2,10 @@ package samirqb.carwashmanager.app.ui.dialogs
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,27 +14,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
-import samirqb.carwashmanager.app.ui.components.base.containers.sDialog
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
-import samirqb.carwashmanager.app.ui.components.custom.old.viewcontents.ListaClientesViewContent
-import samirqb.carwashmanager.app.ui.components.custom.textfields.config.SeparadorDeMiles
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_CHAR
-import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_NUM
 import samirqb.carwashmanager.app.ui.components.custom.textfields.xOutlinedTextField_TEL
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
 import samirqb.lib.personas.entities.ClienteEntity
-import samirqb.lib.personas.entities.OperarioEntity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -131,7 +121,7 @@ fun AgregarClienteDialog(
                                     HLayout2P(
                                         horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
                                         content1 = { sIcon(image_vector_id = R.drawable.rounded_insert_text_24) },
-                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre)) },
+                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre_apellidos)) },
                                     )
                                 },
                                 //visualTransformation = SeparadorDeMiles()
@@ -199,11 +189,11 @@ fun AgregarClienteDialog(
             onDismissFromAgregarClienteDialog()
         },
 
-        modifier_content1 = Modifier
+        modifier_content_header = Modifier
             .fillMaxWidth()
             .size(150.dp),
 
-        modifier_content3 = Modifier
+        modifier_content_action_buttons = Modifier
             .fillMaxWidth()
             .size(50.dp),
     )

@@ -9,9 +9,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
-import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayer1P
-import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
-import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 

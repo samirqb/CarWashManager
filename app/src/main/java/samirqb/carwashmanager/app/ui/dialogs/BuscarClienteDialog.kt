@@ -26,7 +26,6 @@ import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffo
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.helpers.ValidarEntradasRegex
-import samirqb.lib.personas.entities.ClienteEntity
 
 @Composable
 fun BuscarClienteDialog(
@@ -209,10 +208,10 @@ fun BuscarClienteDialog(
             busqueda_realizada = true
 
         },
-        modifier_content1 = Modifier
+        modifier_content_header = Modifier
             .fillMaxWidth()
             .size(150.dp),
-        modifier_content3 = Modifier
+        modifier_content_action_buttons = Modifier
             .fillMaxWidth()
             .size(50.dp),
         //modifier_content3: Modifier = Modifier

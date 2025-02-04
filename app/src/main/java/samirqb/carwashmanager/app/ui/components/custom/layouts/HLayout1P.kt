@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import samirqb.carwashmanager.app.ui.components.base.layouts.sRow
 
 @Composable
-fun HLayer1P(
+fun HLayout1P(
     content1: @Composable() (RowScope.() -> Unit),
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,

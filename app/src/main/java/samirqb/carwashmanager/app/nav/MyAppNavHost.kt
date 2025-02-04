@@ -422,6 +422,8 @@ fun MyAppNavHost(
                 mClienteViewModel = mClienteViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
                 mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                mOperarioViewModel = mOperarioViewModel,
+                mServicioViewModel = mServicioViewModel,
                 onDismissFromNuevaOrdenDeVentaDialog = { navController.navigateUp( ) },
             )
         }

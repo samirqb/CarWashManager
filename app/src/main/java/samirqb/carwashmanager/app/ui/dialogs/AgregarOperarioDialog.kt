@@ -126,7 +126,7 @@ fun AgregarOperarioDialog(
                                     HLayout2P(
                                         horizontalArrangement = Arrangement.spacedBy(9.dp, alignment = Alignment.CenterHorizontally),
                                         content1 = { sIcon(image_vector_id = R.drawable.rounded_insert_text_24) },
-                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre)) },
+                                        content2 = { xTextLabel(text = stringResource(id = R.string.txt_label_nombre_apellidos)) },
                                     )
                                 },
                                 //visualTransformation = SeparadorDeMiles()
@@ -192,11 +192,11 @@ fun AgregarOperarioDialog(
             onDismissFromAgregarClienteDialog()
         },
 
-        modifier_content1 = Modifier
+        modifier_content_header = Modifier
             .fillMaxWidth()
             .size(150.dp),
 
-        modifier_content3 = Modifier
+        modifier_content_action_buttons = Modifier
             .fillMaxWidth()
             .size(50.dp),
     )

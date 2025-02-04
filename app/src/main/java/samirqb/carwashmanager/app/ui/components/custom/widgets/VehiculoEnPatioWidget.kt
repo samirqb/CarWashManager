@@ -26,7 +26,8 @@ fun VehiculoEnPatioWidget(
         modifier = modifier.size(width = 97.dp, height = 119.dp).padding(3.dp),
         //modifier = Modifier
         shape = RoundedCornerShape(13),
-        color = MaterialTheme.colorScheme.secondaryContainer
+        //color = MaterialTheme.colorScheme.secondaryContainer
+        color = MaterialTheme.colorScheme.onSecondary
         ) {
         VLayout2P(
             content1 = {

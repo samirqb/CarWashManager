@@ -184,10 +184,10 @@ fun AgregarVehiculoDialog(
             )
             onDismissFromAgregarVehiculoDialog()
         },
-        modifier_content1 = Modifier
+        modifier_content_header = Modifier
             .fillMaxWidth()
             .size(150.dp),
-        modifier_content3 = Modifier
+        modifier_content_action_buttons = Modifier
             .fillMaxWidth()
             .size(50.dp),
         //modifier_content3: Modifier = Modifier

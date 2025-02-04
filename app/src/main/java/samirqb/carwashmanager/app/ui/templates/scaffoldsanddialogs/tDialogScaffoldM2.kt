@@ -22,9 +22,8 @@ fun tDialogScaffoldM2(
     on_click_boton_2: () -> Unit,
     enabled_btn1:Boolean = true,
     enabled_btn2:Boolean = true,
-    modifier_content1: Modifier = Modifier,
-    modifier_content2: Modifier = Modifier,
-    modifier_content3: Modifier = Modifier,
+    modifier_content_header: Modifier = Modifier,
+    modifier_content_action_buttons: Modifier = Modifier,
 ) {
     //val openDialog = remember { mutableStateOf(openDialog) }
     val openDialog = remember { mutableStateOf(true) }
@@ -41,7 +40,7 @@ fun tDialogScaffoldM2(
                     VLayout3P(
                         content1 = {
                             HeaderDialogX2PWidget(
-                                modifier = modifier_content1,
+                                modifier = modifier_content_header,
                                 header_icon_id = header_icon_id,
                                 header_text_titulo_id = header_text_titulo_id,
                             )
@@ -53,7 +52,7 @@ fun tDialogScaffoldM2(
                         // BOTONERA DE ACCION x2
                         content3 = {
                             tHTxtButtonsX2(
-                                modifier = modifier_content3,
+                                modifier = modifier_content_action_buttons,
                                 txt_btn_1 = boton_txt_1,
                                 on_click_boton_1 = {
                                     openDialog.value = false

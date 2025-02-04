@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
-import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayer1P
+import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
@@ -43,7 +43,7 @@ fun HeaderDialogX3PWidget(
             },
 
             content3 = {
-                HLayer1P(
+                HLayout1P(
                     content1 = { xTextLabel( text = stringResource(id = header_text_subtitulo_id, header_text_consecutivo )) },
                 )
             },
