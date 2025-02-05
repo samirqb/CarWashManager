@@ -56,8 +56,8 @@
     <string name="txt_body_elige_una_categoria">Elige una categoria</string>
     <string name="txt_body_agregar_datos_cliente">Agregar datos del cliente</string>
     <string name="txt_body_agregar_datos_vehiculo">Agregar datos del vehiculo</string>
-    <string name="txt_body_ingrese_identificacion_cliente">Ingrese identificacion del cliente</string>
-    <string name="txt_body_ingrese_matricula_vehiculo">Ingrese la matricula del vehiculo</string>
+    <string name="txt_body_ingrese_identificacion_cliente">Identificacion del cliente?</string>
+    <string name="txt_body_ingrese_matricula_vehiculo">Matricula del vehiculo?</string>
     <string name="txt_label_numero_de_identificacion">Num ident</string>
     <string name="txt_label_clasificacion">Clasificacion</string>
 </resources>

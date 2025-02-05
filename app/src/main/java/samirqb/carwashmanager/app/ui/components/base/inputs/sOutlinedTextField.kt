@@ -11,6 +11,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -41,7 +42,8 @@ fun sOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.shape,
     colors: TextFieldColors = TextFieldDefaults.colors(
-        focusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        //focusedContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        focusedContainerColor = Color.Transparent,
         unfocusedContainerColor = MaterialTheme.colorScheme.surface ,
     )
 ){

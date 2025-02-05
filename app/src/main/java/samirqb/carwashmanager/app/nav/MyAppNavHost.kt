@@ -31,6 +31,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarVehiculosScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
+import samirqb.carwashmanager.app.ui.screens.NuevaOrdenDeVentaScreen
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
@@ -73,6 +74,10 @@ object AdministrarClasificacionVehiculoScreenRoute
 @Serializable
 object AdministrarVehiculosScreenRoute
 //data class AdministrarVehiculoScreenRoute(val name: String? = null)
+
+@Serializable
+object NuevaOrdenDeVentaScreenRoute
+//data class NuevaOrdenDeVentaScreenRoute(val name: String? = null)
 
 
 /**   D I A L O G S   */
@@ -286,6 +291,17 @@ fun MyAppNavHost(
             )
         }
 
+        composable<NuevaOrdenDeVentaScreenRoute>{
+            NuevaOrdenDeVentaScreen(
+                mClienteViewModel = mClienteViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                mOperarioViewModel = mOperarioViewModel,
+                mServicioViewModel = mServicioViewModel,
+                onClick_navigate_back = { navController.navigateUp( ) },
+            )
+        }
+
 
 
         /**   D I A L O S   **/
@@ -302,8 +318,7 @@ fun MyAppNavHost(
                 mMonedaViewModel = mMonedaViewModel,
             )
         }
-
-
+        
         dialog<AperturaCajaConfirmacionDialogRoute> {
             AperturaCajaConfirmacionDialog(
 
@@ -421,10 +436,10 @@ fun MyAppNavHost(
             NuevaOrdenDeVentaDialog(
                 mClienteViewModel = mClienteViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
-                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
-                mOperarioViewModel = mOperarioViewModel,
-                mServicioViewModel = mServicioViewModel,
                 onDismissFromNuevaOrdenDeVentaDialog = { navController.navigateUp( ) },
+                onNavigateToNuevaOrdenDeVentaScreen = {
+                    navController.navigate( route = NuevaOrdenDeVentaScreenRoute )
+                }
             )
         }
     }
