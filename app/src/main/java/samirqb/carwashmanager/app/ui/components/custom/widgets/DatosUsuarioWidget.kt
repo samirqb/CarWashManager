@@ -26,6 +26,9 @@ fun DatosUsuarioWidget(
     txt_body_telefono: String,
     modifier: Modifier = Modifier,
 ) {
+
+    val color = MaterialTheme.colorScheme.surfaceContainer
+
     VLayout2P(
         verticalArrangement = Arrangement.spacedBy(7.dp),
         //NOMBRE Y APOELLIDOS
@@ -34,9 +37,9 @@ fun DatosUsuarioWidget(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(69.dp),
-                    //.weight(1f)
+                //.weight(1f)
                 shape = RoundedCornerShape(13),
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = color
             ) {
                 VLayout2P(
 
@@ -79,7 +82,7 @@ fun DatosUsuarioWidget(
                             .weight(1f)
                             .fillMaxSize(),
                         shape = RoundedCornerShape(13),
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = color,
                     ) {
                         VLayout2P(
 
@@ -114,7 +117,7 @@ fun DatosUsuarioWidget(
                             .weight(1f)
                             .fillMaxSize(),
                         shape = RoundedCornerShape(13),
-                        color = MaterialTheme.colorScheme.onSecondary
+                        color = color
                     ) {
                         VLayout2P(
 
@@ -139,7 +142,6 @@ fun DatosUsuarioWidget(
                             },
                         )
                     }
-
                 },
             )
         },

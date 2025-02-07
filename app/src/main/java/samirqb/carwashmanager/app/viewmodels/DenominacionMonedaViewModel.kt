@@ -23,6 +23,10 @@ class DenominacionMonedaViewModel(
     private val _uiState = MutableStateFlow(DenomoninacionMonedaUiState())
     val uiState: StateFlow<DenomoninacionMonedaUiState> = _uiState.asStateFlow()
 
+    init{
+        leerTodo()
+    }
+
     fun actualizarDenominacionMonedaEntity(mDenominacionMonedaEntity: DenominacionMonedaEntity){
         _uiState.update{
             it.copy(

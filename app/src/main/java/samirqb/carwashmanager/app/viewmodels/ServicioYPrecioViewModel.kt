@@ -32,6 +32,9 @@ class ServicioYPrecioViewModel(
     private val _uiState = MutableStateFlow(ServicioYPrecioUiState())
     val uiState: StateFlow<ServicioYPrecioUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodosLosServiciosYPreciosUC()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {

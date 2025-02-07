@@ -34,6 +34,12 @@ class OrdenDePagoNominaViewModel(
     private val _uiState = MutableStateFlow(OrdenDePagoNominaUiState())
     val uiState: StateFlow<OrdenDePagoNominaUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodasLasOrdenesDePagoNomina()
+        listarTodasLasOrdenesDePagoNominaPagadas()
+        listarTodasLasOrdenesDePagoNominaSinPagar()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
 
@@ -103,11 +109,10 @@ class OrdenDePagoNominaViewModel(
             } catch (e:Exception){
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
-
         }
     }
 
-    fun listarTodasLasOrdenesDePagoNominaSinPagadas(){
+    fun listarTodasLasOrdenesDePagoNominaSinPagar(){
 
         val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaSinPagadas"
 

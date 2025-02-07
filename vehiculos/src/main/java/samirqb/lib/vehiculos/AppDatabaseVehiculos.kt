@@ -1,14 +1,21 @@
 package samirqb.lib.vehiculos
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import samirqb.lib.vehiculos.dao.IClasificacionDelVehiculoDao
 import samirqb.lib.vehiculos.dao.IVehiculoDao
 import samirqb.lib.vehiculos.entities.ClasificacionDelVehiculoEntity
 import samirqb.lib.vehiculos.entities.VehiculoEntity
+import java.time.LocalDateTime.now
+import java.time.format.DateTimeFormatter
 
 @Database(
     entities = [
@@ -18,7 +25,7 @@ import samirqb.lib.vehiculos.entities.VehiculoEntity
     version = 1,
     exportSchema = false,
 )
-abstract class AppDatabaseVehiculos:RoomDatabase() {
+abstract class AppDatabaseVehiculos : RoomDatabase() {
     abstract fun iClasificacionDelVehiculoDao(): IClasificacionDelVehiculoDao
     abstract fun iVehiculoDao(): IVehiculoDao
 
@@ -36,14 +43,13 @@ abstract class AppDatabaseVehiculos:RoomDatabase() {
                     klass = AppDatabaseVehiculos::class.java,
                     name = "db_modulo_vehiculos"
                 )
-                    //.addCallback(PrePopulateDatabaseCallback(scope))
+                    .addCallback(PrePopulateDatabaseCallback(scope))
                     .build()
                 INSTANCE = db
                 db
             }
         }
 
-        /*
         // PRE-POPULATE BASE DE DATOS CAJA
         private class PrePopulateDatabaseCallback(
             private val scope: CoroutineScope,
@@ -57,31 +63,27 @@ abstract class AppDatabaseVehiculos:RoomDatabase() {
 
                         val datetime = now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
-                        var uMDao = database.iUnidadMonetariaDao()
-                        var tMDao = database.iTipoMonedaDao()
+                        var iClasificacionDelVehiculoDao = database.iClasificacionDelVehiculoDao()
 
-                        uMDao.borrarTodo()
-                        tMDao.borrarTodo()
+                        try {
+                            iClasificacionDelVehiculoDao.borrarTodo()
 
-                        var mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "XXX",
-                            nombre_y_origen = "OTRA MONEDA",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-
-                        uMDao.insertar(mUMEntity)
-
-
-                        var mTMEntity = TipoMonedaEntity(
-                            tipo_pk = "BILLETE",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-
-                        tMDao.insertar(mTMEntity)
+                            ClasificacionesDeVehiculosParams().obtener().forEach{
+                                iClasificacionDelVehiculoDao.insertar(
+                                    ClasificacionDelVehiculoEntity(
+                                        clase_id_pk = 0,
+                                        descripcion = it,
+                                        fecha_hora_creacion = datetime
+                                    )
+                                )
+                            }
+                        } catch (e:Exception){
+                            throw CustomDatabaseException("Error en iClasificacionDelVehiculoDao.insertar desde PrePopulateDatabaseCallback()", e)
+                        }
                     }
                 }
             }
         }
-        */
+
     }
 }

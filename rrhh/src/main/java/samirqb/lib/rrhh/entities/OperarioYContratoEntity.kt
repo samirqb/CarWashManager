@@ -8,7 +8,10 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_operarios_y_contratos",
-    indices = [Index(value = ["id_contrato_pk","identificacion_operario","id_acuerdo_de_pago_fk"])],
+    indices = [
+        Index(value = ["id_contrato_pk","identificacion_operario","id_acuerdo_de_pago_fk"]),
+        Index(value = ["id_acuerdo_de_pago_fk"]),
+              ],
     foreignKeys = [
         ForeignKey(
             entity = AcuerdoDePagoNominaEntity::class,

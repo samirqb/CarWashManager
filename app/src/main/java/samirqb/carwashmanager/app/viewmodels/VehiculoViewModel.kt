@@ -34,6 +34,10 @@ class VehiculoViewModel(
     private val _uiState = MutableStateFlow(VehiculoUiState())
     val uiState: StateFlow<VehiculoUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodosLosVehiculoUserCase()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
 
@@ -95,6 +99,14 @@ class VehiculoViewModel(
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
+
+                _uiState.update{
+
+                    it.copy(
+                        matricala_value_buscado = matricala_vehiculo
+                    )
+                }
+
                 mBuscarVehiculoPorMatriculaUseCase(matricala_vehiculo).collect{
 
                     var resultado_busqueda_vehiculo = it

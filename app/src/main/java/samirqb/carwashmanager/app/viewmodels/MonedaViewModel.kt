@@ -30,6 +30,11 @@ class MonedaViewModel(
     val _uiState = MutableStateFlow(MonedaUiState())
     val uiState: StateFlow<MonedaUiState> = _uiState.asStateFlow()
 
+    init {
+        leerTodo()
+    }
+
+
     fun actualizarMonedaEntity(mMonedaEntity: MonedaEntity) {
         _uiState.update {
             it.copy(

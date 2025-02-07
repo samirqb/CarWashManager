@@ -52,6 +52,7 @@ class CajaViewModel(
     val uiState_CierreCaja: StateFlow<CierreCajaUiState> = _uiState_CierreCaja.asStateFlow()
 
     init {
+        listarTodasLasAperturas()
         obtenerUltimaAperturaCaja()
         obtenerUltimoCierreCaja()
         getIdAperturaActual()
@@ -210,7 +211,10 @@ class CajaViewModel(
         }
     }
 
-    fun actualizarListaDetallesACCaja(es_apertura: Boolean, lista_detalles_ac_caja: MutableList<DetalleACCajaDto>) {
+    fun actualizarListaDetallesACCaja(
+        es_apertura: Boolean,
+        lista_detalles_ac_caja: MutableList<DetalleACCajaDto>
+    ) {
 
         if (es_apertura) {
             _uiState_AperturaCaja.update {

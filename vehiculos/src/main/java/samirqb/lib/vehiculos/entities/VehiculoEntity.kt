@@ -7,7 +7,10 @@ import androidx.room.Index
 
 @Entity(
     tableName = "tab_vehiculos",
-    indices = [Index( value = ["matricula_pk"])],
+    indices = [
+        Index(value = ["matricula_pk", "clase_id_fk"]),
+        Index(value = ["clase_id_fk"]),
+    ],
     primaryKeys = ["matricula_pk"],
     foreignKeys = [
         ForeignKey(
@@ -20,7 +23,7 @@ import androidx.room.Index
     ]
 )
 data class VehiculoEntity(
-    val matricula_pk:String,
+    val matricula_pk: String,
     val clase_id_fk: Int,
-    val fecha_hora_creacion:String,
+    val fecha_hora_creacion: String,
 )

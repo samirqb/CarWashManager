@@ -91,7 +91,7 @@ fun NuevaOrdenDeVentaDialog(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 content1 = {
                                     xTextBody(
-                                        text = stringResource(R.string.txt_body_ingrese_identificacion_cliente),
+                                        text = stringResource(R.string.txt_body_cual_es_la_identificacion_cliente),
                                         color = MaterialTheme.colorScheme.error
                                     )
                                 },
@@ -122,7 +122,6 @@ fun NuevaOrdenDeVentaDialog(
                                 },
                             )
                         }
-
                     },
 
                     /** ********** CAMPO PARA BUSCAR MATRICULA DEL VEHICULO ************* */
@@ -151,7 +150,7 @@ fun NuevaOrdenDeVentaDialog(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 content1 = {
                                     xTextBody(
-                                        text = stringResource(R.string.txt_body_ingrese_matricula_vehiculo),
+                                        text = stringResource(R.string.txt_body_cual_es_la_matricula_vehiculo),
                                         color = MaterialTheme.colorScheme.error
                                     )
                                 },

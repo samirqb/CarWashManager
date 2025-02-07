@@ -26,12 +26,16 @@ class PrecioViewModel(
     private val mAgregarPrecioUseCase: AgregarPrecioUseCase,
     private val mObtenerElPrecioMasRecienteUseCase: ObtenerElPrecioMasRecienteUseCase,
     private val mListarTodosLosPreciosUseCase: ListarTodosLosPreciosUseCase,
-): ViewModel() {
+) : ViewModel() {
 
     private val NOMBRE_CLASE = "PrecioViewModel"
 
     private val _uiState = MutableStateFlow(PrecioUiState())
     val uiState: StateFlow<PrecioUiState> = _uiState.asStateFlow()
+
+    init {
+        listarTodosLosPreciosUseCase()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
@@ -49,7 +53,7 @@ class PrecioViewModel(
         }
     }
 
-    fun agregarPrecioUseCase(mTEntity: PrecioEntity){
+    fun agregarPrecioUseCase(mTEntity: PrecioEntity) {
 
         val NOMBRE_FUN = "agregarPrecioUseCase"
 
@@ -57,19 +61,19 @@ class PrecioViewModel(
 
             try {
                 mAgregarPrecioUseCase(mTEntity)
-            } catch (e:Exception){
-                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
         }
     }
 
-    fun obtenerPrecioMasRecienteUseCase(){
+    fun obtenerPrecioMasRecienteUseCase() {
 
         val NOMBRE_FUN = "obtenerPrecioMasRecienteUseCase"
 
         viewModelScope.launch {
             try {
-                mObtenerElPrecioMasRecienteUseCase().collect{
+                mObtenerElPrecioMasRecienteUseCase().collect {
                     var precioEntity = it
 
                     _uiState.update {
@@ -78,32 +82,32 @@ class PrecioViewModel(
                         )
                     }
                 }
-            } catch (e:Exception){
-                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
         }
     }
 
-    fun listarTodosLosPreciosUseCase(){
+    fun listarTodosLosPreciosUseCase() {
 
         val NOMBRE_FUN = "listarTodosLosPreciosUseCase"
 
         viewModelScope.launch {
 
             try {
-                mListarTodosLosPreciosUseCase().collect{
+                mListarTodosLosPreciosUseCase().collect {
 
                     var lista = it
 
-                    _uiState.update{
+                    _uiState.update {
 
                         it.copy(
                             todos_los_precios = lista
                         )
                     }
                 }
-            } catch (e:Exception){
-                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
         }
     }
@@ -113,11 +117,14 @@ class PrecioViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 // val savedStateHandle = createSavedStateHandle()
-                val mAgregarPrecioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarPrecioUseCase
-                val mObtenerElPrecioMasRecienteUseCase = (this[APPLICATION_KEY] as MyApplication).mObtenerElPrecioMasRecienteUseCase
-                val mListarTodosLosPreciosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosPreciosUseCase
+                val mAgregarPrecioUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mAgregarPrecioUseCase
+                val mObtenerElPrecioMasRecienteUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mObtenerElPrecioMasRecienteUseCase
+                val mListarTodosLosPreciosUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mListarTodosLosPreciosUseCase
                 PrecioViewModel(
-                    mAgregarPrecioUseCase  = mAgregarPrecioUseCase,
+                    mAgregarPrecioUseCase = mAgregarPrecioUseCase,
                     mObtenerElPrecioMasRecienteUseCase = mObtenerElPrecioMasRecienteUseCase,
                     mListarTodosLosPreciosUseCase = mListarTodosLosPreciosUseCase,
                 )

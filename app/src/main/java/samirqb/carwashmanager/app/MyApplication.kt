@@ -44,6 +44,10 @@ import samirqb.lib.vehiculos.uc.AgregarVehiculoUseCase
 import samirqb.lib.vehiculos.uc.BuscarVehiculoPorMatriculaUseCase
 import samirqb.lib.vehiculos.uc.ListarTodasLasClasificacionesDelVehiculoUseCase
 import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
+import samirqb.lib.ventas.AppDatabaseVentas
+import samirqb.lib.ventas.repositories.OrdenDeVentaRepository
+import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
+import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasUseCase
 
 class MyApplication: Application() {
 
@@ -57,6 +61,7 @@ class MyApplication: Application() {
     private val mAppDatabaseOfertas by lazy { AppDataBaseOfertas.getDatabase(this, applicationScope) }
     private val mAppDatabaseVehiculos by lazy { AppDatabaseVehiculos.getDatabase(this, applicationScope) }
     private val mAppDatabasePagos by lazy { AppDatabasePagos.getDatabase(this, applicationScope) }
+    private val mAppDatabaseVentas by lazy { AppDatabaseVentas.getDatabase(this, applicationScope) }
 
 
     //   R E P O   M O D U L O   C A J A
@@ -104,6 +109,10 @@ class MyApplication: Application() {
     val mListarTodasLasOrdenesDePagoNominaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
     val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
 
+
+    //   U C   O R D E N E S   D E   V E N T A S
+    val mCrearNuevaOrdenDeVentaUseCase by lazy{ CrearNuevaOrdenDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+    val mListarTodasLasOrdenesDeVentasUseCase by lazy{ ListarTodasLasOrdenesDeVentasUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

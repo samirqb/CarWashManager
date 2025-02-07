@@ -8,7 +8,11 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tab_precios_de_servicios",
-    indices = [Index(value = ["id_registro","id_servicio_fk","precio_fk","codigo_iso_4217_fk"])],
+    indices = [
+        Index(value = ["id_registro", "id_servicio_fk", "precio_fk", "codigo_iso_4217_fk"]),
+        Index(value = ["id_servicio_fk"]),
+        Index(value = ["precio_fk"]),
+    ],
     foreignKeys = [
         ForeignKey(
             entity = ServicioEntity::class,
@@ -28,10 +32,10 @@ import androidx.room.PrimaryKey
 )
 data class ServicioYPrecioEntity(
     @PrimaryKey(autoGenerate = true)
-    var id_registro:Int,
+    var id_registro: Int,
     var id_servicio_fk: Int,
-    var precio_fk:Float,
-    var codigo_iso_4217_fk:String,
+    var precio_fk: Float,
+    var codigo_iso_4217_fk: String,
     var precio_activo: Boolean,
     var fecha_hora_creacion: String,
 )

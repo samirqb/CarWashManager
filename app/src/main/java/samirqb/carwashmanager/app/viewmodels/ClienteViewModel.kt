@@ -35,6 +35,10 @@ class ClienteViewModel(
     private val _uiState = MutableStateFlow(ClienteUiState())
     val uiState: StateFlow<ClienteUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodosLosClientesUC()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
 
@@ -97,6 +101,14 @@ class ClienteViewModel(
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
+
+                _uiState.update{
+
+                    it.copy(
+                        cliente_id_value_buscado = id
+                    )
+                }
+
                 mBuscarClientePorIdUseCase(id).collect{
 
                     var resultado_busqueda_cliente = it

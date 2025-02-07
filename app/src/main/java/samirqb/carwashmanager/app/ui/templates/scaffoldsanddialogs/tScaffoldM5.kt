@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.ui.components.base.containers.sScaffold
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout1P
-import samirqb.carwashmanager.app.ui.templates.floatingactionbuttons.tFloatingActionButton
 import samirqb.carwashmanager.app.ui.templates.topappbars.tTopAppBarM3
 
 @OptIn(ExperimentalMaterial3Api::class)

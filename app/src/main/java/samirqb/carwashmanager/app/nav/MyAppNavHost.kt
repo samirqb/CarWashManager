@@ -38,6 +38,7 @@ import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
+import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.PrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
@@ -178,6 +179,9 @@ fun MyAppNavHost(
     mVehiculoViewModel: VehiculoViewModel =
         viewModel(factory = VehiculoViewModel.Factory),
 
+    mOrdenDeVentaViewModel: OrdenDeVentaViewModel =
+        viewModel(factory = OrdenDeVentaViewModel.Factory),
+
 ) {
     NavHost(
         modifier = modifier,
@@ -297,7 +301,8 @@ fun MyAppNavHost(
                 mVehiculoViewModel = mVehiculoViewModel,
                 mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
                 mOperarioViewModel = mOperarioViewModel,
-                mServicioViewModel = mServicioViewModel,
+                mServicioYPrecioViewModel = mServicioYPrecioViewModel,
+                mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
             )
         }

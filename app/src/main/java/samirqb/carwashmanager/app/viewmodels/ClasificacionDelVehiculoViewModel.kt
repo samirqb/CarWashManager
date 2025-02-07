@@ -31,6 +31,10 @@ class ClasificacionDelVehiculoViewModel(
     private val _uiState = MutableStateFlow(ClasificacionDelVehiculoUiState())
     val uiState: StateFlow<ClasificacionDelVehiculoUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodasLasClasificacionesDeVehiculoUserCase()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
 

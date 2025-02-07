@@ -31,6 +31,10 @@ class OperarioViewModel(
     private val _uiState = MutableStateFlow(OperarioUiState())
     val uiState: StateFlow<OperarioUiState> = _uiState.asStateFlow()
 
+    init {
+        listarTodosLosOperariosUC()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun actualizarFechaYHora() {
 

@@ -25,6 +25,10 @@ class TipoMonedaViewModel(
     private val _uiState = MutableStateFlow(TipoMonedaUiState())
     val uiState: StateFlow<TipoMonedaUiState> = _uiState.asStateFlow()
 
+    init {
+        leerTodo()
+    }
+
     fun actualizarTipoMonedaEntity(mTipoMonedaEntity: TipoMonedaEntity){
         _uiState.update{
             it.copy(

@@ -25,6 +25,8 @@ fun DatosVehiculoWidget(
     txt_body_clasificacion:String,
 ) {
 
+    val color = MaterialTheme.colorScheme.surfaceContainer
+
     HLayout2P(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +39,7 @@ fun DatosVehiculoWidget(
                     .weight(1f)
                     .fillMaxSize(),
                 shape = RoundedCornerShape(13),
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = color,
             ) {
                 VLayout2P(
 
@@ -70,7 +72,7 @@ fun DatosVehiculoWidget(
                     .weight(1f)
                     .fillMaxSize(),
                 shape = RoundedCornerShape(13),
-                color = MaterialTheme.colorScheme.onSecondary
+                color = color
             ) {
                 VLayout2P(
 
