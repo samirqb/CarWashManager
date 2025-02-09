@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.inputs.sButton
+import samirqb.carwashmanager.app.ui.components.base.inputs.sTextButton
 import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyColumn
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout1P
@@ -60,6 +62,7 @@ fun NuevaOrdenDeVentaScreen(
     mOperarioViewModel: OperarioViewModel,
     mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
+    onNavigateToAgregarServicioDialog: () -> Unit,
     onClick_navigate_back: () -> Unit,
 ) {
 
@@ -89,6 +92,8 @@ fun NuevaOrdenDeVentaScreen(
         }
     val lista_categorias_vehiculo = uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo
 
+    var orden_de_venta_id by rememberSaveable { mutableIntStateOf(0) }
+
     // formulario cliente si cliente no existe en db
     var identificacion_value by rememberSaveable { mutableStateOf(cliente_id_value_buscado ) }
     var nombre_y_apellidos_value by rememberSaveable { mutableStateOf("") }
@@ -96,7 +101,7 @@ fun NuevaOrdenDeVentaScreen(
 
     // formulario vahiculo si vehiculo no exista en db
     var matricula_vehiculo_value by rememberSaveable { mutableStateOf(matricala_value_buscado) }
-    var categoria_seleccionada by rememberSaveable { mutableStateOf(0) }
+    var categoria_seleccionada by rememberSaveable { mutableIntStateOf(0) }
 
     tScaffoldM5(
         top_app_bar_title = R.string.txt_titulo_nueva_orden_servidios,
@@ -498,9 +503,21 @@ fun NuevaOrdenDeVentaScreen(
                             )
                         }
                     )
+
+                    HLayout1P(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        content1 = {
+                            sTextButton(onClick = onNavigateToAgregarServicioDialog ) {
+                                xTextLabel(text = stringResource(id = R.string.txt_label_agregar_servicio))
+                                sIcon(image_vector_id = R.drawable.rounded_add_24)
+                            }
+                        },
+                    )
                 }
 
-                /*itemsIndexed() { index ->
+                /*
+                itemsIndexed() { index ->
                     sSurface(
                         modifier = Modifier
                             .fillMaxSize().padding(3.dp),
@@ -517,7 +534,8 @@ fun NuevaOrdenDeVentaScreen(
                             }
                         )
                     }
-                }*/
+                }
+                */
 
                 item{
                     sSurface {
@@ -526,7 +544,7 @@ fun NuevaOrdenDeVentaScreen(
                                 sButton(
                                     onClick = {},
                                     content = {
-                                        sIcon(image_vector_id = R.drawable.rounded_save_24)
+                                         sIcon(image_vector_id = R.drawable.rounded_save_24)
                                         xTextLabel(text = stringResource(id = R.string.txt_label_guardar))
                                     },
                                 )

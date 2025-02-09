@@ -32,5 +32,10 @@ interface IServicioYPrecioDao:IBaseDao<ServicioYPrecioEntity> {
 
     @Query( "DELETE FROM tab_precios_de_servicios" )
     suspend fun borrarTodo()
+
+    //CUSTOM
+    @Transaction
+    @Query( "SELECT * FROM tab_precios_de_servicios WHERE precio_activo = :precio_activo" )
+    fun leerTodoPorPrecioActivo(precio_activo: Boolean): Flow<List<ServicioYPrecioEntity>>
     
 }

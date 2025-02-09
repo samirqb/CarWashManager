@@ -21,6 +21,7 @@ import samirqb.lib.ofertas.uc.AgregarServicioYPrecioUseCase
 import samirqb.lib.ofertas.uc.AgregarPrecioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosPreciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
 import samirqb.lib.pagos.AppDatabasePagos
@@ -91,6 +92,7 @@ class MyApplication: Application() {
     val mListarTodosLosServiciosUseCase by lazy { ListarTodosLosServiciosUseCase(ServiciosRepository(mAppDatabaseOfertas.iServicioDao())) }
     val mAgregarServicioYPrecioUseCase by lazy { AgregarServicioYPrecioUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mListarTodosLosServiciosYPreciosUseCase by lazy { ListarTodosLosServiciosYPreciosUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
+    val mListarTodosLosServiciosYPreciosActivosUseCase by lazy { ListarTodosLosServiciosYPreciosActivosUseCase(ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mAgregarPrecioUseCase by lazy { AgregarPrecioUseCase( PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mListarTodosLosPreciosUseCase by lazy { ListarTodosLosPreciosUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mObtenerElPrecioMasRecienteUseCase by lazy { ObtenerElPrecioMasRecienteUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }

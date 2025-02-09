@@ -43,7 +43,6 @@ fun NuevaOrdenDeVentaDialog(
     var min_char_to_enabled_btn2_from_vehiculo by rememberSaveable { mutableStateOf(false) }
 
     var cliente_id_value by rememberSaveable { mutableStateOf("") }
-
     var matricala_value by rememberSaveable { mutableStateOf("") }
 
     tDialogScaffoldM2(

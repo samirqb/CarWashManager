@@ -3,7 +3,6 @@ package samirqb.carwashmanager.app.viewmodels
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.compiler.plugins.kotlin.lower.forEachWith
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -20,11 +19,13 @@ import samirqb.carwashmanager.app.viewmodels.uistates.ServicioYPrecioUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 import samirqb.lib.ofertas.uc.AgregarServicioYPrecioUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 
 class ServicioYPrecioViewModel(
     private val mAgregarServicioYPrecioUseCase: AgregarServicioYPrecioUseCase,
-    private val mListarTodosLosServiciosYPreciosUseCase: ListarTodosLosServiciosYPreciosUseCase
+    private val mListarTodosLosServiciosYPreciosUseCase: ListarTodosLosServiciosYPreciosUseCase,
+    private val mListarTodosLosServiciosYPreciosActivosUseCase: ListarTodosLosServiciosYPreciosActivosUseCase,
 ):ViewModel() {
 
     private val NOMBRE_CLASE = "ServicioYPrecioViewModel"
@@ -34,6 +35,8 @@ class ServicioYPrecioViewModel(
 
     init {
         listarTodosLosServiciosYPreciosUC()
+        listarTodosLosServiciosYPreciosActivosUseCase()
+        listarTodosLosServiciosYPreciosInactivosUseCase()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -92,7 +95,57 @@ class ServicioYPrecioViewModel(
         }
     }
 
+    fun listarTodosLosServiciosYPreciosActivosUseCase(){
 
+        val NOMBRE_FUN = "listarTodosLosServiciosYPreciosActivosUseCase"
+
+        val PRECIO_ACTIVO = true
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosServiciosYPreciosActivosUseCase(PRECIO_ACTIVO).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            listar_todos_los_servicios_y_precios_activos = lista
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodosLosServiciosYPreciosInactivosUseCase(){
+
+        val NOMBRE_FUN = "listarTodosLosServiciosYPreciosInactivosUseCase"
+
+        val PRECIO_ACTIVO = false
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosServiciosYPreciosActivosUseCase(PRECIO_ACTIVO).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            todos_los_servicios_y_precios_inactivos = lista
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
 
     /** ViewModelFactori **/
     companion object {
@@ -101,9 +154,11 @@ class ServicioYPrecioViewModel(
                 // val savedStateHandle = createSavedStateHandle()
                 val mAgregarServicioYPrecioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarServicioYPrecioUseCase
                 val mListarTodosLosServiciosYPreciosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosUseCase
+                val mListarTodosLosServiciosYPreciosActivosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosActivosUseCase
                 ServicioYPrecioViewModel(
-                    mAgregarServicioYPrecioUseCase  = mAgregarServicioYPrecioUseCase,
+                    mAgregarServicioYPrecioUseCase = mAgregarServicioYPrecioUseCase,
                     mListarTodosLosServiciosYPreciosUseCase = mListarTodosLosServiciosYPreciosUseCase,
+                    mListarTodosLosServiciosYPreciosActivosUseCase = mListarTodosLosServiciosYPreciosActivosUseCase,
                 )
             }
         }

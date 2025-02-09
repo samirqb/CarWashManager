@@ -24,6 +24,7 @@ import samirqb.carwashmanager.app.ui.dialogs.BuscarClienteDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaCantidadesPorDenominacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.CierreCajaConfirmacionDialog
 import samirqb.carwashmanager.app.ui.dialogs.NuevaOrdenDeVentaDialog
+import samirqb.carwashmanager.app.ui.dialogs.AgregarServicioAOrdenDeVentaDialog
 import samirqb.carwashmanager.app.ui.screens.AdministrarCategoriasScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarClientesScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
@@ -38,6 +39,7 @@ import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.DenominacionMonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
+import samirqb.carwashmanager.app.viewmodels.OrdenDePagoNominaViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.PrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
@@ -134,6 +136,10 @@ object BuscarClienteDialogRoute
 object NuevaOrdenDeVentaDialogRoute
 //data class BuscarVehiculoDialogRoute( val x: XXX )
 
+@Serializable
+object NuevoServicioDialogRoute
+//data class NuevoServicioDialogRoute( val x: XXX )
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -182,7 +188,10 @@ fun MyAppNavHost(
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel =
         viewModel(factory = OrdenDeVentaViewModel.Factory),
 
-) {
+    mmOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel =
+            viewModel(factory = OrdenDePagoNominaViewModel.Factory),
+
+    ) {
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -304,6 +313,9 @@ fun MyAppNavHost(
                 mServicioYPrecioViewModel = mServicioYPrecioViewModel,
                 mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
                 onClick_navigate_back = { navController.navigateUp( ) },
+                onNavigateToAgregarServicioDialog = {
+                    navController.navigate( route = NuevoServicioDialogRoute )
+                }
             )
         }
 
@@ -444,6 +456,19 @@ fun MyAppNavHost(
                 onDismissFromNuevaOrdenDeVentaDialog = { navController.navigateUp( ) },
                 onNavigateToNuevaOrdenDeVentaScreen = {
                     navController.navigate( route = NuevaOrdenDeVentaScreenRoute )
+                }
+            )
+        }
+
+        dialog<NuevoServicioDialogRoute> {
+            AgregarServicioAOrdenDeVentaDialog(
+                mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
+                mOrdenDePagoNominaViewModel = mmOrdenDePagoNominaViewModel,
+                mServicioViewModel = mServicioViewModel,
+                mServicioYPrecioViewModel = mServicioYPrecioViewModel,
+                mOperarioViewModel = mOperarioViewModel,
+                onDismissFromAgregarServicioAOrdenDeVentaDialog = {
+                    navController.navigateUp( )
                 }
             )
         }

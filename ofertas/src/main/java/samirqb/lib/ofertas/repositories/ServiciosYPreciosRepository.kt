@@ -14,7 +14,7 @@ class ServiciosYPreciosRepository(
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception){
-            throw MyCustomException("Error al insertar PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al insertar en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -22,7 +22,7 @@ class ServiciosYPreciosRepository(
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
-            throw MyCustomException("Error al leerPorId PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al leerPorId en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -30,7 +30,7 @@ class ServiciosYPreciosRepository(
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
-            throw MyCustomException("Error al leerPorId PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al leerPorId en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -38,7 +38,7 @@ class ServiciosYPreciosRepository(
         return try {
             mDao.leerPorId(id)
         } catch (e: Exception){
-            throw MyCustomException("Error al leerPorId PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al leerPorId en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -46,7 +46,7 @@ class ServiciosYPreciosRepository(
         return try {
             mDao.leerTodo()
         } catch (e: Exception){
-            throw MyCustomException("Error al leerTodo PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al leerTodo en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -54,7 +54,7 @@ class ServiciosYPreciosRepository(
         try {
             mDao.borrarTodo()
         } catch (e: Exception){
-            throw MyCustomException("Error al borrarTodo PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al borrarTodo en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -62,7 +62,7 @@ class ServiciosYPreciosRepository(
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception){
-            throw MyCustomException("Error al borrar PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al borrar en ServiciosYPreciosRepository", e)
         }
     }
 
@@ -70,7 +70,16 @@ class ServiciosYPreciosRepository(
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception){
-            throw MyCustomException("Error al actualizar PreciosDeServiciosEntity", e)
+            throw MyCustomException("Error al actualizar en ServiciosYPreciosRepository", e)
+        }
+    }
+
+    //CUSTOM
+    fun leerTodoPorPrecioActivo(precio_activo: Boolean): Flow<List<ServicioYPrecioEntity>>{
+        return try {
+            mDao.leerTodoPorPrecioActivo( precio_activo )
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerTodoPorPrecioActivo en ServiciosYPreciosRepository", e)
         }
     }
 
