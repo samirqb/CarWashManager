@@ -236,7 +236,8 @@ fun MyAppNavHost(
                     navController.navigate( route = NuevaOrdenDeVentaDialogRoute )
                 },
 
-                mCajaViewModel = mCajaViewModel
+                mCajaViewModel = mCajaViewModel,
+                mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
             )
         }
 

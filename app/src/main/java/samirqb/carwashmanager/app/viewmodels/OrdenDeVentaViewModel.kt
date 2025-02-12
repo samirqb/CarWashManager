@@ -3,6 +3,7 @@ package samirqb.carwashmanager.app.viewmodels
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.OrdenDeVentaUiState
 import samirqb.lib.helpers.FechaYHora
+import samirqb.lib.helpers.SumaValoresDeItemsDeUnaLista
 import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
@@ -122,8 +124,52 @@ class OrdenDeVentaViewModel(
         }
     }
 
+    fun agregarEnUiStatePresiosDeServicioAOrdenDeVenta(precio_servicio: Float) {
 
-    fun listarTodasLosServiciosAgregadosALaOrden(){
+        val NOMBRE_FUN = "agregarEnUiStatePresiosDeServicioAOrdenDeVenta"
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                _uiState.update {
+
+                    var lista = it.todos_los_precios_de_servicios_agregados_a_la_orden
+
+                    lista.add(precio_servicio)
+
+                    it.copy(
+                        todos_los_precios_de_servicios_agregados_a_la_orden = lista
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun sumarTodosLosPreciosDeListaDeServiciosAgregados() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            _uiState.update {
+                if (it.todos_los_productos_agregados_a_la_orden.isEmpty()) {
+                    it.copy(
+                        suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(0f)
+                    )
+                } else {
+                    it.copy(
+                        suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(
+                            SumaValoresDeItemsDeUnaLista()
+                                .sumar(
+                                    it.todos_los_precios_de_servicios_agregados_a_la_orden
+                                )
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun listarTodasLosServiciosAgregadosALaOrden() {
 
         val NOMBRE_FUN = "listarTodasLosServiciosAgregadosALaOrden"
 
@@ -157,7 +203,7 @@ class OrdenDeVentaViewModel(
         }
     }
 
-    fun sumarValoreDeTodosLosServiciosAgregadosALaOrden(lista: MutableList<DetalleOrdenServicioEntity>){
+    fun sumarValoreDeTodosLosServiciosAgregadosALaOrden(lista: MutableList<DetalleOrdenServicioEntity>) {
 
         viewModelScope.launch(Dispatchers.IO) {
 

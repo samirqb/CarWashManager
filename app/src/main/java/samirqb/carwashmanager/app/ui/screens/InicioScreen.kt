@@ -12,6 +12,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +36,7 @@ import samirqb.carwashmanager.app.ui.templates.modalbottomsheets.tModalBottomShe
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM1
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
+import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.lib.caja.entidades.CierreCajaEntity
 
 @SuppressLint("UnrememberedMutableState")
@@ -51,11 +53,16 @@ fun InicioScreen(
     onNavigateToAdministrarVehiculosScreen: () -> Unit,
     onNavigateToNuevaOrdenVenta: () -> Unit,
     mCajaViewModel: CajaViewModel,
+    mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
 ) {
+
+    mOrdenDeVentaViewModel.listarTodasLasOrdenesDeVentasUC()
 
     //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
     val uiState_AperturaCajaVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
+    val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
 
+    var todas_las_ordenes_de_venta = uiState_OrdenDeVentaViewModel.todas_las_ordenes_de_venta
     var apertura_de_caja by rememberSaveable { mutableStateOf(false) }
     var lista_trabajadores = listOf("Arturo", "Guillermo", "Maicol", "Brayan", "Duran", "Diego", "Nijak")
     val sheetState = rememberModalBottomSheetState()
@@ -115,7 +122,8 @@ fun InicioScreen(
 
             content2 = {
                 ServiciosActivosWidget(
-                    lista_servicios_activos = listOf("serv1", "serv2", "serv3", "serv4", "serv5")
+                    //lista_servicios_activos = listOf("serv1", "serv2", "serv3", "serv4", "serv5")
+                    lista_servicios_activos = todas_las_ordenes_de_venta
                 )
             },
 

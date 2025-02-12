@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import samirqb.carwashmanager.app.ui.components.custom.widgets.EstadoCajaWidget
 import samirqb.carwashmanager.app.ui.components.custom.widgets.ServiciosActivosWidget
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @Composable
 fun LandingScreenViewContent(
@@ -14,7 +15,7 @@ fun LandingScreenViewContent(
     txt_body_hora: String,
     txt_body_base_apertura: String,
     txt_body_acumulado_ventas: String,
-    lista_servicios_activos:List<String>,
+    lista_servicios_activos:MutableList<OrdenDeVentaEntity>,
     content_padding:PaddingValues,
 ) {
 

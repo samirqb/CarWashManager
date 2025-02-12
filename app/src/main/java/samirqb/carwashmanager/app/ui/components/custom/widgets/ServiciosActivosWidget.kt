@@ -24,10 +24,11 @@ import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyVerticalGrid
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextHeadLine
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @Composable
 fun ServiciosActivosWidget(
-    lista_servicios_activos: List<String>
+    lista_servicios_activos: MutableList<OrdenDeVentaEntity>
 ) {
 
     var index by rememberSaveable { mutableStateOf(0) }
@@ -60,8 +61,8 @@ fun ServiciosActivosWidget(
                                     }
                                 )
                             },
-                            txt_matricula_vehiculo = index.toString(),
-                            txt_valor_servicio = servicio_Activo
+                            txt_matricula_vehiculo = servicio_Activo.matricula_vehiculo_fk,
+                            txt_valor_servicio = servicio_Activo.valor_total_orden.toString()
                         )
                     }
                 }

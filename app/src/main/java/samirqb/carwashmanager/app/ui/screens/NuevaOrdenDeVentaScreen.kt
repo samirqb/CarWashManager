@@ -112,6 +112,10 @@ fun NuevaOrdenDeVentaScreen(
         uiState_ServicioYPrecioViewModel.todos_los_servicios_y_precios_con_nombre
 
 
+    var total_orden_venta =
+        uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue +
+                uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue
+
     var orden_de_venta_id by rememberSaveable { mutableIntStateOf(0) }
     // formulario cliente si cliente no existe en db
     var identificacion_value by rememberSaveable { mutableStateOf(cliente_id_value_buscado) }
@@ -627,18 +631,27 @@ fun NuevaOrdenDeVentaScreen(
                                             )
                                         }
 
-                                        /*
-                                        OrdenDeVentaEntity(
-                                            id_orden_pk = 0,
-                                            cliente_identificacion_fk = (resultado_busqueda_cliente?.identificacion_pk ?: identificacion_value),
-                                            matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk ?: matricula_vehiculo_value),
-                                            valor_total_orden = ,
-                                            valor_total_solo_servicios = ,
-                                            valor_total_solo_productos = ,
-                                            orden_pagada = false,
-                                            fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
+                                        mOrdenDeVentaViewModel.crearNuevaOrdenDeVentaUC(
+                                            OrdenDeVentaEntity(
+                                                id_orden_pk = 0,
+                                                cliente_identificacion_fk = (resultado_busqueda_cliente?.identificacion_pk ?: identificacion_value),
+                                                matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk ?: matricula_vehiculo_value),
+                                                valor_total_orden = total_orden_venta,
+                                                valor_total_solo_servicios = uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue,
+                                                valor_total_solo_productos = uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue,
+                                                orden_pagada = false,
+                                                fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
+                                            )
                                         )
-                                        */
+
+                                        // guardar la orden de pago nomina
+                                        //{...}
+
+                                        // guardar los servicios y/o productos
+                                        //{...}
+
+                                        onClick_navigate_back()
+
                                     },
                                     content = {
                                         sIcon(image_vector_id = R.drawable.rounded_save_24)

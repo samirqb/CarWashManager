@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -71,6 +72,7 @@ fun AgregarServicioAOrdenDeVentaDialog(
     // servicios y precios
     var id_servicio_y_precio_seleccionado by rememberSaveable { mutableIntStateOf(0) }
     var nombre_servicio_seleccionado by rememberSaveable { mutableStateOf("") }
+    var precio_servicio_seleccionado by rememberSaveable { mutableFloatStateOf(0f) }
 
     // operarios
     var id_operario_seleccionado by rememberSaveable { mutableStateOf("") }
@@ -173,6 +175,8 @@ fun AgregarServicioAOrdenDeVentaDialog(
                                                     id_servicio_y_precio_seleccionado = key.id_servicio_fk
 
                                                     nombre_servicio_seleccionado = "${value}\n$${key.precio_fk} ${key.codigo_iso_4217_fk}"
+
+                                                    precio_servicio_seleccionado = key.precio_fk
 
                                                     servicio_y_precio_seleccionado_flag = true
 
@@ -295,6 +299,9 @@ fun AgregarServicioAOrdenDeVentaDialog(
             )
 
             // agregar colo los precios de los servicios
+            mOrdenDeVentaViewModel.agregarEnUiStatePresiosDeServicioAOrdenDeVenta(precio_servicio_seleccionado)
+
+            mOrdenDeVentaViewModel.sumarTodosLosPreciosDeListaDeServiciosAgregados()
 
             onDismissFromAgregarServicioAOrdenDeVentaDialog()
 
