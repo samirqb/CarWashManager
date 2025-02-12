@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 data class OrdenPagoNominaEntity(
     @PrimaryKey(autoGenerate = true)
     val id_orden_pago_nomina_pk: Int,
-    val operario_id_fk: Int,
+    val operario_id_fk: String,
     val id_moneda_fk: Int,
     val cantidad_servicios_realizados: Int,
     val total_bruto_ventas_servicios_realizadas: Float,

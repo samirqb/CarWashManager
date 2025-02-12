@@ -33,4 +33,12 @@ interface IOrdenDeVentaDao: IBaseDao<OrdenDeVentaEntity> {
     @Query( "DELETE FROM tab_ordenes_de_ventas" )
     suspend fun borrarTodo()
 
+    // CUSTOM
+    @Transaction
+    @Query( "SELECT * FROM tab_ordenes_de_ventas WHERE orden_pagada = :orden_pagada" )
+    fun leerPorOrdenPagada(orden_pagada: Boolean): Flow<List<OrdenDeVentaEntity>>
+
+    @Query( "SELECT COUNT(id_orden_pk) FROM tab_ordenes_de_ventas" )
+    fun obtenerCantidadDeRegistros(): Flow<Int>
+
 }

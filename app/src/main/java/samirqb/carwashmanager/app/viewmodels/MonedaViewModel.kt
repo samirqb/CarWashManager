@@ -80,7 +80,7 @@ class MonedaViewModel(
                         val todasLasMonedas = it
                         // actualizamos el estado que lee la UI
                         _uiState.update {
-                            it.copy(todasLasMonedas = todasLasMonedas)
+                            it.copy(todasLasMonedas = todasLasMonedas.toMutableList())
                         }
                     }
 

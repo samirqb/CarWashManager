@@ -49,7 +49,7 @@ class UnidadMonetariaViewModel(
 
                 // actualizamos el estado que lee la UI
                 _uiState.update {
-                    it.copy(lista_unidades_monetarias = lista_unidades_monetarias_entity)
+                    it.copy(lista_unidades_monetarias = lista_unidades_monetarias_entity.toMutableList())
                 }
             }
         }

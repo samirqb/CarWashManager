@@ -47,7 +47,7 @@ class TipoMonedaViewModel(
 
                 // actualizamos el estado que lee la UI
                 _uiState.update {
-                    it.copy(todoslosTiposMoneda = todoslosTiposMoneda)
+                    it.copy(todoslosTiposMoneda = todoslosTiposMoneda.toMutableList())
                 }
             }
         }

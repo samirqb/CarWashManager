@@ -18,7 +18,7 @@ import samirqb.carwashmanager.app.ui.components.custom.widgets.TotalDineroApertu
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM1
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.MonedaViewModel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

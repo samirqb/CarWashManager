@@ -186,6 +186,7 @@ fun AgregarOperarioDialog(
                     identificacion_pk = identificacion_value,
                     nombre_apellido = nombre_y_apellidos_value,
                     telefono = telefono_value,
+                    operario_activo = true,
                     fecha_hora_creacion = mOperarioViewModel.uiState.value.fecha_y_hora,
                 )
             )

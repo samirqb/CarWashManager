@@ -20,10 +20,12 @@ import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.personas.uc.AgregarOperarioUseCase
 import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.entities.OperarioEntity
+import samirqb.lib.personas.uc.ListarTodosLosOperariosActivosUseCase
 
 class OperarioViewModel(
     private val mAgregarOperarioUC: AgregarOperarioUseCase,
-    private val mListarTodosLosOperariosUC: ListarTodosLosOperariosUseCase
+    private val mListarTodosLosOperariosUC: ListarTodosLosOperariosUseCase,
+    private val mListarTodosLosOperariosActivosUC: ListarTodosLosOperariosActivosUseCase,
 ): ViewModel() {
 
     private val NOMBRE_CLASE = "OperarioViewModel"
@@ -33,6 +35,7 @@ class OperarioViewModel(
 
     init {
         listarTodosLosOperariosUC()
+        listarTodosLosOperariosActivosUC()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,7 +67,59 @@ class OperarioViewModel(
                     _uiState.update{
 
                         it.copy(
-                            todos_los_operarios = lista
+                            todos_los_operarios = lista.toMutableList()
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodosLosOperariosActivosUC(){
+
+        val NOMBRE_FUN = "listarTodosLosOperariosActivosUC"
+
+        val operario_activo = true
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosOperariosActivosUC(operario_activo).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            todos_los_operarios_activos = lista.toMutableList()
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodosLosOperariosInactivosUC(){
+
+        val NOMBRE_FUN = "listarTodosLosOperariosInactivosUC"
+
+        val operario_activo = false
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosOperariosActivosUC(operario_activo).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            todos_los_operarios_inactivos = lista.toMutableList()
                         )
                     }
                 }
@@ -97,8 +152,10 @@ class OperarioViewModel(
                 // val savedStateHandle = createSavedStateHandle()
                 val mAgregarOperarioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarOperarioUseCase
                 val mListarTodosLosOperariosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosOperariosUseCase
+                val mListarTodosLosOperariosActivosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosOperariosActivosUseCase
                 OperarioViewModel(
                     mListarTodosLosOperariosUC = mListarTodosLosOperariosUseCase,
+                    mListarTodosLosOperariosActivosUC = mListarTodosLosOperariosActivosUseCase,
                     mAgregarOperarioUC = mAgregarOperarioUseCase,
                 )
             }

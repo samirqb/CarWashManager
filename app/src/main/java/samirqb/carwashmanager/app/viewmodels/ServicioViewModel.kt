@@ -77,7 +77,7 @@ class ServicioViewModel(
                     _uiState.update{
 
                         it.copy(
-                            todos_los_servicios = lista
+                            todos_los_servicios = lista.toMutableList()
                         )
                     }
                 }

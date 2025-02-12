@@ -1,5 +1,7 @@
 package samirqb.carwashmanager.app.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -47,13 +51,17 @@ import samirqb.carwashmanager.app.viewmodels.ClasificacionDelVehiculoViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
-import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
-import samirqb.carwashmanager.app.viewmodels.uistates.ServicioYPrecioUiState
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
+import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
+import samirqb.lib.personas.entities.ClienteEntity
+import samirqb.lib.vehiculos.entities.VehiculoEntity
+import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NuevaOrdenDeVentaScreen(
     mClienteViewModel: ClienteViewModel,
@@ -73,10 +81,12 @@ fun NuevaOrdenDeVentaScreen(
     mClasificacionDelVehiculoViewModel.listarTodasLasClasificacionesDeVehiculoUserCase()
     mOperarioViewModel.listarTodosLosOperariosUC()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
+    mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden()
 
     val uiState_ClienteViemodel by mClienteViewModel.uiState.collectAsState()
     val uiState_VehiculoViemodel by mVehiculoViewModel.uiState.collectAsState()
     val uiState_ClasificacionDelVehiculoViewModel by mClasificacionDelVehiculoViewModel.uiState.collectAsState()
+    val uiState_OperarioViewModel by mOperarioViewModel.uiState.collectAsState()
     val uiState_ServicioYPrecioViewModel by mServicioYPrecioViewModel.uiState.collectAsState()
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
 
@@ -90,12 +100,21 @@ fun NuevaOrdenDeVentaScreen(
         uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo.sortedBy {
             it.clase_id_pk
         }
-    val lista_categorias_vehiculo = uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo
+
+    val listar_todos_los_operarios = uiState_OperarioViewModel.todos_los_operarios
+    val lista_categorias_vehiculo =
+        uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo
+
+    val servicios_agregados_a_la_OrdenDeVenta =
+        uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden
+
+    val todos_los_servicios_y_precios_con_nombre =
+        uiState_ServicioYPrecioViewModel.todos_los_servicios_y_precios_con_nombre
+
 
     var orden_de_venta_id by rememberSaveable { mutableIntStateOf(0) }
-
     // formulario cliente si cliente no existe en db
-    var identificacion_value by rememberSaveable { mutableStateOf(cliente_id_value_buscado ) }
+    var identificacion_value by rememberSaveable { mutableStateOf(cliente_id_value_buscado) }
     var nombre_y_apellidos_value by rememberSaveable { mutableStateOf("") }
     var telefono_value by rememberSaveable { mutableStateOf("") }
 
@@ -179,7 +198,10 @@ fun NuevaOrdenDeVentaScreen(
                                                     value = identificacion_value,
                                                     onValueChange = {
 
-                                                        if (mValidarEntradasRegex.validarAlfanumericos(it)) {
+                                                        if (mValidarEntradasRegex.validarAlfanumericos(
+                                                                it
+                                                            )
+                                                        ) {
                                                             //value = it
                                                             identificacion_value = it
                                                         } else if (it.isEmpty()) {
@@ -508,7 +530,7 @@ fun NuevaOrdenDeVentaScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                         content1 = {
-                            sTextButton(onClick = onNavigateToAgregarServicioDialog ) {
+                            sTextButton(onClick = onNavigateToAgregarServicioDialog) {
                                 xTextLabel(text = stringResource(id = R.string.txt_label_agregar_servicio))
                                 sIcon(image_vector_id = R.drawable.rounded_add_24)
                             }
@@ -516,43 +538,123 @@ fun NuevaOrdenDeVentaScreen(
                     )
                 }
 
-                /*
-                itemsIndexed() { index ->
+
+                itemsIndexed(servicios_agregados_a_la_OrdenDeVenta) { index, item ->
+
+                    var servicio_agregado: ServicioYPrecioEntity? = null
+                    var monbre_del_servicio_agregado = ""
+                    var monbre_del_operario = ""
+
+                    todos_los_servicios_y_precios_con_nombre.forEach() {
+                        if (it.key.id_registro.equals(item.id_precio_y_servicio_fk)) {
+                            servicio_agregado = it.key
+                            monbre_del_servicio_agregado = it.value
+                        }
+                    }
+
+                    listar_todos_los_operarios.forEach() {
+                        if (it.identificacion_pk.equals(item.id_operario_fk)) {
+                            monbre_del_operario = it.nombre_apellido
+                        }
+                    }
+
                     sSurface(
                         modifier = Modifier
-                            .fillMaxSize().padding(3.dp),
+                            .fillMaxSize()
+                        //    .padding(13.dp)
+                        ,
                         shape = RoundedCornerShape(15),
                         color = color2
                     ) {
-                        HLayout1P(
-                            horizontalArrangement = Arrangement.End,
+                        VLayout2P(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(13.dp),
                             content1 = {
-                                xTextLabel(
-                                    text = stringResource(R.string.txt_label_servicio),
-                                    //color = MaterialTheme.colorScheme.primary
+                                HLayout1P(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.End,
+                                    content1 = {
+                                        xTextLabel(
+                                            text = stringResource(R.string.txt_label_servicio),
+                                            //color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
                                 )
-                            }
+                            },
+                            content2 = {
+                                var color = MaterialTheme.colorScheme.inverseSurface
+                                xTextBody(text = monbre_del_servicio_agregado, color = color)
+                                xTextBody(text = monbre_del_operario, color = color)
+                                xTextBody(
+                                    text = "$${servicio_agregado!!.precio_fk} ${servicio_agregado!!.codigo_iso_4217_fk}",
+                                    color = color
+                                )
+                            },
                         )
                     }
                 }
-                */
 
-                item{
+
+                item {
                     sSurface {
                         HLayout2P(
                             content1 = {
                                 sButton(
-                                    onClick = {},
+                                    onClick = {
+
+                                        mOrdenDeVentaViewModel.actualizarFechaYHora()
+                                        //Guardar usuario si no existe
+                                        if (resultado_busqueda_cliente == null) {
+                                            mClienteViewModel.agregarClienteUC(
+                                                ClienteEntity(
+                                                    identificacion_pk = identificacion_value,
+                                                    nombre_apellidos = nombre_y_apellidos_value,
+                                                    telefono = telefono_value,
+                                                    fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
+                                                )
+                                            )
+                                        }
+
+                                        //Guardar vehiculo si no existe
+                                        if(resultado_busqueda_vehiculo == null){
+                                            mVehiculoViewModel.agregarNuevoVehiculo(
+                                                VehiculoEntity(
+                                                    matricula_pk = matricula_vehiculo_value,
+                                                    clase_id_fk = categoria_seleccionada,
+                                                    fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
+                                                )
+                                            )
+                                        }
+
+                                        /*
+                                        OrdenDeVentaEntity(
+                                            id_orden_pk = 0,
+                                            cliente_identificacion_fk = (resultado_busqueda_cliente?.identificacion_pk ?: identificacion_value),
+                                            matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk ?: matricula_vehiculo_value),
+                                            valor_total_orden = ,
+                                            valor_total_solo_servicios = ,
+                                            valor_total_solo_productos = ,
+                                            orden_pagada = false,
+                                            fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
+                                        )
+                                        */
+                                    },
                                     content = {
-                                         sIcon(image_vector_id = R.drawable.rounded_save_24)
+                                        sIcon(image_vector_id = R.drawable.rounded_save_24)
                                         xTextLabel(text = stringResource(id = R.string.txt_label_guardar))
                                     },
                                 )
                             },
-                            content2 = {},
+
+                            content2 = {
+
+                            },
                         )
                     }
                 }
+
+
             }
         },
         modifier = Modifier,

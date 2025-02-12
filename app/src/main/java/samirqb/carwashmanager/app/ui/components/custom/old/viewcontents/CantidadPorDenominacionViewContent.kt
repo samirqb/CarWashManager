@@ -1,19 +1,14 @@
 package samirqb.carwashmanager.app.ui.components.custom.old.viewcontents
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
-import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
-import samirqb.lib.caja.entidades.MonedaEntity
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun CantidadPorDenominacionViewContent(

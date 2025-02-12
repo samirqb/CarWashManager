@@ -23,7 +23,7 @@ import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyVerticalGrid
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextHeadLine
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun ServiciosActivosWidget(

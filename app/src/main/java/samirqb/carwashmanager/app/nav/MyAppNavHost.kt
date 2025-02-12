@@ -188,7 +188,7 @@ fun MyAppNavHost(
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel =
         viewModel(factory = OrdenDeVentaViewModel.Factory),
 
-    mmOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel =
+    mOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel =
             viewModel(factory = OrdenDePagoNominaViewModel.Factory),
 
     ) {
@@ -463,8 +463,7 @@ fun MyAppNavHost(
         dialog<NuevoServicioDialogRoute> {
             AgregarServicioAOrdenDeVentaDialog(
                 mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
-                mOrdenDePagoNominaViewModel = mmOrdenDePagoNominaViewModel,
-                mServicioViewModel = mServicioViewModel,
+                mOrdenDePagoNominaViewModel = mOrdenDePagoNominaViewModel,
                 mServicioYPrecioViewModel = mServicioYPrecioViewModel,
                 mOperarioViewModel = mOperarioViewModel,
                 onDismissFromAgregarServicioAOrdenDeVentaDialog = {

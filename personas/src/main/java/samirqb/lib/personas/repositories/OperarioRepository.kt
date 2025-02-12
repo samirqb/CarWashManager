@@ -13,7 +13,7 @@ class OperarioRepository(
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al insertar OperarioEntity", e)
+            throw CustomDatabaseException("Error al insertar en OperarioRepository", e)
         }
     }
 
@@ -21,7 +21,7 @@ class OperarioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
+            throw CustomDatabaseException("Error al leerPorId en OperarioRepository", e)
         }
     }
 
@@ -29,7 +29,7 @@ class OperarioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
+            throw CustomDatabaseException("Error al leerPorId en OperarioRepository", e)
         }
     }
 
@@ -37,7 +37,7 @@ class OperarioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al leerPorId OperarioEntity", e)
+            throw CustomDatabaseException("Error al leerPorId en OperarioRepository", e)
         }
     }
 
@@ -45,7 +45,7 @@ class OperarioRepository(
         try {
             return mDao.leerTodo()
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al leerTodo OperarioEntity", e)
+            throw CustomDatabaseException("Error al leerTodo en OperarioRepository", e)
         }
     }
 
@@ -53,7 +53,7 @@ class OperarioRepository(
         try {
             mDao.borrarTodo()
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al borrarTodo OperarioEntity", e)
+            throw CustomDatabaseException("Error al borrarTodo en OperarioRepository", e)
         }
     }
 
@@ -61,7 +61,7 @@ class OperarioRepository(
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al borrar OperarioEntity", e)
+            throw CustomDatabaseException("Error al borrar en OperarioRepository", e)
         }
     }
 
@@ -69,7 +69,16 @@ class OperarioRepository(
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception) {
-            throw CustomDatabaseException("Error al actualizar OperarioEntity", e)
+            throw CustomDatabaseException("Error al actualizar en OperarioRepository", e)
+        }
+    }
+
+    //CUSTOM
+    fun leerPorOperarioActivo(operario_activo: Boolean): Flow<List<OperarioEntity>>{
+        return  try {
+            mDao.leerPorOperarioActivo(operario_activo)
+        } catch (e: Exception) {
+            throw CustomDatabaseException("Error al leerPorOperarioActivo en OperarioRepository", e)
         }
     }
 }

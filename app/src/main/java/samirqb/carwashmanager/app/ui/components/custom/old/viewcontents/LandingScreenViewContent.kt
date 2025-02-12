@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import samirqb.carwashmanager.app.ui.components.custom.widgets.EstadoCajaWidget
 import samirqb.carwashmanager.app.ui.components.custom.widgets.ServiciosActivosWidget
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun LandingScreenViewContent(

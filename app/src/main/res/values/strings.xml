@@ -68,4 +68,7 @@
     <string name="txt_label_guardar">Guardar</string>
     <string name="txt_label_agregar_servicio">Agregar servicio</string>
     <string name="txt_body_elige_un_servicio_y_precio">Elija un servicio y precio</string>
+    <string name="txt_body_elige_un_operario">Elige un operario</string>
+    <string name="txt_body_elija_un_servicio">Elija un servicio</string>
+    <string name="txt_body_elija_un_operario">Elija un operario</string>
 </resources>

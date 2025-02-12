@@ -45,7 +45,7 @@ class DenominacionMonedaViewModel(
 
                 // actualizamos el estado que lee la UI
                 _uiState.update {
-                    it.copy( todasLasDenominacionesMoneda = todoslasDSenominacionesMoneda)
+                    it.copy( todasLasDenominacionesMoneda = todoslasDSenominacionesMoneda.toMutableList())
                 }
             }
         }

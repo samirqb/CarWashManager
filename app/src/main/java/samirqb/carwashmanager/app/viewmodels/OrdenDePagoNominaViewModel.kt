@@ -20,13 +20,17 @@ import samirqb.carwashmanager.app.viewmodels.uistates.OrdenDePagoNominaUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.pagos.uc.AgregarOrdenDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ObtenerOrdenDePagoNominaMasRecienteUseCase
 
 class OrdenDePagoNominaViewModel(
     private val mAgregarOrdenDePagoNominaUseCase: AgregarOrdenDePagoNominaUseCase,
     private val mListarTodasLasOrdenesDePagoNominaUseCase: ListarTodasLasOrdenesDePagoNominaUseCase,
     private val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase: ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase,
+    private val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase: ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase,
+    private val mObtenerOrdenDePagoNominaMasRecienteUseCase: ObtenerOrdenDePagoNominaMasRecienteUseCase,
 ): ViewModel() {
 
     private val NOMBRE_CLASE = "OrdenDePagoNominaViewModel"
@@ -38,6 +42,7 @@ class OrdenDePagoNominaViewModel(
         listarTodasLasOrdenesDePagoNomina()
         listarTodasLasOrdenesDePagoNominaPagadas()
         listarTodasLasOrdenesDePagoNominaSinPagar()
+        calcularIdOrdenPagoNomina()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -52,6 +57,32 @@ class OrdenDePagoNominaViewModel(
                 //fecha = mFechaYHora.getDate(),
                 //hora = mFechaYHora.getTime(),
             )
+        }
+    }
+
+    fun calcularIdOrdenPagoNomina(){
+
+        val NOMBRE_FUN = "calcularIdOrdenPagoNomina"
+
+        viewModelScope.launch {
+            try {
+                mObtenerOrdenDePagoNominaMasRecienteUseCase().collect {
+                    var orden_mas_reciente = 0
+
+                    if (it == null) {
+                        orden_mas_reciente = 1
+                    } else {
+                        orden_mas_reciente = it.id_orden_pago_nomina_pk + 1
+                    }
+                    _uiState.update {
+                        it.copy(
+                            numero_de_orden_de_pago = orden_mas_reciente
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
         }
     }
 
@@ -80,7 +111,7 @@ class OrdenDePagoNominaViewModel(
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_todas_las_ordenes_pago_nomina = lista)
+                        it.copy(lista_todas_las_ordenes_pago_nomina = lista.toMutableList())
                     }
 
                 }
@@ -102,7 +133,30 @@ class OrdenDePagoNominaViewModel(
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_pagadas = lista)
+                        it.copy(lista_ordenes_pago_nomina_pagadas = lista.toMutableList())
+                    }
+
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodasLasOrdenesDePagoNominaPorOperarioPagadas(operario_id:String){
+
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioPagadas"
+
+        var orden_pagada = true
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(operario_id,orden_pagada).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+                        it.copy(lista_ordenes_pago_nomina_por_operario_id_pagadas = lista.toMutableList())
                     }
 
                 }
@@ -123,7 +177,7 @@ class OrdenDePagoNominaViewModel(
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_sin_pagar = lista)
+                        it.copy(lista_ordenes_pago_nomina_sin_pagar = lista.toMutableList())
                     }
 
                 }
@@ -131,6 +185,28 @@ class OrdenDePagoNominaViewModel(
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
 
+        }
+    }
+
+    fun listarTodasLasOrdenesDePagoNominaPorOperarioNoPagadas(operario_id:String){
+
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioNoPagadas"
+
+        var orden_pagada = false
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(operario_id,orden_pagada).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+                        it.copy(lista_ordenes_pago_nomina_por_operario_id_no_pagadas = lista.toMutableList())
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
         }
     }
 
@@ -143,11 +219,15 @@ class OrdenDePagoNominaViewModel(
                 val mAgregarOrdenDePagoNominaUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarOrdenDePagoNominaUseCase
                 val mListarTodasLasOrdenesDePagoNominaUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDePagoNominaUseCase
                 val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
+                val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase = (this[APPLICATION_KEY] as MyApplication).mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
+                val mObtenerOrdenDePagoNominaMasRecienteUseCase = (this[APPLICATION_KEY] as MyApplication).mObtenerOrdenDePagoNominaMasRecienteUseCase
 
                 OrdenDePagoNominaViewModel(
                     mAgregarOrdenDePagoNominaUseCase = mAgregarOrdenDePagoNominaUseCase,
                     mListarTodasLasOrdenesDePagoNominaUseCase  = mListarTodasLasOrdenesDePagoNominaUseCase,
                     mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase = mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase,
+                    mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase = mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase,
+                    mObtenerOrdenDePagoNominaMasRecienteUseCase = mObtenerOrdenDePagoNominaMasRecienteUseCase,
                 )
             }
         }

@@ -1,5 +1,6 @@
 package samirqb.lib.ofertas.repositories
 
+import androidx.room.MapColumn
 import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ofertas.customexception.MyCustomException
 import samirqb.lib.ofertas.daos.IServicioYPrecioDao
@@ -49,7 +50,6 @@ class ServiciosYPreciosRepository(
             throw MyCustomException("Error al leerTodo en ServiciosYPreciosRepository", e)
         }
     }
-
     override suspend fun borrarTodo() {
         try {
             mDao.borrarTodo()
@@ -83,4 +83,19 @@ class ServiciosYPreciosRepository(
         }
     }
 
+    fun leerTodoPorPrecioActivoConNombreDelServicio(precio_activo: Boolean ): Flow<Map<ServicioYPrecioEntity, String>>{
+        return try {
+            mDao.leerTodoPorPrecioActivoConNombreDelServicio( precio_activo )
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerTodoPorPrecioActivoConNombreDelServicio en ServiciosYPreciosRepository", e)
+        }
+    }
+
+    fun leerTodoConNombreDelServicio(): Flow<Map<ServicioYPrecioEntity, String>> {
+        return try {
+            mDao.leerTodoConNombreDelServicio()
+        } catch (e: Exception){
+            throw MyCustomException("Error al leerTodoConNombreDelServicio en ServiciosYPreciosRepository", e)
+        }
+    }
 }

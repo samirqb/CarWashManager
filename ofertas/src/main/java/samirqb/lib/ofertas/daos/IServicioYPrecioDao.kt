@@ -1,6 +1,7 @@
 package samirqb.lib.ofertas.daos
 
 import androidx.room.Dao
+import androidx.room.MapColumn
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
@@ -37,5 +38,18 @@ interface IServicioYPrecioDao:IBaseDao<ServicioYPrecioEntity> {
     @Transaction
     @Query( "SELECT * FROM tab_precios_de_servicios WHERE precio_activo = :precio_activo" )
     fun leerTodoPorPrecioActivo(precio_activo: Boolean): Flow<List<ServicioYPrecioEntity>>
-    
+
+    @Transaction
+    @Query( "SELECT * FROM tab_precios_de_servicios " +
+            "LEFT JOIN tab_servicios " +
+            "ON tab_precios_de_servicios.id_servicio_fk = tab_servicios.id_servicio_pk " +
+            "WHERE precio_activo = :precio_activo ORDER BY fecha_hora_creacion ASC" )
+    fun leerTodoPorPrecioActivoConNombreDelServicio(precio_activo:Boolean): Flow<Map<ServicioYPrecioEntity, @MapColumn(columnName = "descripcion") String>>
+
+    @Transaction
+    @Query( "SELECT * FROM tab_precios_de_servicios " +
+            "LEFT JOIN tab_servicios " +
+            "ON tab_precios_de_servicios.id_servicio_fk = tab_servicios.id_servicio_pk " +
+            "ORDER BY fecha_hora_creacion DESC" )
+    fun leerTodoConNombreDelServicio(): Flow<Map<ServicioYPrecioEntity, @MapColumn(columnName = "descripcion") String>>
 }

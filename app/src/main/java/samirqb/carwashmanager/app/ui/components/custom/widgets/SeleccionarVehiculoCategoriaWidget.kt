@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sCard
 import samirqb.carwashmanager.app.ui.components.base.containers.sDialog
-import samirqb.carwashmanager.app.ui.components.base.containers.sDropdownMenu
 import samirqb.carwashmanager.app.ui.components.base.outputs.sIcon
 import samirqb.carwashmanager.app.ui.components.base.inputs.sTextButton
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
@@ -24,7 +23,7 @@ import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.textbuttons.tHTxtButtonsX2
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun SeleccionarVehiculoCategoriaWidget(

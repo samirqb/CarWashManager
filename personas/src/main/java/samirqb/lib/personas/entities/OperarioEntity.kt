@@ -13,5 +13,6 @@ data class OperarioEntity(
     val identificacion_pk:String,
     val nombre_apellido:String,
     val telefono:String,
+    val operario_activo:Boolean,
     val fecha_hora_creacion:String,
 )

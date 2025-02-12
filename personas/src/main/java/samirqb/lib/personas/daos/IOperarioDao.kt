@@ -33,4 +33,9 @@ interface IOperarioDao: IBaseDao<OperarioEntity> {
     @Query( "DELETE FROM tab_clientes" )
     suspend fun borrarTodo()
 
+    //CUSTOM
+    @Transaction
+    @Query( "SELECT * FROM tab_operarios WHERE operario_activo = :operario_activo ORDER BY identificacion_pk ASC" )
+    fun leerPorOperarioActivo(operario_activo: Boolean): Flow<List<OperarioEntity>>
+
 }

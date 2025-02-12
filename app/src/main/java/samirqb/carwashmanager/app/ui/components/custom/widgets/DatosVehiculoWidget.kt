@@ -17,7 +17,7 @@ import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout1P
 import samirqb.carwashmanager.app.ui.components.custom.layouts.HLayout2P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextBody
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun DatosVehiculoWidget(

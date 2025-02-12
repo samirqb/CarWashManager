@@ -17,7 +17,7 @@ import samirqb.carwashmanager.app.ui.components.base.inputs.sOutlinedTextField
 import samirqb.carwashmanager.app.ui.components.custom.layouts.VLayout3P
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
 import samirqb.carwashmanager.app.ui.templates.textbuttons.tHTxtButtonsX2
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 
 @Composable

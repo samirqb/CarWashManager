@@ -8,7 +8,7 @@ import samirqb.carwashmanager.app.R
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextDisplay
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextLabel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @Composable
 fun TotalDineroAperturaCierreCajaWidget(

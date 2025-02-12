@@ -21,14 +21,18 @@ import samirqb.lib.ofertas.uc.AgregarServicioYPrecioUseCase
 import samirqb.lib.ofertas.uc.AgregarPrecioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosPreciosUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosConNomnreUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
 import samirqb.lib.pagos.AppDatabasePagos
 import samirqb.lib.pagos.repositories.OrdenPagoNominaRepositories
 import samirqb.lib.pagos.uc.AgregarOrdenDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ObtenerOrdenDePagoNominaMasRecienteUseCase
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.uc.AgregarClienteUseCase
 import samirqb.lib.personas.uc.AgregarOperarioUseCase
@@ -37,6 +41,7 @@ import samirqb.lib.personas.uc.ListarTodosLosOperariosUseCase
 import samirqb.lib.personas.repositories.ClienteRepository
 import samirqb.lib.personas.repositories.OperarioRepository
 import samirqb.lib.personas.uc.BuscarClientePorIdUseCase
+import samirqb.lib.personas.uc.ListarTodosLosOperariosActivosUseCase
 import samirqb.lib.vehiculos.AppDatabaseVehiculos
 import samirqb.lib.vehiculos.repositories.ClasificacionDelVehiculoRepository
 import samirqb.lib.vehiculos.repositories.VehiculoRepository
@@ -49,6 +54,8 @@ import samirqb.lib.ventas.AppDatabaseVentas
 import samirqb.lib.ventas.repositories.OrdenDeVentaRepository
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
 import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasUseCase
+import samirqb.lib.ventas.uc.ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
+import samirqb.lib.ventas.uc.ObtenerOrdenDeVentaMasRecienteUseCase
 
 class MyApplication: Application() {
 
@@ -85,6 +92,7 @@ class MyApplication: Application() {
     //   ---> OPERARIOS
     val mAgregarOperarioUseCase by lazy { AgregarOperarioUseCase( OperarioRepository(mAppDatabasePersonas.iOperarioDao()) ) }
     val mListarTodosLosOperariosUseCase by lazy { ListarTodosLosOperariosUseCase(OperarioRepository(mAppDatabasePersonas.iOperarioDao())) }
+    val mListarTodosLosOperariosActivosUseCase by lazy { ListarTodosLosOperariosActivosUseCase(OperarioRepository(mAppDatabasePersonas.iOperarioDao())) }
 
 
     //   U C   O F E R T A S
@@ -92,7 +100,9 @@ class MyApplication: Application() {
     val mListarTodosLosServiciosUseCase by lazy { ListarTodosLosServiciosUseCase(ServiciosRepository(mAppDatabaseOfertas.iServicioDao())) }
     val mAgregarServicioYPrecioUseCase by lazy { AgregarServicioYPrecioUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mListarTodosLosServiciosYPreciosUseCase by lazy { ListarTodosLosServiciosYPreciosUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
+    val mListarTodosLosServiciosYPreciosConNomnreUseCase by lazy { ListarTodosLosServiciosYPreciosConNomnreUseCase( ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mListarTodosLosServiciosYPreciosActivosUseCase by lazy { ListarTodosLosServiciosYPreciosActivosUseCase(ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
+    val mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase by lazy { ListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase(ServiciosYPreciosRepository(mAppDatabaseOfertas.iServicioYPrecioDao())) }
     val mAgregarPrecioUseCase by lazy { AgregarPrecioUseCase( PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mListarTodosLosPreciosUseCase by lazy { ListarTodosLosPreciosUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
     val mObtenerElPrecioMasRecienteUseCase by lazy { ObtenerElPrecioMasRecienteUseCase(PrecioRepository(mAppDatabaseOfertas.iPrecioDao())) }
@@ -110,11 +120,15 @@ class MyApplication: Application() {
     val mAgregarOrdenDePagoNominaUseCase by lazy{ AgregarOrdenDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
     val mListarTodasLasOrdenesDePagoNominaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
     val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase by lazy{ ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mObtenerOrdenDePagoNominaMasRecienteUseCase by lazy{ ObtenerOrdenDePagoNominaMasRecienteUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
 
 
     //   U C   O R D E N E S   D E   V E N T A S
     val mCrearNuevaOrdenDeVentaUseCase by lazy{ CrearNuevaOrdenDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mListarTodasLasOrdenesDeVentasUseCase by lazy{ ListarTodasLasOrdenesDeVentasUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+    val mObtenerOrdenDeVentaMasRecienteUseCase by lazy{ ObtenerOrdenDeVentaMasRecienteUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+    val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase by lazy{ ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

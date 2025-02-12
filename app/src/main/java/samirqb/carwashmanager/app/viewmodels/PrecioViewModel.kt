@@ -102,7 +102,7 @@ class PrecioViewModel(
                     _uiState.update {
 
                         it.copy(
-                            todos_los_precios = lista
+                            todos_los_precios = lista.toMutableList()
                         )
                     }
                 }

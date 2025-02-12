@@ -68,7 +68,7 @@ class ClienteViewModel(
                     _uiState.update{
 
                         it.copy(
-                            todos_los_clientes = lista
+                            todos_los_clientes = lista.toMutableList()
                         )
                     }
                 }

@@ -79,7 +79,7 @@ class ClasificacionDelVehiculoViewModel(
                     _uiState.update{
 
                         it.copy(
-                            listar_todas_las_clasificaciones_de_vehiculo = lista
+                            listar_todas_las_clasificaciones_de_vehiculo = lista.toMutableList()
                         )
                     }
                 }

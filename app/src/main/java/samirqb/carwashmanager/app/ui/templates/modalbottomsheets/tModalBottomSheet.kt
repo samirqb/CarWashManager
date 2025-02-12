@@ -19,7 +19,7 @@ import samirqb.carwashmanager.app.ui.components.base.layouts.sLazyColumn
 import samirqb.carwashmanager.app.ui.components.base.containers.sModalBottomSheet
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

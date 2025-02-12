@@ -82,7 +82,7 @@ class VehiculoViewModel(
                     _uiState.update{
 
                         it.copy(
-                            listar_todos_los_vehiculos = lista
+                            listar_todos_los_vehiculos = lista.toMutableList()
                         )
                     }
                 }

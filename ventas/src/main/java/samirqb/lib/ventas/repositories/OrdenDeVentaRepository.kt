@@ -13,7 +13,7 @@ class OrdenDeVentaRepository(
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al insertar OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al insertar en OrdenDeVentaRepository", e)
         }
     }
 
@@ -21,7 +21,7 @@ class OrdenDeVentaRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenDeVentaRepository", e)
         }
     }
 
@@ -29,7 +29,7 @@ class OrdenDeVentaRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenDeVentaRepository", e)
         }
     }
 
@@ -37,7 +37,7 @@ class OrdenDeVentaRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenDeVentaRepository", e)
         }
     }
 
@@ -45,7 +45,7 @@ class OrdenDeVentaRepository(
         try {
             return mDao.leerTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerTodo OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al leerTodo en OrdenDeVentaRepository", e)
         }
     }
 
@@ -53,7 +53,7 @@ class OrdenDeVentaRepository(
         try {
             mDao.borrarTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrarTodo OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al borrarTodo en OrdenDeVentaRepository", e)
         }
     }
 
@@ -61,7 +61,7 @@ class OrdenDeVentaRepository(
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrar OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al borrar en OrdenDeVentaRepository", e)
         }
     }
 
@@ -69,7 +69,32 @@ class OrdenDeVentaRepository(
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al actualizar OrdenDeVentaEntity", e)
+            throw MyCustomException("Error al actualizar en OrdenDeVentaRepository", e)
+        }
+    }
+
+    //CUSTOM
+    fun leerPorOrdenPagada(orden_pagada: Boolean): Flow<List<OrdenDeVentaEntity>> {
+        return try {
+            mDao.leerPorOrdenPagada(orden_pagada)
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerPorOrdenPagada en OrdenDeVentaRepository", e)
+        }
+    }
+
+    fun leerMasReciente(): Flow<OrdenDeVentaEntity?>{
+        return try {
+            mDao.leerMasReciente()
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerMasReciente en OrdenDeVentaRepository", e)
+        }
+    }
+
+    fun obtenerCantidadDeRegistros(): Flow<Int>{
+        return try {
+            mDao.obtenerCantidadDeRegistros()
+        } catch (e: Exception) {
+            throw MyCustomException("Error al obtenerCantidadDeRegistros en OrdenDeVentaRepository", e)
         }
     }
 }

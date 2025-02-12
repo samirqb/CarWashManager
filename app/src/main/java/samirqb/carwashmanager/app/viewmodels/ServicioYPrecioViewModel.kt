@@ -19,13 +19,17 @@ import samirqb.carwashmanager.app.viewmodels.uistates.ServicioYPrecioUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
 import samirqb.lib.ofertas.uc.AgregarServicioYPrecioUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosActivosUseCase
+import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosConNomnreUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 
 class ServicioYPrecioViewModel(
     private val mAgregarServicioYPrecioUseCase: AgregarServicioYPrecioUseCase,
     private val mListarTodosLosServiciosYPreciosUseCase: ListarTodosLosServiciosYPreciosUseCase,
+    private val mListarTodosLosServiciosYPreciosConNomnreUseCase: ListarTodosLosServiciosYPreciosConNomnreUseCase,
     private val mListarTodosLosServiciosYPreciosActivosUseCase: ListarTodosLosServiciosYPreciosActivosUseCase,
+    private val mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase: ListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase,
 ):ViewModel() {
 
     private val NOMBRE_CLASE = "ServicioYPrecioViewModel"
@@ -34,9 +38,10 @@ class ServicioYPrecioViewModel(
     val uiState: StateFlow<ServicioYPrecioUiState> = _uiState.asStateFlow()
 
     init {
-        listarTodosLosServiciosYPreciosUC()
-        listarTodosLosServiciosYPreciosActivosUseCase()
-        listarTodosLosServiciosYPreciosInactivosUseCase()
+        //listarTodosLosServiciosYPreciosActivosUseCase()
+        //listarTodosLosServiciosYPreciosInactivosUseCase()
+        listarTodosLosServiciosYPreciosConNombreUC()
+        listarTodosLosServiciosYPreciosActivosConNombreDelServicio()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -80,12 +85,36 @@ class ServicioYPrecioViewModel(
             try {
                 mListarTodosLosServiciosYPreciosUseCase().collect{
 
-                    var lista = it
+                    var lista = it.toMutableList()
 
                     _uiState.update{
 
                         it.copy(
                             todos_los_servicios_y_precios = lista
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodosLosServiciosYPreciosConNombreUC(){
+
+        val NOMBRE_FUN = "listarTodosLosServiciosYPreciosConNombreUC"
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosServiciosYPreciosConNomnreUseCase().collect(){
+
+                    var lista = it.toMutableMap()
+
+                    _uiState.update{
+
+                        it.copy(
+                            todos_los_servicios_y_precios_con_nombre = lista
                         )
                     }
                 }
@@ -111,7 +140,7 @@ class ServicioYPrecioViewModel(
                     _uiState.update{
 
                         it.copy(
-                            listar_todos_los_servicios_y_precios_activos = lista
+                            listar_todos_los_servicios_y_precios_activos = lista.toMutableList()
                         )
                     }
                 }
@@ -137,7 +166,34 @@ class ServicioYPrecioViewModel(
                     _uiState.update{
 
                         it.copy(
-                            todos_los_servicios_y_precios_inactivos = lista
+                            todos_los_servicios_y_precios_inactivos = lista.toMutableList()
+                        )
+                    }
+                }
+            } catch (e:Exception){
+                Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun listarTodosLosServiciosYPreciosActivosConNombreDelServicio(){
+
+        val NOMBRE_FUN = "listarTodosLosServiciosYPreciosActivosConNombreDelServicio"
+
+        val PRECIO_ACTIVO = true
+
+        viewModelScope.launch {
+
+            try {
+                mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase(PRECIO_ACTIVO).collect{
+
+                    var lista = it
+
+                    _uiState.update{
+
+                        it.copy(
+                            //todos_los_servicios_y_precios_inactivos = lista
+                            todos_los_servicios_y_precios_activos_y_nommbre_del_servicio = lista
                         )
                     }
                 }
@@ -154,11 +210,15 @@ class ServicioYPrecioViewModel(
                 // val savedStateHandle = createSavedStateHandle()
                 val mAgregarServicioYPrecioUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarServicioYPrecioUseCase
                 val mListarTodosLosServiciosYPreciosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosUseCase
+                val mListarTodosLosServiciosYPreciosConNomnreUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosConNomnreUseCase
                 val mListarTodosLosServiciosYPreciosActivosUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosActivosUseCase
+                val mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase
                 ServicioYPrecioViewModel(
                     mAgregarServicioYPrecioUseCase = mAgregarServicioYPrecioUseCase,
                     mListarTodosLosServiciosYPreciosUseCase = mListarTodosLosServiciosYPreciosUseCase,
+                    mListarTodosLosServiciosYPreciosConNomnreUseCase = mListarTodosLosServiciosYPreciosConNomnreUseCase,
                     mListarTodosLosServiciosYPreciosActivosUseCase = mListarTodosLosServiciosYPreciosActivosUseCase,
+                    mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase = mListarTodosLosServiciosYPreciosActivosConNombreDelServicioUseCase,
                 )
             }
         }

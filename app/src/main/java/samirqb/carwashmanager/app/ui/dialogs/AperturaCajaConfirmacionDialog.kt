@@ -19,7 +19,7 @@ import samirqb.carwashmanager.app.ui.components.custom.widgets.FechaYHoraWidget
 import samirqb.carwashmanager.app.ui.components.custom.widgets.TotalDineroAperturaCierreCajaWidget
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tDialogScaffoldM1
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
-import samirqb.lcarwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
 import samirqb.lib.caja.entidades.AperturaCajaEntity
 import samirqb.lib.caja.entidades.DetalleAperturaCajaEntity
 

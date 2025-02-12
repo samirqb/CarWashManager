@@ -1,4 +1,4 @@
-package samirqb.lcarwashmanager.app.ui.layoutcomponets
+package samirqb.carwashmanager.app.ui.layoutcomponets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope

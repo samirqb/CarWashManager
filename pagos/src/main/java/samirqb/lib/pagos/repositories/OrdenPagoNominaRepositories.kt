@@ -13,7 +13,7 @@ class OrdenPagoNominaRepositories(
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al insertar OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al insertar en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -21,7 +21,7 @@ class OrdenPagoNominaRepositories(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -29,7 +29,7 @@ class OrdenPagoNominaRepositories(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -37,7 +37,7 @@ class OrdenPagoNominaRepositories(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al leerPorId en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -45,7 +45,7 @@ class OrdenPagoNominaRepositories(
         try {
             return mDao.leerTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerTodo OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al leerTodo en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -53,7 +53,7 @@ class OrdenPagoNominaRepositories(
         try {
             mDao.borrarTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrarTodo OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al borrarTodo en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -61,7 +61,7 @@ class OrdenPagoNominaRepositories(
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrar OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al borrar en OrdenPagoNominaRepositories", e)
         }
     }
 
@@ -69,16 +69,32 @@ class OrdenPagoNominaRepositories(
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al actualizar OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al actualizar en OrdenPagoNominaRepositories", e)
         }
     }
 
     //CUSTOM
     fun leerTodoPorPagar(orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>> {
         try {
-            return mDao.leerTodoPorPagar(orden_pagada)
+            return mDao.leerPorOrdenPagada(orden_pagada)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerTodoPorPagar OrdenPagoNominaEntity", e)
+            throw MyCustomException("Error al leerTodoPorPagar en OrdenPagoNominaRepositories", e)
+        }
+    }
+
+    fun leerPorOperarioIdYOrdenPagada(operario_id: String, orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>> {
+        return try {
+            return mDao.leerPorOperarioIdYOrdenPagada(operario_id ,orden_pagada)
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerPorOperarioIdYOrdenPagada en OrdenPagoNominaRepositories", e)
+        }
+    }
+
+    fun leerMasReciente(): Flow<OrdenPagoNominaEntity?>{
+        return try {
+            mDao.leerMasReciente()
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerMasReciente en OrdenPagoNominaRepositories", e)
         }
     }
 }

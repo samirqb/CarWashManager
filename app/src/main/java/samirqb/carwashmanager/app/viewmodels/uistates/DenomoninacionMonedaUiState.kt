@@ -1,5 +1,6 @@
 package samirqb.carwashmanager.app.viewmodels.uistates
 
+import androidx.compose.runtime.mutableStateListOf
 import samirqb.lib.caja.entidades.DenominacionMonedaEntity
 
 data class DenomoninacionMonedaUiState(
@@ -8,5 +9,5 @@ data class DenomoninacionMonedaUiState(
         fecha_hora_creacion = "",
     ),
 
-    val todasLasDenominacionesMoneda: List<DenominacionMonedaEntity> = listOf()
+    val todasLasDenominacionesMoneda: MutableList<DenominacionMonedaEntity> = mutableStateListOf()
 )
