@@ -74,9 +74,9 @@ class OrdenDeVentaRepository(
     }
 
     //CUSTOM
-    fun leerPorOrdenPagada(orden_pagada: Boolean): Flow<List<OrdenDeVentaEntity>> {
+    fun leerPorOrdenPagada(orden_vigente: Boolean): Flow<List<OrdenDeVentaEntity>> {
         return try {
-            mDao.leerPorOrdenPagada(orden_pagada)
+            mDao.leerPorOrdenPagada(orden_vigente)
         } catch (e: Exception) {
             throw MyCustomException("Error al leerPorOrdenPagada en OrdenDeVentaRepository", e)
         }

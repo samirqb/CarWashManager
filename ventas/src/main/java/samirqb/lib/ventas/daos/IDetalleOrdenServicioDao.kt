@@ -1,6 +1,7 @@
 package samirqb.lib.ventas.daos
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
@@ -32,5 +33,9 @@ interface IDetalleOrdenServicioDao: IBaseDao<DetalleOrdenServicioEntity> {
 
     @Query( "DELETE FROM tab_detalles_ordenes_servicios" )
     suspend fun borrarTodo()
+
+    // CUSTOM
+    @Insert
+    suspend fun insertarVarios( mEntities: List<DetalleOrdenServicioEntity>)
 
 }

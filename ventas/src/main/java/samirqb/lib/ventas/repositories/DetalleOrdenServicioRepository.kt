@@ -13,7 +13,7 @@ class DetalleOrdenServicioRepository(
         try {
             mDao.insertar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al insertar DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al insertar en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -21,7 +21,7 @@ class DetalleOrdenServicioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al leerPorId en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -29,7 +29,7 @@ class DetalleOrdenServicioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al leerPorId en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -37,7 +37,7 @@ class DetalleOrdenServicioRepository(
         try {
             return mDao.leerPorId(id)
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerPorId DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al leerPorId en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -45,7 +45,7 @@ class DetalleOrdenServicioRepository(
         try {
             return mDao.leerTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al leerTodo DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al leerTodo en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -53,7 +53,7 @@ class DetalleOrdenServicioRepository(
         try {
             mDao.borrarTodo()
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrarTodo DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al borrarTodo en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -61,7 +61,7 @@ class DetalleOrdenServicioRepository(
         try {
             mDao.borrar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al borrar DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al borrar en DetalleOrdenServicioRepository", e)
         }
     }
 
@@ -69,7 +69,16 @@ class DetalleOrdenServicioRepository(
         try {
             mDao.actualizar(mTEntity)
         } catch (e: Exception) {
-            throw MyCustomException("Error al actualizar DetalleOrdenServicioEntity", e)
+            throw MyCustomException("Error al actualizar en DetalleOrdenServicioRepository", e)
+        }
+    }
+
+    //CUSTOM
+    suspend fun insertarVarios( mEntities: List<DetalleOrdenServicioEntity>){
+        try {
+            mDao.insertarVarios(mEntities)
+        } catch (e: Exception) {
+            throw MyCustomException("Error al insertarVarios en DetalleOrdenServicioRepository", e)
         }
     }
 }

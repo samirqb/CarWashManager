@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import samirqb.carwashmanager.app.MyApplication
@@ -34,6 +33,8 @@ class OrdenDeVentaViewModel(
     private val mObtenerOrdenDeVentaMasRecienteUseCase: ObtenerOrdenDeVentaMasRecienteUseCase,
     private val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase: ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase,
 ) : ViewModel() {
+
+    private var mSumaValoresDeItemsDeUnaLista = SumaValoresDeItemsDeUnaLista()
 
     private val NOMBRE_CLASE = "OrdenDeVentaViewModel"
 
@@ -101,7 +102,7 @@ class OrdenDeVentaViewModel(
         }
     }
 
-    fun agregarEnUiStateServicioAOrdenDeVenta(mEntity: DetalleOrdenServicioEntity) {
+    fun agregarServicioAOrdenDeVentaSoloEnUiState(mEntity: DetalleOrdenServicioEntity) {
 
         val NOMBRE_FUN = "agregarEnUiStateServicioAOrdenDeVenta"
 
@@ -124,7 +125,7 @@ class OrdenDeVentaViewModel(
         }
     }
 
-    fun agregarEnUiStatePresiosDeServicioAOrdenDeVenta(precio_servicio: Float) {
+    fun agregarPresiosDeServicioAOrdenDeVentaSoloEnUiState(precio_servicio: Float) {
 
         val NOMBRE_FUN = "agregarEnUiStatePresiosDeServicioAOrdenDeVenta"
 
@@ -151,17 +152,16 @@ class OrdenDeVentaViewModel(
         viewModelScope.launch(Dispatchers.IO) {
 
             _uiState.update {
-                if (it.todos_los_productos_agregados_a_la_orden.isEmpty()) {
+                if (it.todos_los_precios_de_servicios_agregados_a_la_orden.isEmpty()) {
                     it.copy(
                         suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(0f)
                     )
                 } else {
                     it.copy(
                         suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(
-                            SumaValoresDeItemsDeUnaLista()
-                                .sumar(
-                                    it.todos_los_precios_de_servicios_agregados_a_la_orden
-                                )
+                            mSumaValoresDeItemsDeUnaLista.sumar(
+                                it.todos_los_precios_de_servicios_agregados_a_la_orden
+                            )
                         )
                     )
                 }

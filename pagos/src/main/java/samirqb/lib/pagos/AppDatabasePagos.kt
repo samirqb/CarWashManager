@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import samirqb.lib.pagos.daos.IOrdenPagoNominaDao
+import samirqb.lib.pagos.entities.DatosTotalesOrdenPagoNominaEntity
 import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 
 @Database(
     entities = [
-        OrdenPagoNominaEntity::class
+        OrdenPagoNominaEntity::class,
+        DatosTotalesOrdenPagoNominaEntity::class,
     ],
     version = 1,
     exportSchema = false,
@@ -18,6 +20,7 @@ import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 abstract class AppDatabasePagos:RoomDatabase() {
 
     abstract fun iOrdenPagoNominaDao(): IOrdenPagoNominaDao
+    //abstract fun iDatosTotalesOrdenPagoNominaDao(): IDatosTotalesOrdenPagoNominaDao
 
     companion object {
         @Volatile

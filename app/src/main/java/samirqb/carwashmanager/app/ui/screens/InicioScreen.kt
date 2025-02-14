@@ -122,7 +122,6 @@ fun InicioScreen(
 
             content2 = {
                 ServiciosActivosWidget(
-                    //lista_servicios_activos = listOf("serv1", "serv2", "serv3", "serv4", "serv5")
                     lista_servicios_activos = todas_las_ordenes_de_venta
                 )
             },

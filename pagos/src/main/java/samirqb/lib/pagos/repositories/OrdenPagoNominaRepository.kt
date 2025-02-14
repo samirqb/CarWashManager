@@ -6,7 +6,7 @@ import samirqb.lib.pagos.daos.IOrdenPagoNominaDao
 import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.pagos.interfaces.IBaseRepository
 
-class OrdenPagoNominaRepositories(
+class OrdenPagoNominaRepository(
     private val mDao: IOrdenPagoNominaDao
 ):IBaseRepository<OrdenPagoNominaEntity> {
     override suspend fun insertar(mTEntity: OrdenPagoNominaEntity) {
@@ -74,17 +74,17 @@ class OrdenPagoNominaRepositories(
     }
 
     //CUSTOM
-    fun leerTodoPorPagar(orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>> {
+    fun leerTodoPorPagar(orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>> {
         try {
-            return mDao.leerPorOrdenPagada(orden_pagada)
+            return mDao.leerPorOrdenPagada(orden_vigente)
         } catch (e: Exception) {
             throw MyCustomException("Error al leerTodoPorPagar en OrdenPagoNominaRepositories", e)
         }
     }
 
-    fun leerPorOperarioIdYOrdenPagada(operario_id: String, orden_pagada: Boolean): Flow<List<OrdenPagoNominaEntity>> {
+    fun leerPorOperarioIdYOrdenPagada(operario_id: String, orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>> {
         return try {
-            return mDao.leerPorOperarioIdYOrdenPagada(operario_id ,orden_pagada)
+            return mDao.leerPorOperarioIdYOrdenPagada(operario_id ,orden_vigente)
         } catch (e: Exception) {
             throw MyCustomException("Error al leerPorOperarioIdYOrdenPagada en OrdenPagoNominaRepositories", e)
         }
@@ -95,6 +95,15 @@ class OrdenPagoNominaRepositories(
             mDao.leerMasReciente()
         } catch (e: Exception) {
             throw MyCustomException("Error al leerMasReciente en OrdenPagoNominaRepositories", e)
+        }
+    }
+
+
+    fun obtenerCantidadDeRegistros(): Flow<Int>{
+        return try {
+            mDao.obtenerCantidadDeRegistros()
+        } catch (e: Exception) {
+            throw MyCustomException("Error al obtenerCantidadDeRegistros en OrdenPagoNominaRepositories", e)
         }
     }
 }

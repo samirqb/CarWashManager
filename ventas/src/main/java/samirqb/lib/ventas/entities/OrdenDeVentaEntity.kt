@@ -16,6 +16,6 @@ data class OrdenDeVentaEntity(
     val valor_total_orden: Float,
     val valor_total_solo_servicios: Float,
     val valor_total_solo_productos: Float,
-    val orden_pagada: Boolean,
+    val orden_vigente: Boolean,
     val fecha_hora_creacion: String,
 )

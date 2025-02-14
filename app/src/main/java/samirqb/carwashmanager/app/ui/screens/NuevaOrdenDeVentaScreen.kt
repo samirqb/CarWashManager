@@ -18,8 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -54,9 +52,11 @@ import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
-import samirqb.carwashmanager.app.viewmodels.ServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.DetalleOrdenServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.OrdenDePagoNominaViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
+import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.personas.entities.ClienteEntity
 import samirqb.lib.vehiculos.entities.VehiculoEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
@@ -70,6 +70,7 @@ fun NuevaOrdenDeVentaScreen(
     mOperarioViewModel: OperarioViewModel,
     mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
+    mDetalleOrdenServicioViewModel: DetalleOrdenServicioViewModel,
     onNavigateToAgregarServicioDialog: () -> Unit,
     onClick_navigate_back: () -> Unit,
 ) {
@@ -639,15 +640,17 @@ fun NuevaOrdenDeVentaScreen(
                                                 valor_total_orden = total_orden_venta,
                                                 valor_total_solo_servicios = uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue,
                                                 valor_total_solo_productos = uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue,
-                                                orden_pagada = false,
+                                                orden_vigente = false,
                                                 fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
                                             )
                                         )
 
-                                        // guardar la orden de pago nomina
-                                        //{...}
-
                                         // guardar los servicios y/o productos
+                                        mDetalleOrdenServicioViewModel.insertarListaDeDetallesAOrdenDeServiciosUC(
+                                            uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden
+                                        )
+
+                                        // eliminar valores de uiState
                                         //{...}
 
                                         onClick_navigate_back()

@@ -137,28 +137,54 @@ abstract class AppDatabaseRRHH:RoomDatabase() {
                         /** PERIODOD DE PAGO */
                         var mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
                             id_periodo_facturacion_pk = 0,
-                            descripcion_del_periodo = "DIARIO",
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "1",
+                            dia_mes_fin_periodo = "15",
                             fecha_hora_creacion = datetime.toString()
                         )
                         iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)
 
                         mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
                             id_periodo_facturacion_pk = 0,
-                            descripcion_del_periodo = "SEMANAL",
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "16",
+                            dia_mes_fin_periodo = "30",
                             fecha_hora_creacion = datetime.toString()
                         )
                         iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)
 
                         mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
                             id_periodo_facturacion_pk = 0,
-                            descripcion_del_periodo = "QUINCENAL",
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "1",
+                            dia_mes_fin_periodo = "30",
                             fecha_hora_creacion = datetime.toString()
                         )
                         iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)
 
                         mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
                             id_periodo_facturacion_pk = 0,
-                            descripcion_del_periodo = "MENSUAL",
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "0",
+                            dia_mes_fin_periodo = "0",
+                            fecha_hora_creacion = datetime.toString()
+                        )
+                        iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)
+
+                        mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
+                            id_periodo_facturacion_pk = 0,
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "1",
+                            dia_mes_fin_periodo = "1",
+                            fecha_hora_creacion = datetime.toString()
+                        )
+                        iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)
+
+                        mPeriodoFacturacionNominaEntiry = PeriodoFacturacionNominaEntity(
+                            id_periodo_facturacion_pk = 0,
+                            periodo_vigente = true,
+                            dia_mes_ini_periodo = "7",
+                            dia_mes_fin_periodo = "7",
                             fecha_hora_creacion = datetime.toString()
                         )
                         iPeriodoFacturacionNominaDao.insertar(mPeriodoFacturacionNominaEntiry)

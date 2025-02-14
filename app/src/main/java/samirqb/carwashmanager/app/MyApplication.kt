@@ -27,11 +27,12 @@ import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosConNomnreUseCase
 import samirqb.lib.ofertas.uc.ListarTodosLosServiciosYPreciosUseCase
 import samirqb.lib.ofertas.uc.ObtenerElPrecioMasRecienteUseCase
 import samirqb.lib.pagos.AppDatabasePagos
-import samirqb.lib.pagos.repositories.OrdenPagoNominaRepositories
+import samirqb.lib.pagos.repositories.OrdenPagoNominaRepository
 import samirqb.lib.pagos.uc.AgregarOrdenDePagoNominaUseCase
 import samirqb.lib.pagos.uc.ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase
 import samirqb.lib.pagos.uc.ObtenerOrdenDePagoNominaMasRecienteUseCase
 import samirqb.lib.personas.AppDatabasePersonas
 import samirqb.lib.personas.uc.AgregarClienteUseCase
@@ -51,8 +52,10 @@ import samirqb.lib.vehiculos.uc.BuscarVehiculoPorMatriculaUseCase
 import samirqb.lib.vehiculos.uc.ListarTodasLasClasificacionesDelVehiculoUseCase
 import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
 import samirqb.lib.ventas.AppDatabaseVentas
+import samirqb.lib.ventas.repositories.DetalleOrdenServicioRepository
 import samirqb.lib.ventas.repositories.OrdenDeVentaRepository
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
+import samirqb.lib.ventas.uc.InsertarVariosDetallesDeOrdenServiciosUseCase
 import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasUseCase
 import samirqb.lib.ventas.uc.ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
 import samirqb.lib.ventas.uc.ObtenerOrdenDeVentaMasRecienteUseCase
@@ -117,11 +120,12 @@ class MyApplication: Application() {
 
 
     //   U C   O R D E N E S   D E   P A G O   N O M I N A
-    val mAgregarOrdenDePagoNominaUseCase by lazy{ AgregarOrdenDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
-    val mListarTodasLasOrdenesDePagoNominaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
-    val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
-    val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase by lazy{ ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
-    val mObtenerOrdenDePagoNominaMasRecienteUseCase by lazy{ ObtenerOrdenDePagoNominaMasRecienteUseCase(OrdenPagoNominaRepositories(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mAgregarOrdenDePagoNominaUseCase by lazy{ AgregarOrdenDePagoNominaUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarTodasLasOrdenesDePagoNominaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase by lazy{ ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase by lazy{ ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mObtenerOrdenDePagoNominaMasRecienteUseCase by lazy{ ObtenerOrdenDePagoNominaMasRecienteUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
+    val mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase by lazy{ ObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase(OrdenPagoNominaRepository(mAppDatabasePagos.iOrdenPagoNominaDao())) }
 
 
     //   U C   O R D E N E S   D E   V E N T A S
@@ -129,6 +133,9 @@ class MyApplication: Application() {
     val mListarTodasLasOrdenesDeVentasUseCase by lazy{ ListarTodasLasOrdenesDeVentasUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mObtenerOrdenDeVentaMasRecienteUseCase by lazy{ ObtenerOrdenDeVentaMasRecienteUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase by lazy{ ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+
+    //   U C   D E T A L L E S   O R D E N E S   S E R V I C I O S
+    val mInsertarVariosDetallesDeOrdenServiciosUseCase by lazy{ InsertarVariosDetallesDeOrdenServiciosUseCase(DetalleOrdenServicioRepository(mAppDatabaseVentas.iDetalleOrdenServicioDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

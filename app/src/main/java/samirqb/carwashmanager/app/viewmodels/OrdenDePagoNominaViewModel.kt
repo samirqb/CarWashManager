@@ -23,14 +23,16 @@ import samirqb.lib.pagos.uc.AgregarOrdenDePagoNominaUseCase
 import samirqb.lib.pagos.uc.ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
 import samirqb.lib.pagos.uc.ListarTodasLasOrdenesDePagoNominaUseCase
+import samirqb.lib.pagos.uc.ObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase
 import samirqb.lib.pagos.uc.ObtenerOrdenDePagoNominaMasRecienteUseCase
 
 class OrdenDePagoNominaViewModel(
     private val mAgregarOrdenDePagoNominaUseCase: AgregarOrdenDePagoNominaUseCase,
     private val mListarTodasLasOrdenesDePagoNominaUseCase: ListarTodasLasOrdenesDePagoNominaUseCase,
-    private val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase: ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase,
-    private val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase: ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase,
+    private val mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase: ListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase,
+    private val mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase: ListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase,
     private val mObtenerOrdenDePagoNominaMasRecienteUseCase: ObtenerOrdenDePagoNominaMasRecienteUseCase,
+    private val mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase: ObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase,
 ): ViewModel() {
 
     private val NOMBRE_CLASE = "OrdenDePagoNominaViewModel"
@@ -40,9 +42,9 @@ class OrdenDePagoNominaViewModel(
 
     init {
         listarTodasLasOrdenesDePagoNomina()
-        listarTodasLasOrdenesDePagoNominaPagadas()
-        listarTodasLasOrdenesDePagoNominaSinPagar()
-        calcularIdOrdenPagoNomina()
+        listarTodasLasOrdenesDePagoNominaNoVigentes()
+        listarTodasLasOrdenesDePagoNominaVigentes()
+        calcularIdProximaOrdenPagoNomina()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -60,23 +62,35 @@ class OrdenDePagoNominaViewModel(
         }
     }
 
-    fun calcularIdOrdenPagoNomina(){
+    fun numeroActualDeOrdenDePagoNomina(numero: Int){
 
-        val NOMBRE_FUN = "calcularIdOrdenPagoNomina"
+        val NOMBRE_FUN = "numeroActualDeOrdenDePagoNomina"
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _uiState.update {
+                    it.copy(
+                        numero_de_orden_de_pago_actual = numero
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun calcularIdProximaOrdenPagoNomina(){
+
+        val NOMBRE_FUN = "calcularIdProximaOrdenPagoNomina"
 
         viewModelScope.launch {
             try {
-                mObtenerOrdenDePagoNominaMasRecienteUseCase().collect {
-                    var orden_mas_reciente = 0
+                mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase().collect {
+                    var orden_mas_reciente = it + 1
 
-                    if (it == null) {
-                        orden_mas_reciente = 1
-                    } else {
-                        orden_mas_reciente = it.id_orden_pago_nomina_pk + 1
-                    }
                     _uiState.update {
                         it.copy(
-                            numero_de_orden_de_pago = orden_mas_reciente
+                            numero_de_proxima_orden_de_pago = orden_mas_reciente
                         )
                     }
                 }
@@ -122,18 +136,20 @@ class OrdenDePagoNominaViewModel(
         }
     }
 
-    fun listarTodasLasOrdenesDePagoNominaPagadas(){
+    fun listarTodasLasOrdenesDePagoNominaNoVigentes(){
 
-        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNomina"
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaNoVigentes"
+
+        val orden_vigente = false
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(true).collect{
+                mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase(orden_vigente).collect{
 
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_pagadas = lista.toMutableList())
+                        it.copy(lista_ordenes_pago_nomina_no_vigentes = lista.toMutableList())
                     }
 
                 }
@@ -143,20 +159,20 @@ class OrdenDePagoNominaViewModel(
         }
     }
 
-    fun listarTodasLasOrdenesDePagoNominaPorOperarioPagadas(operario_id:String){
+    fun listarTodasLasOrdenesDePagoNominaPorOperarioYNoVigentes(operario_id:String){
 
-        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioPagadas"
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioYNoVigentes"
 
-        var orden_pagada = true
+        var orden_vigente = false
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(operario_id,orden_pagada).collect{
+                mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase(operario_id,orden_vigente).collect{
 
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_por_operario_id_pagadas = lista.toMutableList())
+                        it.copy(lista_ordenes_pago_nomina_por_operario_id_no_vigentes = lista.toMutableList())
                     }
 
                 }
@@ -166,42 +182,43 @@ class OrdenDePagoNominaViewModel(
         }
     }
 
-    fun listarTodasLasOrdenesDePagoNominaSinPagar(){
+    fun listarTodasLasOrdenesDePagoNominaVigentes(){
 
-        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaSinPagadas"
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaVigentes"
+
+        val orden_vigente = true
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase(false).collect{
+                mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase(orden_vigente).collect{
 
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_sin_pagar = lista.toMutableList())
+                        it.copy(lista_ordenes_pago_nomina_vigentes = lista.toMutableList())
                     }
 
                 }
             } catch (e:Exception){
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
-
         }
     }
 
-    fun listarTodasLasOrdenesDePagoNominaPorOperarioNoPagadas(operario_id:String){
+    fun listarTodasLasOrdenesDePagoNominaPorOperarioIdVigente(operario_id:String){
 
-        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioNoPagadas"
+        val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioYNoVigente"
 
-        var orden_pagada = false
+        var orden_vigente = true
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase(operario_id,orden_pagada).collect{
+                mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase(operario_id,orden_vigente).collect{
 
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_por_operario_id_no_pagadas = lista.toMutableList())
+                        it.copy(lista_ordenes_pago_nomina_por_operario_id_vigentes = lista.toMutableList())
                     }
                 }
             } catch (e:Exception){
@@ -218,16 +235,18 @@ class OrdenDePagoNominaViewModel(
                 // val savedStateHandle = createSavedStateHandle()
                 val mAgregarOrdenDePagoNominaUseCase = (this[APPLICATION_KEY] as MyApplication).mAgregarOrdenDePagoNominaUseCase
                 val mListarTodasLasOrdenesDePagoNominaUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDePagoNominaUseCase
-                val mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase
-                val mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase = (this[APPLICATION_KEY] as MyApplication).mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase
+                val mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase = (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase
+                val mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase = (this[APPLICATION_KEY] as MyApplication).mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase
                 val mObtenerOrdenDePagoNominaMasRecienteUseCase = (this[APPLICATION_KEY] as MyApplication).mObtenerOrdenDePagoNominaMasRecienteUseCase
+                val mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase = (this[APPLICATION_KEY] as MyApplication).mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase
 
                 OrdenDePagoNominaViewModel(
                     mAgregarOrdenDePagoNominaUseCase = mAgregarOrdenDePagoNominaUseCase,
                     mListarTodasLasOrdenesDePagoNominaUseCase  = mListarTodasLasOrdenesDePagoNominaUseCase,
-                    mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase = mListarTodasLasOrdenesDePagoNominaPorEstadoDePagoUseCase,
-                    mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase = mListarOrdenesDePagoPorOperarioIdYEstadoDePagoUseCase,
+                    mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase = mListarTodasLasOrdenesDePagoNominaPorVigenciaUseCase,
+                    mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase = mListarOrdenesDePagoNominaPorOperarioIdYVigenciaUseCase,
                     mObtenerOrdenDePagoNominaMasRecienteUseCase = mObtenerOrdenDePagoNominaMasRecienteUseCase,
+                    mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase = mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase
                 )
             }
         }

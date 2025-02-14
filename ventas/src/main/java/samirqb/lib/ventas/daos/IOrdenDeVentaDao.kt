@@ -35,8 +35,8 @@ interface IOrdenDeVentaDao: IBaseDao<OrdenDeVentaEntity> {
 
     // CUSTOM
     @Transaction
-    @Query( "SELECT * FROM tab_ordenes_de_ventas WHERE orden_pagada = :orden_pagada" )
-    fun leerPorOrdenPagada(orden_pagada: Boolean): Flow<List<OrdenDeVentaEntity>>
+    @Query("SELECT * FROM tab_ordenes_de_ventas WHERE orden_vigente = :orden_vigente")
+    fun leerPorOrdenPagada(orden_vigente: Boolean): Flow<List<OrdenDeVentaEntity>>
 
     @Query( "SELECT COUNT(id_orden_pk) FROM tab_ordenes_de_ventas" )
     fun obtenerCantidadDeRegistros(): Flow<Int>
