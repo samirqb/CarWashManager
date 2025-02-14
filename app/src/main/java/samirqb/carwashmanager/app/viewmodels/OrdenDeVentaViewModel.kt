@@ -3,7 +3,9 @@ package samirqb.carwashmanager.app.viewmodels
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -20,6 +22,7 @@ import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.OrdenDeVentaUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.helpers.SumaValoresDeItemsDeUnaLista
+import samirqb.lib.ventas.entities.DetalleOrdenProductoEntity
 import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
@@ -203,10 +206,25 @@ class OrdenDeVentaViewModel(
         }
     }
 
-    fun sumarValoreDeTodosLosServiciosAgregadosALaOrden(lista: MutableList<DetalleOrdenServicioEntity>) {
+    fun limpiarDatosUiState() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
+            _uiState.update {
+                it.copy(
+                    numero_de_nueva_orden_de_venta = 0,
+                    fecha_y_hora = "",
+                    lista_operarios_relacionados_con_orden_venta = mutableStateListOf(),
+                    todas_las_ordenes_de_venta = mutableStateListOf(),
+                    todas_las_ordenes_de_venta_pagadas = mutableStateListOf(),
+                    todas_las_ordenes_de_venta_sin_pagar = mutableStateListOf(),
+                    todos_los_servicios_agregados_a_la_orden = mutableStateListOf(),
+                    todos_los_precios_de_servicios_agregados_a_la_orden = mutableStateListOf(0f),
+                    suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(0f),
+                    suma_precios_productos_agregados_a_orden = mutableFloatStateOf(0f),
+                    todos_los_productos_agregados_a_la_orden = mutableStateListOf(),
+                )
+            }
         }
     }
 

@@ -205,6 +205,7 @@ class OrdenDePagoNominaViewModel(
         }
     }
 
+    // ---> lista_ordenes_pago_nomina_por_operario_id_vigentes
     fun listarTodasLasOrdenesDePagoNominaPorOperarioIdVigente(operario_id:String){
 
         val NOMBRE_FUN = "listarTodasLasOrdenesDePagoNominaPorOperarioYNoVigente"
@@ -218,7 +219,9 @@ class OrdenDePagoNominaViewModel(
                     var lista = it
 
                     _uiState.update{
-                        it.copy(lista_ordenes_pago_nomina_por_operario_id_vigentes = lista.toMutableList())
+                        it.copy(
+                            lista_ordenes_pago_nomina_por_operario_id_vigentes = lista.toMutableList()
+                        )
                     }
                 }
             } catch (e:Exception){

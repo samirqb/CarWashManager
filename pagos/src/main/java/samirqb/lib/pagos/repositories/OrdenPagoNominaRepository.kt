@@ -82,9 +82,9 @@ class OrdenPagoNominaRepository(
         }
     }
 
-    fun leerPorOperarioIdYOrdenPagada(operario_id: String, orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>> {
+    fun leerPorOperarioIdYOrdenVigente(operario_id: String, orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>> {
         return try {
-            return mDao.leerPorOperarioIdYOrdenPagada(operario_id ,orden_vigente)
+            return mDao.leerPorOperarioIdYOrdenVigente(operario_id ,orden_vigente)
         } catch (e: Exception) {
             throw MyCustomException("Error al leerPorOperarioIdYOrdenPagada en OrdenPagoNominaRepositories", e)
         }

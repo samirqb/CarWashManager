@@ -95,164 +95,89 @@ abstract class AppDatabaseCaja : RoomDatabase() {
 
                         var uMDao = database.iUnidadMonetariaDao()
                         var tMDao = database.iTipoMonedaDao()
+                        var dMDao = database.iDenominacionMonedaDao()
+                        var mMDao = database.iMonedaDao()
 
-                        uMDao.borrarTodo()
-                        tMDao.borrarTodo()
+                        try {
+                            uMDao.borrarTodo()
 
-                        var mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "XXX",
-                            nombre_y_origen = "OTRA MONEDA",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "ARS",
-                            nombre_y_origen = "ARGENTINE PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "BOB",
-                            nombre_y_origen = "BOLIVIANO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "CLP",
-                            nombre_y_origen = "CHILEAN PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "COP",
-                            nombre_y_origen = "COLOMBIAN PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "CRC",
-                            nombre_y_origen = "COSTA RICAN COLON",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "CUP",
-                            nombre_y_origen = "CUBAN PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "DOP",
-                            nombre_y_origen = "DOMINICAN PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "SVC",
-                            nombre_y_origen = "EL SALVADOR COLON",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "GTQ",
-                            nombre_y_origen = "QUETZAL",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "GYD",
-                            nombre_y_origen = "GUYANA DOLLAR",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "HNL",
-                            nombre_y_origen = "LEMPIRA",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "MXN",
-                            nombre_y_origen = "MEXICAN PESO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "NIO",
-                            nombre_y_origen = "CORDOBA ORO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "PAB",
-                            nombre_y_origen = "BALBOA",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "PYG",
-                            nombre_y_origen = "GUARANI",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "PEN",
-                            nombre_y_origen = "SOL",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "USD",
-                            nombre_y_origen = "US DOLLAR",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "UYU",
-                            nombre_y_origen = "PESO URUGUAYO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "VED",
-                            nombre_y_origen = "BOLÍVAR SOBERANO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "VES",
-                            nombre_y_origen = "BOLÍVAR SOBERANO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "EUR",
-                            nombre_y_origen = "EURO",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
-                        mUMEntity = UnidadMonetariaEntity(
-                            codigo_iso_4217_pk = "BRL",
-                            nombre_y_origen = "BRAZILIAN REAL",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        uMDao.insertar(mUMEntity)
+                            UnidadesMonetariasParams().obtener().forEach {
+                                uMDao.insertar(
+                                    UnidadMonetariaEntity(
+                                        codigo_iso_4217_pk = it.key,
+                                        nombre_y_origen = it.value,
+                                        fecha_hora_creacion = datetime
+                                    )
+                                )
+                            }
+                        } catch (e: Exception) {
+                            //throw CustomDatabaseException("Error en iClasificacionDelVehiculoDao.insertar desde PrePopulateDatabaseCallback()", e)
+                            throw Exception(
+                                "Error en iUnidadMonetariaDao.insertar desde PrePopulateDatabaseCallback()",
+                                e
+                            )
+                        }
 
-                        var mTMEntity = TipoMonedaEntity(
-                            tipo_pk = "BILLETE",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        tMDao.insertar(mTMEntity)
-                        mTMEntity = TipoMonedaEntity(
-                            tipo_pk = "MONEDA",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        tMDao.insertar(mTMEntity)
-                        mTMEntity = TipoMonedaEntity(
-                            tipo_pk = "DIGITAL",
-                            fecha_hora_creacion = datetime.toString()
-                        )
-                        tMDao.insertar(mTMEntity)
+                        try {
+                            tMDao.borrarTodo()
+
+                            FormatoDeEmisionDeDineroParams().obtener().forEach {
+                                tMDao.insertar(
+                                    TipoMonedaEntity(
+                                        tipo_pk = it,
+                                        fecha_hora_creacion = datetime
+                                    )
+                                )
+                            }
+                        } catch (e: Exception) {
+                            //throw CustomDatabaseException("Error en iClasificacionDelVehiculoDao.insertar desde PrePopulateDatabaseCallback()", e)
+                            throw Exception(
+                                "Error en iTipoMonedaDao.insertar desde PrePopulateDatabaseCallback()",
+                                e
+                            )
+                        }
+
+                        try {
+                            dMDao.borrarTodo()
+
+                            TodasLasDenominacionesParams().obtener().forEach {
+                                dMDao.insertar(
+                                    DenominacionMonedaEntity(
+                                        denominacion_pk = it,
+                                        fecha_hora_creacion = datetime
+                                    )
+                                )
+                            }
+                        } catch (e: Exception) {
+                            //throw CustomDatabaseException("Error en iClasificacionDelVehiculoDao.insertar desde PrePopulateDatabaseCallback()", e)
+                            throw Exception(
+                                "Error en iDenominacionMonedaDao.insertar desde PrePopulateDatabaseCallback()",
+                                e
+                            )
+                        }
+
+                        try {
+                            mMDao.borrarTodo()
+
+                            //COP
+                            DenominacionesPorUnidadMonetariaParams().obtener_cop().forEach {
+                                mMDao.insertar(
+                                    MonedaEntity(
+                                        id_moneda_pk = 0,
+                                        codigo_iso_4217_fk = it[0],
+                                        denominacion_fk = it[1].toFloat(),
+                                        tipo_fk = it[2],
+                                        fecha_hora_creacion = datetime
+                                    )
+                                )
+                            }
+                        } catch (e: Exception) {
+                            //throw CustomDatabaseException("Error en iClasificacionDelVehiculoDao.insertar desde PrePopulateDatabaseCallback()", e)
+                            throw Exception(
+                                "Error en iMonedaDao.insertar desde PrePopulateDatabaseCallback()",
+                                e
+                            )
+                        }
                     }
                 }
             }

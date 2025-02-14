@@ -39,7 +39,7 @@ interface IOrdenPagoNominaDao : IBaseDao<OrdenPagoNominaEntity> {
 
     @Transaction
     @Query("SELECT * FROM tab_ordenes_de_pago_nomina WHERE operario_id_fk = :operario_id AND orden_vigente = :orden_vigente ORDER BY id_orden_pago_nomina_pk DESC")
-    fun leerPorOperarioIdYOrdenPagada(operario_id: String, orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>>
+    fun leerPorOperarioIdYOrdenVigente(operario_id: String, orden_vigente: Boolean): Flow<List<OrdenPagoNominaEntity>>
 
     @Query( "SELECT COUNT(id_orden_pago_nomina_pk) FROM tab_ordenes_de_pago_nomina" )
     fun obtenerCantidadDeRegistros(): Flow<Int>

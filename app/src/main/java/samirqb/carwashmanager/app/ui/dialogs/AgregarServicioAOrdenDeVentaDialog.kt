@@ -1,6 +1,7 @@
 package samirqb.carwashmanager.app.ui.dialogs
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -54,12 +55,12 @@ fun AgregarServicioAOrdenDeVentaDialog(
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
     val uiState_OrdenDePagoNominaViewModel by mOrdenDePagoNominaViewModel.uiState.collectAsState()
 
-    mOrdenDeVentaViewModel.calcularIdDeNuevaOrdenDeVenta()
     mOrdenDeVentaViewModel.actualizarFechaYHora()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosActivosConNombreDelServicio()
     mOrdenDePagoNominaViewModel.calcularIdProximaOrdenPagoNomina()
     mOperarioViewModel.listarTodosLosOperariosInactivosUC()
+
 
     var listar_todos_los_servicios_y_precios_activos_con_nombre_del_servicio =
         uiState_ServicioYPrecioViewModel.todos_los_servicios_y_precios_activos_y_nommbre_del_servicio
@@ -284,7 +285,13 @@ fun AgregarServicioAOrdenDeVentaDialog(
         boton_txt_2 = R.string.txt_label_agregar,
         on_click_boton_2 = {
 
+            var id_orden_pago_nomina_fk = 0
+
             if ( uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes.isEmpty() ){
+
+                mOrdenDeVentaViewModel.calcularIdDeNuevaOrdenDeVenta()
+                id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.numero_de_proxima_orden_de_pago
+
                 // guardar la orden de pago nomina
                 mOrdenDePagoNominaViewModel.agregarOrdenDePagoNomina(
                     OrdenPagoNominaEntity(
@@ -294,19 +301,15 @@ fun AgregarServicioAOrdenDeVentaDialog(
                         fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora
                     )
                 )
+            } else {
+                id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes[0].id_orden_pago_nomina_pk
             }
-            mOrdenDePagoNominaViewModel.listarTodasLasOrdenesDePagoNominaPorOperarioIdVigente(id_operario_seleccionado)
 
             mOrdenDeVentaViewModel.agregarServicioAOrdenDeVentaSoloEnUiState(
                 DetalleOrdenServicioEntity(
                     id_registro_pk = 0 ,
                     id_orden_venta_fk = uiState_OrdenDeVentaViewModel.numero_de_nueva_orden_de_venta,
-                    /*id_orden_pago_nomina_fk = if (uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes.isEmpty()){
-                        uiState_OrdenDePagoNominaViewModel.numero_de_proxima_orden_de_pago
-                    } else{
-                        uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes[0].id_orden_pago_nomina_pk
-                    },*/
-                    id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes[0].id_orden_pago_nomina_pk,
+                    id_orden_pago_nomina_fk = id_orden_pago_nomina_fk,
                     id_precio_y_servicio_fk = id_servicio_y_precio_seleccionado,
                     id_operario_fk = id_operario_seleccionado,
                     servicio_culminado = false,

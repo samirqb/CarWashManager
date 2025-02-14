@@ -101,7 +101,6 @@ fun NuevaOrdenDeVentaScreen(
         uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo.sortedBy {
             it.clase_id_pk
         }
-
     val listar_todos_los_operarios = uiState_OperarioViewModel.todos_los_operarios
     val lista_categorias_vehiculo =
         uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo
@@ -602,10 +601,24 @@ fun NuevaOrdenDeVentaScreen(
 
 
                 item {
+                    var enabled_boton_crear_nueva_orden = false
+
+                    if (resultado_busqueda_cliente != null && resultado_busqueda_vehiculo != null
+                        && uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden.isNotEmpty()
+                    ) {
+                        enabled_boton_crear_nueva_orden = true
+                    } else if (identificacion_value.length >= 2
+                        && nombre_y_apellidos_value.length >= 2 && telefono_value.length >= 2
+                        && matricula_vehiculo_value.length >= 2 && categoria_seleccionada > 0
+                    ) {
+                        enabled_boton_crear_nueva_orden = true
+                    }
+
                     sSurface {
-                        HLayout2P(
+                        HLayout1P(
                             content1 = {
                                 sButton(
+                                    enabled = enabled_boton_crear_nueva_orden,
                                     onClick = {
 
                                         mOrdenDeVentaViewModel.actualizarFechaYHora()
@@ -622,7 +635,7 @@ fun NuevaOrdenDeVentaScreen(
                                         }
 
                                         //Guardar vehiculo si no existe
-                                        if(resultado_busqueda_vehiculo == null){
+                                        if (resultado_busqueda_vehiculo == null) {
                                             mVehiculoViewModel.agregarNuevoVehiculo(
                                                 VehiculoEntity(
                                                     matricula_pk = matricula_vehiculo_value,
@@ -635,8 +648,10 @@ fun NuevaOrdenDeVentaScreen(
                                         mOrdenDeVentaViewModel.crearNuevaOrdenDeVentaUC(
                                             OrdenDeVentaEntity(
                                                 id_orden_pk = 0,
-                                                cliente_identificacion_fk = (resultado_busqueda_cliente?.identificacion_pk ?: identificacion_value),
-                                                matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk ?: matricula_vehiculo_value),
+                                                cliente_identificacion_fk = (resultado_busqueda_cliente?.identificacion_pk
+                                                    ?: identificacion_value),
+                                                matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk
+                                                    ?: matricula_vehiculo_value),
                                                 valor_total_orden = total_orden_venta,
                                                 valor_total_solo_servicios = uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue,
                                                 valor_total_solo_productos = uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue,
@@ -651,7 +666,7 @@ fun NuevaOrdenDeVentaScreen(
                                         )
 
                                         // eliminar valores de uiState
-                                        //{...}
+                                        mOrdenDeVentaViewModel.limpiarDatosUiState()
 
                                         onClick_navigate_back()
 
@@ -660,12 +675,9 @@ fun NuevaOrdenDeVentaScreen(
                                         sIcon(image_vector_id = R.drawable.rounded_save_24)
                                         xTextLabel(text = stringResource(id = R.string.txt_label_guardar))
                                     },
-                                )
+ )
                             },
-
-                            content2 = {
-
-                            },
+                            //content2 = {},
                         )
                     }
                 }
