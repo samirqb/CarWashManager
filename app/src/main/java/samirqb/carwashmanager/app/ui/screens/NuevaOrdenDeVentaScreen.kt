@@ -82,7 +82,7 @@ fun NuevaOrdenDeVentaScreen(
     mClasificacionDelVehiculoViewModel.listarTodasLasClasificacionesDeVehiculoUserCase()
     mOperarioViewModel.listarTodosLosOperariosUC()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
-    mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden()
+    //mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden()
 
     val uiState_ClienteViemodel by mClienteViewModel.uiState.collectAsState()
     val uiState_VehiculoViemodel by mVehiculoViewModel.uiState.collectAsState()
@@ -127,6 +127,7 @@ fun NuevaOrdenDeVentaScreen(
     var categoria_seleccionada by rememberSaveable { mutableIntStateOf(0) }
 
     tScaffoldM5(
+        verticalArrangement = Arrangement.Top,
         top_app_bar_title = R.string.txt_titulo_nueva_orden_servidios,
         top_app_bar_navigation_back = { onClick_navigate_back() },
         top_app_bar_navigation_back_icon = R.drawable.rounded_keyboard_backspace_24,
@@ -136,13 +137,12 @@ fun NuevaOrdenDeVentaScreen(
 
             //VLayout3P(
             sLazyColumn(
-                //modifier = Modifier.fillMaxSize(),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 3.dp),
                 verticalArrangement = Arrangement.spacedBy(
                     space = 19.dp,
-                    alignment = Alignment.CenterVertically
+                    alignment = Alignment.Top
                 )
             ) {
 
@@ -675,7 +675,7 @@ fun NuevaOrdenDeVentaScreen(
                                         sIcon(image_vector_id = R.drawable.rounded_save_24)
                                         xTextLabel(text = stringResource(id = R.string.txt_label_guardar))
                                     },
- )
+                                )
                             },
                             //content2 = {},
                         )

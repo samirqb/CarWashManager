@@ -54,8 +54,11 @@ import samirqb.lib.vehiculos.uc.ListarTodosLosVehiculosUseCase
 import samirqb.lib.ventas.AppDatabaseVentas
 import samirqb.lib.ventas.repositories.DetalleOrdenServicioRepository
 import samirqb.lib.ventas.repositories.OrdenDeVentaRepository
+import samirqb.lib.ventas.uc.BuscarOrdenDeVentaPorIdUseCase
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
 import samirqb.lib.ventas.uc.InsertarVariosDetallesDeOrdenServiciosUseCase
+import samirqb.lib.ventas.uc.ListarLosServiciosAgregadoAUnaOrdenVentaUseCase
+import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasPorVigenciaUseCase
 import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasUseCase
 import samirqb.lib.ventas.uc.ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
 import samirqb.lib.ventas.uc.ObtenerOrdenDeVentaMasRecienteUseCase
@@ -131,11 +134,14 @@ class MyApplication: Application() {
     //   U C   O R D E N E S   D E   V E N T A S
     val mCrearNuevaOrdenDeVentaUseCase by lazy{ CrearNuevaOrdenDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mListarTodasLasOrdenesDeVentasUseCase by lazy{ ListarTodasLasOrdenesDeVentasUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+    val mListarTodasLasOrdenesDeVentasPorVigenciaUseCase by lazy{ ListarTodasLasOrdenesDeVentasPorVigenciaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mObtenerOrdenDeVentaMasRecienteUseCase by lazy{ ObtenerOrdenDeVentaMasRecienteUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase by lazy{ ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
+    val mBuscarOrdenDeVentaPorIdUseCase by lazy{ BuscarOrdenDeVentaPorIdUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
 
     //   U C   D E T A L L E S   O R D E N E S   S E R V I C I O S
     val mInsertarVariosDetallesDeOrdenServiciosUseCase by lazy{ InsertarVariosDetallesDeOrdenServiciosUseCase(DetalleOrdenServicioRepository(mAppDatabaseVentas.iDetalleOrdenServicioDao())) }
+    val mListarLosServiciosAgregadoAUnaOrdenVentaUseCase by lazy{ ListarLosServiciosAgregadoAUnaOrdenVentaUseCase(DetalleOrdenServicioRepository(mAppDatabaseVentas.iDetalleOrdenServicioDao())) }
 
     companion object {
         val APPLICATION_KEY = "mApplicationKey" // Unique key for application access

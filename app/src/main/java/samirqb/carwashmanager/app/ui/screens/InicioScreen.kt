@@ -1,6 +1,7 @@
 package samirqb.carwashmanager.app.ui.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,8 +37,11 @@ import samirqb.carwashmanager.app.ui.templates.modalbottomsheets.tModalBottomShe
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM1
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
+import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
+import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
 import samirqb.lib.caja.entidades.CierreCajaEntity
+import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,21 +56,25 @@ fun InicioScreen(
     onNavigateToAdministrarClientesScreen: () -> Unit,
     onNavigateToAdministrarVehiculosScreen: () -> Unit,
     onNavigateToNuevaOrdenVenta: () -> Unit,
+    onNavigateToDetalleOrdenDeVentaScreen: () -> Unit,
     mCajaViewModel: CajaViewModel,
+    mClienteViewModel: ClienteViewModel,
+    mVehiculoViewModel: VehiculoViewModel,
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
 ) {
 
     mOrdenDeVentaViewModel.listarTodasLasOrdenesDeVentasUC()
+    mOrdenDeVentaViewModel.listarTodasLasOrdenesDeVentasVigentesUC()
 
     //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
     val uiState_AperturaCajaVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
 
     var todas_las_ordenes_de_venta = uiState_OrdenDeVentaViewModel.todas_las_ordenes_de_venta
+    var todas_las_ordenes_de_venta_vigentes = uiState_OrdenDeVentaViewModel.todas_las_ordenes_de_venta_vigentes
     var apertura_de_caja by rememberSaveable { mutableStateOf(false) }
     var lista_trabajadores = listOf("Arturo", "Guillermo", "Maicol", "Brayan", "Duran", "Diego", "Nijak")
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
 
 
@@ -122,7 +130,24 @@ fun InicioScreen(
 
             content2 = {
                 ServiciosActivosWidget(
-                    lista_servicios_activos = todas_las_ordenes_de_venta
+                    lista_servicios_activos = todas_las_ordenes_de_venta_vigentes,
+                    onNavigateToDetalleOrdenDeVentaScreen = {
+                        val id_orden_seleccionada = it
+
+                        Log.i("_xTAG", it.toString())
+
+                        var orden_de_venta_seleccionada = todas_las_ordenes_de_venta_vigentes.find {
+                            it.id_orden_pk == id_orden_seleccionada
+                        }
+
+                        if(orden_de_venta_seleccionada != null){
+                            mClienteViewModel.buscarClientePorIdUseCase(orden_de_venta_seleccionada.cliente_identificacion_fk)
+                            mVehiculoViewModel.buscarVehiculoPorMatriculaUseCase(orden_de_venta_seleccionada.matricula_vehiculo_fk)
+                            mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden(id_orden_seleccionada)
+                            onNavigateToDetalleOrdenDeVentaScreen()
+                        }
+
+                    }
                 )
             },
 

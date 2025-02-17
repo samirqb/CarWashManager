@@ -199,12 +199,9 @@ fun NuevaOrdenDeVentaDialog(
         enabled_btn2 = min_char_to_enabled_btn2_from_cliente && min_char_to_enabled_btn2_from_vehiculo,
         boton_txt_2 = R.string.txt_label_siguiente,
         on_click_boton_2 = {
-
             mClienteViewModel.buscarClientePorIdUseCase(cliente_id_value)
             mVehiculoViewModel.buscarVehiculoPorMatriculaUseCase(matricala_value)
-
             onNavigateToNuevaOrdenDeVentaScreen()
-
         },
         //header
         modifier_content_header = Modifier

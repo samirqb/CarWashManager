@@ -4,10 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 import samirqb.lib.ventas.repositories.OrdenDeVentaRepository
 
-class ListarTodasLasOrdenesDeVentasPorVigenciaUseCase(
+class BuscarOrdenDeVentaPorIdUseCase(
     private val mRepository: OrdenDeVentaRepository
 ) {
-    operator fun invoke(orden_vigente: Boolean): Flow<List<OrdenDeVentaEntity>> {
-        return mRepository.leerPorVigencia(orden_vigente)
+    operator fun invoke(id: Int): Flow<OrdenDeVentaEntity> {
+        return mRepository.leerPorId(id)
     }
 }

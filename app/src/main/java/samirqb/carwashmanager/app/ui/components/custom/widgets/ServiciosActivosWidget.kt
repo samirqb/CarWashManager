@@ -28,7 +28,8 @@ import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @Composable
 fun ServiciosActivosWidget(
-    lista_servicios_activos: MutableList<OrdenDeVentaEntity>
+    lista_servicios_activos: MutableList<OrdenDeVentaEntity>,
+    onNavigateToDetalleOrdenDeVentaScreen: (Int) -> Unit,
 ) {
 
     var index by rememberSaveable { mutableStateOf(0) }
@@ -58,6 +59,7 @@ fun ServiciosActivosWidget(
                                 detectTapGestures(
                                     onTap = {
                                         Log.i("X_TAG","CLICK EN SERVICIO ACTIVO ${index}")
+                                        onNavigateToDetalleOrdenDeVentaScreen(servicio_Activo.id_orden_pk)
                                     }
                                 )
                             },

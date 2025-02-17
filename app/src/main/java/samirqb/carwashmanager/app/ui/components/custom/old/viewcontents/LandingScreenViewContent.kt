@@ -33,7 +33,8 @@ fun LandingScreenViewContent(
 
         content2 = {
             ServiciosActivosWidget(
-                lista_servicios_activos = lista_servicios_activos
+                lista_servicios_activos = lista_servicios_activos,
+                onNavigateToDetalleOrdenDeVentaScreen = { }
             )
         },
 

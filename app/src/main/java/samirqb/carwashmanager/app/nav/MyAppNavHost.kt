@@ -31,6 +31,7 @@ import samirqb.carwashmanager.app.ui.screens.AdministrarEmpleadosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarMonedaScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarServiciosScreen
 import samirqb.carwashmanager.app.ui.screens.AdministrarVehiculosScreen
+import samirqb.carwashmanager.app.ui.screens.DetallesOrdenDeVentaScreen
 import samirqb.carwashmanager.app.ui.screens.InicioScreen
 import samirqb.carwashmanager.app.ui.screens.NuevaOrdenDeVentaScreen
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
@@ -82,6 +83,10 @@ object AdministrarVehiculosScreenRoute
 @Serializable
 object NuevaOrdenDeVentaScreenRoute
 //data class NuevaOrdenDeVentaScreenRoute(val name: String? = null)
+
+@Serializable
+object DetallesOrdenDeVentaScreenRoute
+//data class DetallesOrdenDeVentaScreenRoute(val name: String? = null)
 
 
 /**   D I A L O G S   */
@@ -240,7 +245,12 @@ fun MyAppNavHost(
                     navController.navigate( route = NuevaOrdenDeVentaDialogRoute )
                 },
 
+                onNavigateToDetalleOrdenDeVentaScreen = {
+                    navController.navigate( route = DetallesOrdenDeVentaScreenRoute )
+                },
                 mCajaViewModel = mCajaViewModel,
+                mClienteViewModel =  mClienteViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
                 mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
             )
         }
@@ -311,6 +321,22 @@ fun MyAppNavHost(
 
         composable<NuevaOrdenDeVentaScreenRoute>{
             NuevaOrdenDeVentaScreen(
+                mClienteViewModel = mClienteViewModel,
+                mVehiculoViewModel = mVehiculoViewModel,
+                mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,
+                mOperarioViewModel = mOperarioViewModel,
+                mDetalleOrdenServicioViewModel =mDetalleOrdenServicioViewModel,
+                mServicioYPrecioViewModel = mServicioYPrecioViewModel,
+                mOrdenDeVentaViewModel = mOrdenDeVentaViewModel,
+                onClick_navigate_back = { navController.navigateUp( ) },
+                onNavigateToAgregarServicioDialog = {
+                    navController.navigate( route = NuevoServicioDialogRoute )
+                }
+            )
+        }
+
+        composable<DetallesOrdenDeVentaScreenRoute>{
+            DetallesOrdenDeVentaScreen(
                 mClienteViewModel = mClienteViewModel,
                 mVehiculoViewModel = mVehiculoViewModel,
                 mClasificacionDelVehiculoViewModel = mClasificacionDelVehiculoViewModel,

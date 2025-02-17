@@ -81,4 +81,12 @@ class DetalleOrdenServicioRepository(
             throw MyCustomException("Error al insertarVarios en DetalleOrdenServicioRepository", e)
         }
     }
+
+    fun leerPorIdDeOrden(id: Int): Flow<List<DetalleOrdenServicioEntity>>{
+        return try {
+            mDao.leerPorIdDeOrden(id)
+        } catch (e: Exception) {
+            throw MyCustomException("Error al leerPorIdDeOrden en DetalleOrdenServicioRepository", e)
+        }
+    }
 }

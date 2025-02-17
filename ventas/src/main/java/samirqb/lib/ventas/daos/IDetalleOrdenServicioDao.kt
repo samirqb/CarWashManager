@@ -38,4 +38,8 @@ interface IDetalleOrdenServicioDao: IBaseDao<DetalleOrdenServicioEntity> {
     @Insert
     suspend fun insertarVarios( mEntities: List<DetalleOrdenServicioEntity>)
 
+    @Transaction
+    @Query( "SELECT * FROM tab_detalles_ordenes_servicios WHERE id_orden_venta_fk = :id" )
+    fun leerPorIdDeOrden(id: Int): Flow<List<DetalleOrdenServicioEntity>>
+
 }

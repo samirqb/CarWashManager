@@ -3,9 +3,9 @@ package samirqb.carwashmanager.app.viewmodels
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -22,19 +22,22 @@ import samirqb.carwashmanager.app.MyApplication
 import samirqb.carwashmanager.app.viewmodels.uistates.OrdenDeVentaUiState
 import samirqb.lib.helpers.FechaYHora
 import samirqb.lib.helpers.SumaValoresDeItemsDeUnaLista
-import samirqb.lib.ventas.entities.DetalleOrdenProductoEntity
 import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
+import samirqb.lib.ventas.uc.BuscarOrdenDeVentaPorIdUseCase
 import samirqb.lib.ventas.uc.CrearNuevaOrdenDeVentaUseCase
+import samirqb.lib.ventas.uc.ListarLosServiciosAgregadoAUnaOrdenVentaUseCase
+import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasPorVigenciaUseCase
 import samirqb.lib.ventas.uc.ListarTodasLasOrdenesDeVentasUseCase
 import samirqb.lib.ventas.uc.ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
-import samirqb.lib.ventas.uc.ObtenerOrdenDeVentaMasRecienteUseCase
 
 class OrdenDeVentaViewModel(
     private val mCrearNuevaOrdenDeVentaUseCase: CrearNuevaOrdenDeVentaUseCase,
     private val mListarTodasLasOrdenesDeVentasUseCase: ListarTodasLasOrdenesDeVentasUseCase,
-    private val mObtenerOrdenDeVentaMasRecienteUseCase: ObtenerOrdenDeVentaMasRecienteUseCase,
+    private val mListarTodasLasOrdenesDeVentasPorVigenciaUseCase: ListarTodasLasOrdenesDeVentasPorVigenciaUseCase,
+    private val mListarLosServiciosAgregadoAUnaOrdenVentaUseCase: ListarLosServiciosAgregadoAUnaOrdenVentaUseCase,
     private val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase: ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase,
+    private val mBuscarOrdenDeVentaPorIdUseCase: BuscarOrdenDeVentaPorIdUseCase,
 ) : ViewModel() {
 
     private var mSumaValoresDeItemsDeUnaLista = SumaValoresDeItemsDeUnaLista()
@@ -46,7 +49,6 @@ class OrdenDeVentaViewModel(
 
     init {
         listarTodasLasOrdenesDeVentasUC()
-        listarTodasLosServiciosAgregadosALaOrden()
         calcularIdDeNuevaOrdenDeVenta()
     }
 
@@ -172,14 +174,25 @@ class OrdenDeVentaViewModel(
         }
     }
 
-    fun listarTodasLosServiciosAgregadosALaOrden() {
+    fun listarTodasLosServiciosAgregadosALaOrden(id_orden_venta: Int) {
 
         val NOMBRE_FUN = "listarTodasLosServiciosAgregadosALaOrden"
 
+        //todos_los_servicios_agregados_a_la_orden
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
-                _uiState.replayCache
+                mListarLosServiciosAgregadoAUnaOrdenVentaUseCase(id_orden_venta = id_orden_venta).collect{
+
+                    val lista = it.toMutableList()
+
+                    _uiState.update {
+                        it.copy(
+                            todos_los_servicios_agregados_a_la_orden = lista
+                        )
+                    }
+
+                }
             } catch (e: Exception) {
                 Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
             }
@@ -206,6 +219,49 @@ class OrdenDeVentaViewModel(
         }
     }
 
+    fun listarTodasLasOrdenesDeVentasVigentesUC() {
+
+        val NOMBRE_FUN = "listarTodasLasOrdenesDeVentasVigentesUC"
+
+        val orden_vigente = true
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                mListarTodasLasOrdenesDeVentasPorVigenciaUseCase(orden_vigente).collect {
+                    val lista = it.toMutableList()
+
+                    _uiState.update {
+                        it.copy(todas_las_ordenes_de_venta_vigentes = lista)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun buscarOrdenDeVentaPorIdUseCase(id: Int){
+
+        val NOMBRE_FUN = "buscarOrdenDeVentaPorIdUseCase"
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                mBuscarOrdenDeVentaPorIdUseCase(id).collect{
+
+                    val resultado = it
+
+                    _uiState.update {
+                        it.copy(
+                            resultado_busqueda_orden_de_venta = mutableStateOf(resultado)
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("_xTAG", "Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
     fun limpiarDatosUiState() {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -216,8 +272,8 @@ class OrdenDeVentaViewModel(
                     fecha_y_hora = "",
                     lista_operarios_relacionados_con_orden_venta = mutableStateListOf(),
                     todas_las_ordenes_de_venta = mutableStateListOf(),
-                    todas_las_ordenes_de_venta_pagadas = mutableStateListOf(),
-                    todas_las_ordenes_de_venta_sin_pagar = mutableStateListOf(),
+                    todas_las_ordenes_de_venta_no_vigente = mutableStateListOf(),
+                    todas_las_ordenes_de_venta_vigentes = mutableStateListOf(),
                     todos_los_servicios_agregados_a_la_orden = mutableStateListOf(),
                     todos_los_precios_de_servicios_agregados_a_la_orden = mutableStateListOf(0f),
                     suma_precios_servicios_agregados_a_orden = mutableFloatStateOf(0f),
@@ -242,11 +298,19 @@ class OrdenDeVentaViewModel(
                     (this[APPLICATION_KEY] as MyApplication).mObtenerOrdenDeVentaMasRecienteUseCase
                 val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase =
                     (this[APPLICATION_KEY] as MyApplication).mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
+                val mListarLosServiciosDeOrdenVentaUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mListarLosServiciosAgregadoAUnaOrdenVentaUseCase
+                val mBuscarOrdenDeVentaPorIdUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mBuscarOrdenDeVentaPorIdUseCase
+                val mListarTodasLasOrdenesDeVentasPorVigenciaUseCase =
+                    (this[APPLICATION_KEY] as MyApplication).mListarTodasLasOrdenesDeVentasPorVigenciaUseCase
                 OrdenDeVentaViewModel(
                     mCrearNuevaOrdenDeVentaUseCase = mCrearNuevaOrdenDeVentaUseCase,
                     mListarTodasLasOrdenesDeVentasUseCase = mListarTodasLasOrdenesDeVentasUseCase,
-                    mObtenerOrdenDeVentaMasRecienteUseCase = mObtenerOrdenDeVentaMasRecienteUseCase,
-                    mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase = mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase
+                    mListarTodasLasOrdenesDeVentasPorVigenciaUseCase = mListarTodasLasOrdenesDeVentasPorVigenciaUseCase,
+                    mListarLosServiciosAgregadoAUnaOrdenVentaUseCase = mListarLosServiciosDeOrdenVentaUseCase,
+                    mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase = mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase,
+                    mBuscarOrdenDeVentaPorIdUseCase = mBuscarOrdenDeVentaPorIdUseCase
                 )
             }
         }
