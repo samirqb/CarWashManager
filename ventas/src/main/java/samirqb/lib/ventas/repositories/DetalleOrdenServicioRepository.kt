@@ -78,7 +78,7 @@ class DetalleOrdenServicioRepository(
         try {
             mDao.insertarVarios(mEntities)
         } catch (e: Exception) {
-            throw MyCustomException("Error al insertarVarios en DetalleOrdenServicioRepository", e)
+            throw MyCustomException("Error al insertarVarios en DetalleOrdenServicioRepository - ${e.message}", e)
         }
     }
 

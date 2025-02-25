@@ -1,7 +1,6 @@
 package samirqb.carwashmanager.app.ui.screens
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +12,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -38,15 +35,23 @@ import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM1
 import samirqb.carwashmanager.app.ui.templates.scaffoldsanddialogs.tScaffoldM2
 import samirqb.carwashmanager.app.viewmodels.CajaViewModel
 import samirqb.carwashmanager.app.viewmodels.ClienteViewModel
+import samirqb.carwashmanager.app.viewmodels.DetalleOrdenServicioViewModel
+import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
+import samirqb.carwashmanager.app.viewmodels.OrdenDePagoNominaViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
-import samirqb.lib.caja.entidades.CierreCajaEntity
-import samirqb.lib.ventas.entities.OrdenDeVentaEntity
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InicioScreen(
+    mCajaViewModel: CajaViewModel,
+    mClienteViewModel: ClienteViewModel,
+    mOperarioViewModel: OperarioViewModel,
+    mVehiculoViewModel: VehiculoViewModel,
+    mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
+    mOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel,
+    mDetalleOrdenServicioViewModel: DetalleOrdenServicioViewModel,
     onNavigateToAperturaCajaCantidadesPorDenominacionDialog: () -> Unit,
     onNavigateToCierreCajaCantidadesPorDenominacionDialog: () -> Unit,
     onNavigateToAdministrarMonedaScreen: () -> Unit,
@@ -57,10 +62,6 @@ fun InicioScreen(
     onNavigateToAdministrarVehiculosScreen: () -> Unit,
     onNavigateToNuevaOrdenVenta: () -> Unit,
     onNavigateToDetalleOrdenDeVentaScreen: () -> Unit,
-    mCajaViewModel: CajaViewModel,
-    mClienteViewModel: ClienteViewModel,
-    mVehiculoViewModel: VehiculoViewModel,
-    mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
 ) {
 
     mOrdenDeVentaViewModel.listarTodasLasOrdenesDeVentasUC()
@@ -69,34 +70,20 @@ fun InicioScreen(
     //val uiState_CVM by mCajaViewModel.uiState.collectAsState()
     val uiState_AperturaCajaVM by mCajaViewModel.uiState_AperturaCaja.collectAsState()
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
+    val uiState_OrdenDePagoNominaViewModel by mOrdenDePagoNominaViewModel.uiState.collectAsState()
 
     var todas_las_ordenes_de_venta = uiState_OrdenDeVentaViewModel.todas_las_ordenes_de_venta
     var todas_las_ordenes_de_venta_vigentes = uiState_OrdenDeVentaViewModel.todas_las_ordenes_de_venta_vigentes
     var apertura_de_caja by rememberSaveable { mutableStateOf(false) }
-    var lista_trabajadores = listOf("Arturo", "Guillermo", "Maicol", "Brayan", "Duran", "Diego", "Nijak")
+    var lista_ordenes_pago_nomina_vigentes = uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_vigentes
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
-
 
     //mCajaViewModel.obtenerUltimaAperturaCaja()
     apertura_de_caja = uiState_AperturaCajaVM.ultimaAperturaCaja?.apertura_activa ?: false
 
 
     if (apertura_de_caja) {
-    //if (false) {
-        /*
-        sSurface(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            VLayout1P(
-                modifier = Modifier.fillMaxSize(),
-                content1 = {
-                    xTextTitle(text = "APERTURA OK")
-                    //xTextTitle(text = stringResource(id = R.string.informacion_no_disponible))
-                }
-            )
-        }
-        */
 
         tScaffoldM2(
             modifier = Modifier.fillMaxSize(),
@@ -132,9 +119,14 @@ fun InicioScreen(
                 ServiciosActivosWidget(
                     lista_servicios_activos = todas_las_ordenes_de_venta_vigentes,
                     onNavigateToDetalleOrdenDeVentaScreen = {
+
+                        // eliminar valores de uiState
+                        mOrdenDeVentaViewModel.limpiarDatosUiState()
+                        mDetalleOrdenServicioViewModel.limpiarDatosUiState()
+
                         val id_orden_seleccionada = it
 
-                        Log.i("_xTAG", it.toString())
+                        mOrdenDeVentaViewModel.idDeOrdenDeVentaSeleccionada(id_orden_seleccionada)
 
                         var orden_de_venta_seleccionada = todas_las_ordenes_de_venta_vigentes.find {
                             it.id_orden_pk == id_orden_seleccionada
@@ -143,7 +135,7 @@ fun InicioScreen(
                         if(orden_de_venta_seleccionada != null){
                             mClienteViewModel.buscarClientePorIdUseCase(orden_de_venta_seleccionada.cliente_identificacion_fk)
                             mVehiculoViewModel.buscarVehiculoPorMatriculaUseCase(orden_de_venta_seleccionada.matricula_vehiculo_fk)
-                            mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden(id_orden_seleccionada)
+                            mDetalleOrdenServicioViewModel.listarTodasLosServiciosAgregadosALaOrden(id_orden_seleccionada)
                             onNavigateToDetalleOrdenDeVentaScreen()
                         }
 
@@ -156,13 +148,17 @@ fun InicioScreen(
                     tModalBottomSheet(
                         onDismissRequest = { showBottomSheet = false },
                         sheetState = sheetState,
-                        list_content = lista_trabajadores,
+                        list_content = lista_ordenes_pago_nomina_vigentes,
                         titulo_ModalBottomSheet = R.string.txt_titulo_nomina_dia
                     )
                 }
             },
 
             floatingActionButton_onClick = {
+
+                // eliminar valores de uiState
+                mOrdenDeVentaViewModel.limpiarDatosUiState()
+                mDetalleOrdenServicioViewModel.limpiarDatosUiState()
                 onNavigateToNuevaOrdenVenta()
             },
 

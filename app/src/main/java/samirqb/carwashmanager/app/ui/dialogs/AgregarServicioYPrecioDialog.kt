@@ -216,7 +216,6 @@ fun AgregarServicioYPrecioDialog(
 
             // 1_AGREGAR PRECIO
             mPrecioViewModel.actualizarFechaYHora()
-            Log.i("_xTEST_FROM_DIALOG", uiState_PrecioViewModel.fecha_y_hora)
 
             mPrecioViewModel.agregarPrecioUseCase(
                 PrecioEntity(

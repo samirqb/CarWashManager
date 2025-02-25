@@ -72,4 +72,5 @@
     <string name="txt_body_elija_un_servicio">Elija un servicio</string>
     <string name="txt_body_elija_un_operario">Elija un operario</string>
     <string name="txt_titulo_detalles_orden_servidios">Detalles orden de venta</string>
+    <string name="txt_servicios_agregados">Total</string>
 </resources>

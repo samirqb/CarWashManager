@@ -20,13 +20,14 @@ import samirqb.carwashmanager.app.ui.components.base.containers.sModalBottomShee
 import samirqb.carwashmanager.app.ui.components.base.containers.sSurface
 import samirqb.carwashmanager.app.ui.components.custom.textstyles.xTextTitle
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun tModalBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
-    list_content:List<String>,
+    list_content:List<OrdenPagoNominaEntity>,
     titulo_ModalBottomSheet: Int,
 
 ) {
@@ -38,7 +39,9 @@ fun tModalBottomSheet(
 
         VLayout2P(
 
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
 
             content1 = {
                 sSurface(
@@ -64,16 +67,16 @@ fun tModalBottomSheet(
                     itemsIndexed(list_content){ index, item ->
 
                         sSurface(
-                            modifier = Modifier.fillMaxWidth().size(66.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .size(66.dp),
                             shape = RoundedCornerShape(15.dp),
                             color = MaterialTheme.colorScheme.scrim
                         ) {
-                            item.forEach {
-                                VLayout2P(
-                                    content1 = { xTextTitle(text = item) },
-                                    content2 = { xTextTitle(text = "${index}") },
-                                )
-                            }
+                            VLayout2P(
+                                content1 = { xTextTitle(text = "Orden id: ${item.id_orden_pago_nomina_pk}") },
+                                content2 = { xTextTitle(text = "Operario: ${item.operario_id_fk}") },
+                            )
                         }
                     }
                 }

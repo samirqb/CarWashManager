@@ -52,11 +52,11 @@ import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.viewmodels.VehiculoViewModel
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.viewmodels.DetalleOrdenProductoViewModel
 import samirqb.carwashmanager.app.viewmodels.DetalleOrdenServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDePagoNominaViewModel
 import samirqb.lib.helpers.ValidarEntradasRegex
 import samirqb.lib.ofertas.entities.ServicioYPrecioEntity
-import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.personas.entities.ClienteEntity
 import samirqb.lib.vehiculos.entities.VehiculoEntity
 import samirqb.lib.ventas.entities.OrdenDeVentaEntity
@@ -70,8 +70,10 @@ fun NuevaOrdenDeVentaScreen(
     mOperarioViewModel: OperarioViewModel,
     mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
+    mOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel,
     mDetalleOrdenServicioViewModel: DetalleOrdenServicioViewModel,
-    onNavigateToAgregarServicioDialog: () -> Unit,
+    mDetalleOrdenProductoViewModel: DetalleOrdenProductoViewModel,
+    onNavigateToAgregarServicioDialog: (Boolean) -> Unit,
     onClick_navigate_back: () -> Unit,
 ) {
 
@@ -79,10 +81,15 @@ fun NuevaOrdenDeVentaScreen(
     val color = MaterialTheme.colorScheme.surfaceContainer
     val color2 = MaterialTheme.colorScheme.secondaryContainer
 
+    // listar registro necesarios
+    mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
+    mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosActivosConNombreDelServicio()
+    mOrdenDePagoNominaViewModel.calcularIdProximaOrdenPagoNomina()
+    mOrdenDeVentaViewModel.calcularIdDeNuevaOrdenDeVenta()
+    mOperarioViewModel.listarTodosLosOperariosActivosUC()
     mClasificacionDelVehiculoViewModel.listarTodasLasClasificacionesDeVehiculoUserCase()
     mOperarioViewModel.listarTodosLosOperariosUC()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
-    //mOrdenDeVentaViewModel.listarTodasLosServiciosAgregadosALaOrden()
 
     val uiState_ClienteViemodel by mClienteViewModel.uiState.collectAsState()
     val uiState_VehiculoViemodel by mVehiculoViewModel.uiState.collectAsState()
@@ -90,6 +97,8 @@ fun NuevaOrdenDeVentaScreen(
     val uiState_OperarioViewModel by mOperarioViewModel.uiState.collectAsState()
     val uiState_ServicioYPrecioViewModel by mServicioYPrecioViewModel.uiState.collectAsState()
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
+    val uiState_DetalleOrdenServicioViewModel by mDetalleOrdenServicioViewModel.uiState.collectAsState()
+    val uiState_DetalleOrdenProductoViewModel by mDetalleOrdenProductoViewModel.uiState.collectAsState()
 
     val resultado_busqueda_cliente = uiState_ClienteViemodel.resultado_busqueda_cliente
     val resultado_busqueda_vehiculo = uiState_VehiculoViemodel.resultado_busqueda_vehiculo
@@ -105,16 +114,18 @@ fun NuevaOrdenDeVentaScreen(
     val lista_categorias_vehiculo =
         uiState_ClasificacionDelVehiculoViewModel.listar_todas_las_clasificaciones_de_vehiculo
 
-    val servicios_agregados_a_la_OrdenDeVenta =
-        uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden
+    /*val servicios_agregados_a_la_OrdenDeVenta =
+        uiState_OrdenDeVentaViewModel.nuevos_servicios_por_agregar_a_la_orden*/
+
+    val servicios_por_agregar_a_la_orden_de_venta =
+        uiState_DetalleOrdenServicioViewModel.nuevos_servicios_por_agregar_a_la_orden
 
     val todos_los_servicios_y_precios_con_nombre =
         uiState_ServicioYPrecioViewModel.todos_los_servicios_y_precios_con_nombre
 
-
     var total_orden_venta =
-        uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue +
-                uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue
+        uiState_DetalleOrdenServicioViewModel.suma_precios_servicios_por_agregar_a_orden.floatValue +
+                uiState_DetalleOrdenProductoViewModel.suma_precios_productos_por_agregar_a_orden .floatValue
 
     var orden_de_venta_id by rememberSaveable { mutableIntStateOf(0) }
     // formulario cliente si cliente no existe en db
@@ -518,6 +529,10 @@ fun NuevaOrdenDeVentaScreen(
 
                 }
 
+                mDetalleOrdenServicioViewModel.sumarTodosLosPreciosDeListaDeServiciosPorAgregar(
+                    uiState_DetalleOrdenServicioViewModel.nuevos_precios_de_servicios_por_agregar_a_la_orden
+                )
+
                 item {
                     HLayout1P(
                         modifier = Modifier.fillMaxWidth(),
@@ -534,7 +549,23 @@ fun NuevaOrdenDeVentaScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                         content1 = {
-                            sTextButton(onClick = onNavigateToAgregarServicioDialog) {
+                            xTextHeadLine(
+                                text = "${stringResource(R.string.txt_servicios_agregados)}: $${uiState_DetalleOrdenServicioViewModel.suma_precios_servicios_por_agregar_a_orden.floatValue}",
+                                //color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    )
+
+                    HLayout1P(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        content1 = {
+                            sTextButton(onClick = {
+                                val desdeNuevaOrdenDeVenta = true
+
+                                onNavigateToAgregarServicioDialog(desdeNuevaOrdenDeVenta)
+
+                            }) {
                                 xTextLabel(text = stringResource(id = R.string.txt_label_agregar_servicio))
                                 sIcon(image_vector_id = R.drawable.rounded_add_24)
                             }
@@ -543,7 +574,7 @@ fun NuevaOrdenDeVentaScreen(
                 }
 
 
-                itemsIndexed(servicios_agregados_a_la_OrdenDeVenta) { index, item ->
+                itemsIndexed(servicios_por_agregar_a_la_orden_de_venta) { index, item ->
 
                     var servicio_agregado: ServicioYPrecioEntity? = null
                     var monbre_del_servicio_agregado = ""
@@ -604,12 +635,13 @@ fun NuevaOrdenDeVentaScreen(
                     var enabled_boton_crear_nueva_orden = false
 
                     if (resultado_busqueda_cliente != null && resultado_busqueda_vehiculo != null
-                        && uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden.isNotEmpty()
+                        && uiState_DetalleOrdenServicioViewModel.nuevos_servicios_por_agregar_a_la_orden.isNotEmpty()
                     ) {
                         enabled_boton_crear_nueva_orden = true
                     } else if (identificacion_value.length >= 2
                         && nombre_y_apellidos_value.length >= 2 && telefono_value.length >= 2
                         && matricula_vehiculo_value.length >= 2 && categoria_seleccionada > 0
+                        && uiState_DetalleOrdenServicioViewModel.nuevos_servicios_por_agregar_a_la_orden.isNotEmpty()
                     ) {
                         enabled_boton_crear_nueva_orden = true
                     }
@@ -653,20 +685,21 @@ fun NuevaOrdenDeVentaScreen(
                                                 matricula_vehiculo_fk = (resultado_busqueda_vehiculo?.matricula_pk
                                                     ?: matricula_vehiculo_value),
                                                 valor_total_orden = total_orden_venta,
-                                                valor_total_solo_servicios = uiState_OrdenDeVentaViewModel.suma_precios_servicios_agregados_a_orden.floatValue,
-                                                valor_total_solo_productos = uiState_OrdenDeVentaViewModel.suma_precios_productos_agregados_a_orden.floatValue,
-                                                orden_vigente = false,
+                                                valor_total_solo_servicios = uiState_DetalleOrdenServicioViewModel.suma_precios_servicios_por_agregar_a_orden.floatValue,
+                                                valor_total_solo_productos = uiState_DetalleOrdenProductoViewModel.suma_precios_productos_por_agregar_a_orden.floatValue,
+                                                orden_vigente = true,
                                                 fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
                                             )
                                         )
 
                                         // guardar los servicios y/o productos
                                         mDetalleOrdenServicioViewModel.insertarListaDeDetallesAOrdenDeServiciosUC(
-                                            uiState_OrdenDeVentaViewModel.todos_los_servicios_agregados_a_la_orden
+                                            uiState_DetalleOrdenServicioViewModel.nuevos_servicios_por_agregar_a_la_orden
                                         )
 
                                         // eliminar valores de uiState
                                         mOrdenDeVentaViewModel.limpiarDatosUiState()
+                                        mDetalleOrdenServicioViewModel.limpiarDatosUiState()
 
                                         onClick_navigate_back()
 

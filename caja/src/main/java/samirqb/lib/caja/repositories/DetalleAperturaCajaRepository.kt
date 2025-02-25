@@ -19,7 +19,6 @@ class DetalleAperturaCajaRepository(
         try {
             mDao.insertarVarios(*mArrayTEntity)
         }catch (e: Exception){
-            Log.e("_XTAG",e.stackTraceToString())
             throw MyCustomException("Error al insertarVarios DetalleAperturaCajaEntity", e)
         }
     }

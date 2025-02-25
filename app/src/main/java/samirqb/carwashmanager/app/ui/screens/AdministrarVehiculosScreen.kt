@@ -72,9 +72,6 @@ fun AdministrarVehiculosScreen(
 
             } else{
 
-                Log.i("_xTAG", lista_de_vehiculos.toString())
-                Log.i("_xTAG", lista_de_clasificacion_vehiculos.toString())
-
                 sLazyColumn(
                     verticalArrangement = Arrangement.spacedBy(space = 13.dp, alignment = Alignment.CenterVertically)
                 ) {

@@ -3,6 +3,7 @@ package samirqb.carwashmanager.app.viewmodels
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -86,11 +87,12 @@ class OrdenDePagoNominaViewModel(
         viewModelScope.launch {
             try {
                 mObtenerCantidadDeRegistrosDeOrdenesDePagoUseCase().collect {
-                    var orden_mas_reciente = it + 1
+
+                    var numero_calculado = it + 1
 
                     _uiState.update {
                         it.copy(
-                            numero_de_proxima_orden_de_pago = orden_mas_reciente
+                            numero_calculado_para_nueva_orden_de_pago = numero_calculado
                         )
                     }
                 }
@@ -226,6 +228,25 @@ class OrdenDePagoNominaViewModel(
                 }
             } catch (e:Exception){
                 Log.e("_xTAG","Exception: ${NOMBRE_CLASE}.${NOMBRE_FUN} -> ${e.stackTrace}")
+            }
+        }
+    }
+
+    fun limpiarDatosUiState() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            _uiState.update {
+                it.copy(
+                    fecha_y_hora = "",
+                    numero_calculado_para_nueva_orden_de_pago = 0,
+                    numero_de_orden_de_pago_actual = 0,
+                    lista_todas_las_ordenes_pago_nomina = mutableStateListOf(),
+                    lista_ordenes_pago_nomina_no_vigentes = mutableStateListOf(),
+                    lista_ordenes_pago_nomina_por_operario_id_no_vigentes = mutableStateListOf(),
+                    lista_ordenes_pago_nomina_vigentes = mutableStateListOf(),
+                    lista_ordenes_pago_nomina_por_operario_id_vigentes = mutableStateListOf()
+                )
             }
         }
     }

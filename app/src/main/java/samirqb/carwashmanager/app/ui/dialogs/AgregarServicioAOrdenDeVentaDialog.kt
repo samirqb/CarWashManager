@@ -36,6 +36,7 @@ import samirqb.carwashmanager.app.viewmodels.OperarioViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDeVentaViewModel
 import samirqb.carwashmanager.app.viewmodels.ServicioYPrecioViewModel
 import samirqb.carwashmanager.app.ui.layoutcomponets.VLayout2P
+import samirqb.carwashmanager.app.viewmodels.DetalleOrdenServicioViewModel
 import samirqb.carwashmanager.app.viewmodels.OrdenDePagoNominaViewModel
 import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
@@ -45,8 +46,10 @@ import samirqb.lib.ventas.entities.DetalleOrdenServicioEntity
 fun AgregarServicioAOrdenDeVentaDialog(
     mOrdenDeVentaViewModel: OrdenDeVentaViewModel,
     mOrdenDePagoNominaViewModel: OrdenDePagoNominaViewModel,
+    mDetalleOrdenServicioViewModel: DetalleOrdenServicioViewModel,
     mServicioYPrecioViewModel: ServicioYPrecioViewModel,
     mOperarioViewModel: OperarioViewModel,
+    desdeNuevaOrdenDeVenta: Boolean,
     onDismissFromAgregarServicioAOrdenDeVentaDialog: () -> Unit,
 ) {
 
@@ -54,12 +57,13 @@ fun AgregarServicioAOrdenDeVentaDialog(
     val uiState_OperarioViewModel by mOperarioViewModel.uiState.collectAsState()
     val uiState_OrdenDeVentaViewModel by mOrdenDeVentaViewModel.uiState.collectAsState()
     val uiState_OrdenDePagoNominaViewModel by mOrdenDePagoNominaViewModel.uiState.collectAsState()
+    val uiState_DetalleOrdenServicioViewModel by mDetalleOrdenServicioViewModel.uiState.collectAsState()
 
     mOrdenDeVentaViewModel.actualizarFechaYHora()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosUC()
     mServicioYPrecioViewModel.listarTodosLosServiciosYPreciosActivosConNombreDelServicio()
     mOrdenDePagoNominaViewModel.calcularIdProximaOrdenPagoNomina()
-    mOperarioViewModel.listarTodosLosOperariosInactivosUC()
+    mOperarioViewModel.listarTodosLosOperariosActivosUC()
 
 
     var listar_todos_los_servicios_y_precios_activos_con_nombre_del_servicio =
@@ -113,7 +117,6 @@ fun AgregarServicioAOrdenDeVentaDialog(
                             shape = RoundedCornerShape(13),
                             color = MaterialTheme.colorScheme.onSecondary,
                         ) {
-
                             VLayout2P(
                                 modifier = Modifier.padding(all = 11.dp),
                                 verticalArrangement = Arrangement.spacedBy(7.dp),
@@ -174,11 +177,15 @@ fun AgregarServicioAOrdenDeVentaDialog(
                                                 text = { xTextBody(text = "${value}\n$${key.precio_fk} ${key.codigo_iso_4217_fk}") },
                                                 onClick = {
 
-                                                    id_servicio_y_precio_seleccionado = key.id_servicio_fk
+                                                    id_servicio_y_precio_seleccionado =
+                                                        key.id_servicio_fk
 
-                                                    nombre_servicio_seleccionado = "${value}\n$${key.precio_fk} ${key.codigo_iso_4217_fk}"
+                                                    nombre_servicio_seleccionado =
+                                                        "${value}\n$${key.precio_fk} ${key.codigo_iso_4217_fk}"
 
                                                     precio_servicio_seleccionado = key.precio_fk
+
+                                                    mDetalleOrdenServicioViewModel.agregarPresiosDeServicioAOrdenDeVentaSoloEnUiState(precio_servicio_seleccionado)
 
                                                     servicio_y_precio_seleccionado_flag = true
 
@@ -264,8 +271,11 @@ fun AgregarServicioAOrdenDeVentaDialog(
                                                 text = { xTextBody(text = "${item.nombre_apellido} \nID: ${item.identificacion_pk} - TEL: ${item.telefono}") },
                                                 onClick = {
                                                     operario_seleccionado_flag = true
-                                                    id_operario_seleccionado = item.identificacion_pk
-                                                    mOrdenDePagoNominaViewModel.listarTodasLasOrdenesDePagoNominaPorOperarioIdVigente(id_operario_seleccionado)
+                                                    id_operario_seleccionado =
+                                                        item.identificacion_pk
+                                                    mOrdenDePagoNominaViewModel.listarTodasLasOrdenesDePagoNominaPorOperarioIdVigente(
+                                                        id_operario_seleccionado
+                                                    )
                                                     nombre_operario_seleccionado =
                                                         "${item.nombre_apellido} \n${item.identificacion_pk} ${item.telefono}"
                                                     expander = false
@@ -287,10 +297,9 @@ fun AgregarServicioAOrdenDeVentaDialog(
 
             var id_orden_pago_nomina_fk = 0
 
-            if ( uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes.isEmpty() ){
+            if (uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes.isEmpty()) {
 
-                mOrdenDeVentaViewModel.calcularIdDeNuevaOrdenDeVenta()
-                id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.numero_de_proxima_orden_de_pago
+                mOrdenDePagoNominaViewModel.calcularIdProximaOrdenPagoNomina()
 
                 // guardar la orden de pago nomina
                 mOrdenDePagoNominaViewModel.agregarOrdenDePagoNomina(
@@ -301,14 +310,24 @@ fun AgregarServicioAOrdenDeVentaDialog(
                         fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora
                     )
                 )
+
+                id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.numero_calculado_para_nueva_orden_de_pago
+
             } else {
-                id_orden_pago_nomina_fk = uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes[0].id_orden_pago_nomina_pk
+                id_orden_pago_nomina_fk =
+                    uiState_OrdenDePagoNominaViewModel.lista_ordenes_pago_nomina_por_operario_id_vigentes[0].id_orden_pago_nomina_pk
             }
 
-            mOrdenDeVentaViewModel.agregarServicioAOrdenDeVentaSoloEnUiState(
+            mOrdenDeVentaViewModel.calcularIdDeNuevaOrdenDeVenta()
+
+            mDetalleOrdenServicioViewModel.agregarServicioAOrdenDeVentaSoloEnUiState(
                 DetalleOrdenServicioEntity(
-                    id_registro_pk = 0 ,
-                    id_orden_venta_fk = uiState_OrdenDeVentaViewModel.numero_de_nueva_orden_de_venta,
+                    id_registro_pk = 0,
+                    id_orden_venta_fk = if (desdeNuevaOrdenDeVenta) {
+                        uiState_OrdenDeVentaViewModel.numero_calculado_para_nueva_orden_de_venta
+                    } else {
+                        uiState_OrdenDeVentaViewModel.numero_de_orden_de_venta_seleccionada
+                    },
                     id_orden_pago_nomina_fk = id_orden_pago_nomina_fk,
                     id_precio_y_servicio_fk = id_servicio_y_precio_seleccionado,
                     id_operario_fk = id_operario_seleccionado,
@@ -316,11 +335,6 @@ fun AgregarServicioAOrdenDeVentaDialog(
                     fecha_hora_creacion = uiState_OrdenDeVentaViewModel.fecha_y_hora,
                 )
             )
-
-            // agregar solo los precios de los servicios
-            mOrdenDeVentaViewModel.agregarPresiosDeServicioAOrdenDeVentaSoloEnUiState(precio_servicio_seleccionado)
-
-            mOrdenDeVentaViewModel.sumarTodosLosPreciosDeListaDeServiciosAgregados()
 
             onDismissFromAgregarServicioAOrdenDeVentaDialog()
 

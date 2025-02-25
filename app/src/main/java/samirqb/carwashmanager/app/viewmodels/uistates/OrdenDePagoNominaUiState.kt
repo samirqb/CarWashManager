@@ -5,7 +5,7 @@ import samirqb.lib.pagos.entities.OrdenPagoNominaEntity
 
 data class OrdenDePagoNominaUiState(
     val fecha_y_hora:String = "",
-    val numero_de_proxima_orden_de_pago: Int = 0,
+    val numero_calculado_para_nueva_orden_de_pago: Int = 0,
     val numero_de_orden_de_pago_actual: Int = 0,
     val lista_todas_las_ordenes_pago_nomina: MutableList<OrdenPagoNominaEntity> = mutableStateListOf(),
     val lista_ordenes_pago_nomina_no_vigentes: MutableList<OrdenPagoNominaEntity> = mutableStateListOf(),

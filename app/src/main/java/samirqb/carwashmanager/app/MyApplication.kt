@@ -139,6 +139,7 @@ class MyApplication: Application() {
     val mObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase by lazy{ ObtenerCantidadDeRegistrosDeOrdenesDeVentaUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
     val mBuscarOrdenDeVentaPorIdUseCase by lazy{ BuscarOrdenDeVentaPorIdUseCase(OrdenDeVentaRepository(mAppDatabaseVentas.iOrdenDeVentaDao())) }
 
+
     //   U C   D E T A L L E S   O R D E N E S   S E R V I C I O S
     val mInsertarVariosDetallesDeOrdenServiciosUseCase by lazy{ InsertarVariosDetallesDeOrdenServiciosUseCase(DetalleOrdenServicioRepository(mAppDatabaseVentas.iDetalleOrdenServicioDao())) }
     val mListarLosServiciosAgregadoAUnaOrdenVentaUseCase by lazy{ ListarLosServiciosAgregadoAUnaOrdenVentaUseCase(DetalleOrdenServicioRepository(mAppDatabaseVentas.iDetalleOrdenServicioDao())) }
